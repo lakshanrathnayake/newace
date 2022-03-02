@@ -1,0 +1,2793 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Junior George|POS</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    {% block stylesheets %}
+        <link rel="stylesheet" href="/admin-lte/bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="/admin-lte/bower_components/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="/admin-lte/bower_components/Ionicons/css/ionicons.min.css">
+        <!-- bootstrap datepicker -->
+        <link rel="stylesheet"
+              href="/admin-lte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="/admin-lte/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <!-- jvectormap -->
+        <link rel="stylesheet" href="/admin-lte/bower_components/jvectormap/jquery-jvectormap.css">
+        <!-- Date Picker -->
+        <link rel="stylesheet"
+              href="/admin-lte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+        <!-- Daterange picker -->
+        <link rel="stylesheet" href="/admin-lte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+        <!-- bootstrap wysihtml5 - text editor -->
+        <link rel="stylesheet" href="/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Google Font -->
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <link rel="stylesheet" href="/css/posPos.css">
+        <link rel="stylesheet" href="/css/pos.css">
+        <style>
+            .hello {
+
+                z-index: 10;
+                margin-left: 15px;
+                background-color: white;
+            }
+
+            [class*="product_add"] {
+                width: 43%;
+            }
+
+            [class*="lef-alg"] {
+
+                font-size: larger;
+            }
+
+            [class*="mobile"] {
+                overflow-y: scroll;
+            }
+
+            /*[class*="tb"]{*/
+            /*font-size: xx-large ;*/
+            /*}*/
+            [class*="rb"] {
+                margin-bottom: 10px;
+                margin: auto;
+            }
+
+            [class*="bb"] {
+                font-size: xx-large;
+            }
+
+            @media only screen and (min-width: 603px) {
+
+                [class*="product_add"] {
+                    width: 29%;
+                }
+
+                [class*="mobile"] {
+                    overflow-y: scroll;
+                }
+
+                .tt {
+
+                    margin-bottom: auto;
+                }
+
+                .mn {
+
+                    margin-bottom: 12px;
+                }
+
+            }
+
+            @media only screen and (min-device-width: 768px) {
+
+                [class*="product_add"] {
+                    width: 28%;
+                }
+
+                [class*="lef-alg"] {
+
+                    font-size: 1.198vw;
+                }
+
+                [class*="mobile"] {
+                    overflow-y: hidden;
+                }
+
+                [class*="bb"] {
+
+                    font-size: 2.4vw;
+                }
+
+                .tt {
+                    margin-bottom: auto;
+                }
+
+                .mn {
+
+                    margin-bottom: 12px;
+                }
+
+                /*.vb{*/
+                /*width: 100%;*/
+                /*padding: 5px;*/
+                /*}*/
+
+            }
+
+            @media only screen and (min-width: 992px) {
+
+                [class*="product_add"] {
+                    width: 21%;
+                }
+
+                [class*="lef-alg"] {
+
+                    font-size: 1.198vw;
+                }
+
+            }
+
+            @media only screen and (min-width: 992px) {
+
+                [class*="product_add"] {
+                    width: 21%;
+                }
+
+                [class*="lef-alg"] {
+
+                    font-size: 1.198vw;
+                }
+
+            }
+
+
+        </style>
+
+    {% endblock %}
+    {% block styles %}
+
+        <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    {% endblock %}
+
+</head>
+<body class="mobile">
+<div class="row" style="background: #3c8dbc">
+
+    <div class="col-sm-4 col-xs-12" style="">
+        <h4 style="margin-left: 5%;color: white;" class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <span style="margin-left: 5%;color: white;">POS </span> <span
+                        style="float: right;color: white"> {{ "now"|date("Y:m:d") }}</span>
+            </a>
+            <div class="dropdown-menu" style="background: #4892bb;padding: 5%;">
+                <!-- User image -->
+                <div class="user-header" style="color: white">
+                    <h4 class="head-user">Date : {{ "now"|date("Y:m:d") }}</h4>
+                    <h4 class="head-user">Session Id : {{ session.id }}</h4>
+                    <h4 class="head-user">User Id : {{ user.username }}</h4>
+                    <h4 class="head-user">Branch : {{ branch_name }}</h4>
+
+                </div>
+
+                <div class="user-footer" style="text-align: center">
+                    <a class="btn btn-danger btn-flat end_session">End
+                        Session</a>
+                </div>
+            </div>
+        </h4>
+    </div>
+    <div class="col-sm-8 col-xs-12 vertical-center" style="padding: 0px">
+        <ul id="extend" class="nav nav-tabs" style="height: 35px">
+            <li id="tab-home" class="active nav-tab"><a data-toggle="tab" href="#home">{{ date|date("H:m:s") }}
+                    <button class="btn btn-danger btn-xs tab_remove"><span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </a></li>
+            {#<li><a class="add-one" href="#">Add New</a></li>#}
+            <button class="add-one btn "><span class="glyphicon glyphicon-plus"></span></button>
+        </ul>
+    </div>
+</div>
+
+{% include '../Pos/posDummy.twig' %}
+
+{#  content  #}
+<div style="height: 94.6%">
+    <div class="tab-content" style="height: 100%">
+        <div id="home" class="bucket tab-pane fade in active selected ptab-home" style="height:100%;">
+
+            {#invoice page#}
+            <div class="container pos_pay_invoice " style="display:none;height: 96%">
+                <div class="row" style="height: 100%">
+                    <div class="col-sm-offset-1 col-sm-9" style="border: dotted 1px; border-top: none;height: 95%">
+                        <div>
+                            <div class="vertical-center" style="border-bottom: dotted 1px;">
+                                <div class="col-sm-3" style="text-align: left;padding-left: 0px">
+                                    {#<button class="btn btn-primary back_pay fa fa-angle-double-left" style="">#}
+                                    {#<span> Payment</span>#}
+                                    {#</button>#}
+                                </div>
+                                <div class="col-sm-6" style="text-align: center">
+                                    <h3>Invoice</h3>
+                                </div>
+                                <div class="col-sm-3" style="text-align: right;padding-right: 0px">
+                                    <button class="btn btn-primary  bill_print" style=" text-align: left">
+                                        <span class="glyphicon glyphicon-print" style="text-align: left"> </span> Print
+                                        Bill
+                                    </button>
+                                </div>
+                                <div class="col-sm-2" style="text-align: right;padding-right: 0px">
+                                    <button class="btn btn-primary  bill_close" style="">
+                                        <span class="glyphicon glyphicon-remove"> </span> Close
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="height: 88%;margin-top: 10px;overflow-y: scroll">
+                            <div class="col-sm-12 email_invoice">
+                                <div class="invoice_print"
+                                     style="background: white; border: solid 1px;border-radius: 5px;padding: 5px;width: 72mm;display:inline-block">
+                                    <div style="padding: 2px;">
+                                        <div style="border-bottom: solid 1px;">
+                                            <h5 style="margin: 0px">POS INVOICE1 <span style="float: right"
+                                                                                       class="bill_no_1">2577686148</span>
+                                            </h5>
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <div style="text-align: center;">
+                                                    <h3 style="margin: 0px;display: inline-block"><b>INVOICE</b></h3>
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <img src={{ images.invoiceLogo }} style="text-align:center; width:30%" alt="Pos Image">
+                                                </div>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <h5 style="margin: 0px">{{ address.address }}</h5>
+                                                <h5 style="margin: 0px">www.juniorgeorge.com</h5>
+                                                <h5 style="margin: 0px">info@juniorgeorge.com</h5>
+                                                <h5 style="margin: 0px">{{ address.contact }}</h5>
+                                            </div>
+                                            <div style="margin: 0% 5% 0% 5%;width: 90%;padding: 0px 5px 0px 5px;">
+                                                <div style="border-bottom: solid 1px">
+                                                    <hr style="background-color: white;line-height: 1px">
+                                                    <hr style="margin: 1%; visibility: hidden;">
+                                                    <h5 style="margin: 0%">
+                                                        <span class="bill_date" style="float: left;"></span>
+                                                        <span class="bill_time" style="float:right;"></span>
+                                                    </h5>
+                                                    <h5 style="margin: 10% 0% 0% 0%;"></h5>
+                                                </div>
+                                            </div>
+                                            <div style="margin: 0% 5% 0% 5%;width: 90%;padding: 0px 5px 0px 5px;">
+                                                <div style="margin-bottom: 5px">
+                                                    <h5 style="margin: 5px 0mm 0px 0mm">Customer Name <span
+                                                                style="float:right;" class="cus_name"></span>
+                                                    </h5>
+                                                    <h5 style="margin: 5px 0mm 0px 0mm">Loyalty Number <span
+                                                                style="float:right;"
+                                                                class="loy_ref"></span></h5>
+                                                    <h5 style="margin: 5px 0mm 0px 0mm">Earned Loyalty Points <span
+                                                                style="float:right;"
+                                                                class="bill_points"></span></h5>
+                                                </div>
+                                                <div style="border-top: solid 1px;">
+                                                    <h5 style="margin: 5px 0mm 0px 0mm">Branch <span
+                                                                style="float:right;">{{ branch_name }}</span>
+                                                    </h5>
+                                                    <h5 style="margin: 5px 0mm 0px 0mm;display: none">Ret Invoice No
+                                                        <span
+                                                                style="float:right;" class="ret_bill"></span>
+                                                    </h5>
+                                                    <h5 style="margin: 5px 0mm 0px 0mm">Invoice No <span
+                                                                style="float:right;" class="bill_no_2"></span>
+                                                    </h5>
+                                                    {#                                                    <h5 style="margin: 5px 0mm 0px 0mm">Invoice Date <span#}
+                                                    {#                                                                style="float:right;" class="bill_date"></span>#}
+                                                    {#                                                    </h5>#}
+                                                    <h5 style="margin: 5px 0mm 0px 0mm">Exchange before <span
+                                                                style="float:right;" class="bill_exp"></span>
+                                                    </h5>
+                                                    <h5 style="margin: 5px 0mm 0px 0mm">Cashier Ref <span
+                                                                style="float:right;">{{ branch }}
+                                                            /{{ branch_name }}/{{ user.id }}</span></h5>
+                                                    <h5 style="margin: 5px 0mm 0px 0mm">No of Products <span
+                                                                style="float:right;" class="bill_nop"></span>
+                                                    </h5>
+                                                    <h5 style="margin: 5px 0mm 0px 0mm">Currency <span
+                                                                style="float:right;"
+                                                                class="">Sri  Lankan Rupee (RS)</span>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <div style="margin-top: 3%;padding-left: 7%">
+                                                <h5 title="Title" style="margin: 1% 0% 1% 0%" class="text-bold">
+                                                    <ins>Items</ins>
+                                                </h5>
+                                            </div>
+                                            <div style="margin: 0% 5% 0% 5%;width: 90%;padding: 0px 5px 0px 5px;"
+                                                 class="">
+                                                <table class="invoice_table" style="">
+                                                    {#<thead>#}
+                                                    {#<tr>#}
+                                                    {#<th style="width: 45%">Product and Description</th>#}
+                                                    {#<th style="width: 15%">Qty</th>#}
+                                                    {#<th>Price</th>#}
+                                                    {#</tr>#}
+                                                    {#</thead>#}
+                                                    <tbody style="font-size: 13px;">
+                                                    </tbody>
+                                                </table>
+                                                <div style="margin-top: 3%;margin-bottom: 3%;">
+                                                    <h5 title="Title" style="margin: 1% 0% 1% 0%" class="text-bold">
+                                                        <ins>Tax & Discounts</ins>
+                                                    </h5>
+                                                </div>
+                                                <h5 style="margin: 5px 0mm 0px 0mm;">Discount : <span
+                                                            class="invoice_discount_type1"
+                                                            style="padding-left: 5%"></span>
+                                                    <span class="invoice_discount" style="float: right;"></span>
+                                                </h5>
+                                                <h5 style="margin: 5px 0mm 0px 0mm;">Tax : <span
+                                                            class="invoice_tax_type1" style="padding-left: 5%"></span>
+                                                    <span class="invoice_tax"
+                                                          style="float: right;"></span>
+                                                </h5>
+                                                <h5 style="margin: 5px 0mm 0px 0mm;display:none;">Returned :
+                                                    <span class="invoice_return"
+                                                          style="float: right;"></span>
+                                                </h5>
+                                                <div style="border-bottom: double;">
+                                                    <hr style="background-color: white;line-height: 1px">
+                                                    <h5 style="margin: 2% 0% 2% 0%"><b>Total</b> <span
+                                                                style="float: right;"><b><span
+                                                                        class="bill_sales">0</span></b></span></h5>
+                                                    <h5 style="margin: 2% 0% 2% 0%"><b>Grand Total</b><span
+                                                                style="float: right;"><b><span
+                                                                        class="bill_total">0</span></b></span></h5>
+                                                </div>
+
+                                                {#                                                    ;;;;#}
+                                                <div style="margin: 3% 0% 3% 0%;">
+                                                    <h5 title="Title" style="margin: 1% 0% 1% 0%" class="text-bold">
+                                                        <ins>Mode of Payment</ins>
+                                                    </h5>
+                                                </div>
+                                                <div>
+                                                    <h5 style="margin: 1px">Cash Payment <span
+                                                                style="float: right;"><span
+                                                                    class="bill_paid_cash">0</span></span></h5>
+                                                </div>
+                                                <div>
+                                                    <h5 style="margin: 1px">Card Payment <span
+                                                                style="float: right;"><span
+                                                                    class="bill_paid_credit">0</span></span></h5>
+                                                </div>
+                                                <div>
+                                                    <h5 style="margin: 1px">Return Cash Payment <span
+                                                                style="float: right;"><span
+                                                                    class="bill_paid_cash_repayment">0</span></span>
+                                                    </h5>
+                                                </div>
+                                                <div>
+                                                    <h5 style="margin: 1px">Gift Voucher <span
+                                                                style="float: right;"><span
+                                                                    class="bill_paid_gift">0</span></span></h5>
+                                                </div>
+                                                <div>
+                                                    <h5 style="margin: 1px">Loyalty <span
+                                                                style="float: right;"><span
+                                                                    class="bill_paid_loyalty">0</span></span></h5>
+                                                </div>
+
+                                                <div>
+                                                    <h5 style="margin: 1px">Balance <span
+                                                                style="float: right;"><span
+                                                                    class="bill_balance">0</span></span></h5>
+                                                </div>
+                                                <div style="text-align: justify;margin: 1px">
+                                                    <p style="margin-top: 10px;font-size: 12px;text-align: justify">**
+                                                        ** Exchange is possible within 7 days of purchase along with the
+                                                        original bill and tag.
+                                                        NO EXCHANGE FOR EVENING WEAR AND DISCOUNTED ITEMS. NO REFUNDS.
+                                                        <div id="power_link" class="power_link" style=";margin-top: -9%"
+                                                             hidden>
+                                                    <p style="text-align: left;font-size: 12px;margin: 0%;">
+                                                        <br>A solution powered by susitk.com.</p></div>
+                                                </p>
+                                            </div>
+                                            <div style="text-align: center">
+                                                <h5 style="margin: 5px 0mm 0px 0mm">Thank you</h5>
+                                                <h5 style="margin: 5px 0mm 0px 0mm">***********</h5>
+                                                {#<h5 style="margin: 5px 0mm 0px 5mm">Powered By : susitk.com</h5>#}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {#payment page#}
+        <div class="pos_pay_slide " style="display:none;height: 100%">
+            <div class="row" style="height: 100%;overflow-y: scroll">
+                <div class="col-sm-offset-1 col-sm-10" style="border: dotted 1px; border-top: none;">
+                    <div>
+                        <div class="vertical-center" style="border-bottom: dotted 1px;">
+                            <div class="col-sm-2" style="text-align: left;padding-left: 0px">
+                                <button class="btn btn-primary back_pos" style="width:100%;">
+                                    <span class="fa fa-angle-double-left"> Back</span>
+                                </button>
+                            </div>
+                            <div class="col-sm-8" style="text-align: center">
+                                <h3>Payment</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="height: 100%;margin-top: 10px">
+                        <div class="col-sm-4 col-xs-12"
+                             style="text-align: center;overflow-y: auto;overflow-x: hidden; height: 100%;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h4>Payment Methods</h4>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px" ;>
+                                        <button type="button" id="cash"
+                                                class="lef-alg btn btn-primary col-sm-6 col-xs-6  cash"
+                                                style="height: 40px;"><span
+                                                    class="fa fa-money"></span>
+                                            Cash (Rs)
+                                        </button>
+                                        <button type="button" class="btn btn-primary cash_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px">
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6  credit"
+                                                style="height: 40px;"><span
+                                                    class="fa fa-credit-card"></span> Card (Rs)
+                                        </button>
+                                        <button type="button" class="btn btn-primary credit_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px;">
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6  gift"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-gift"></span> Gift Voucher(Rs)
+                                        </button>
+                                        <button type="button" class="btn btn-primary gift_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px;">
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6  loyalty"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-heart"></span> Loyalty Voucher (%)
+                                        </button>
+                                        <button type="button" class="btn btn-primary loyalty_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px;">
+                                        <button type="button"
+                                                class="lef-alg btn btn-primary col-sm-6 col-xs-6  loyalty_pt"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-heart"></span> Loyalty Points (Rs)
+                                        </button>
+                                        <button type="button"
+                                                class="btn btn-primary loyalty_pt_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                                <br/>
+                                <h4>Tax & Discounts</h4>
+                                <div class="col-sm-12">
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px">
+
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6 tax"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-scissors"></span> Tax (%)
+                                        </button>
+                                        <button type="button" class="btn btn-primary tax_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px">
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6 discount"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-gift"></span> Discount <span
+                                                    class="dis_type">(Rs)</span>
+                                        </button>
+                                        <button type="button" class="btn btn-primary discount_amount col-sm-6 col-xs-6"
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <h4>Return Payments</h4>
+                                <div class="col-sm-12">
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px">
+
+                                        <button type="button"
+                                                class="lef-alg btn btn-primary col-sm-6 col-xs-6 return_cash_payment"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-scissors"></span> Return Cash
+                                        </button>
+                                        <button type="button"
+                                                class="btn btn-primary return_cash_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-8 col-xs-12" style="text-align: center;height: 100%;border-left: dotted 1px">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h1 style="color: green;">Rs. <span class="total"> 0</span></h1>
+                                    <h5 style="color: green">Total Bill Amount</h5>
+                                </div>
+                                <div class="col-sm-4" style="text-align: left">
+                                    <h4>No. of products<span style="float: right" class="tot_nop">0</span></h4>
+                                    <h4>Bill<span style="float: right" class="tot_bill">0</span></h4>
+                                    <h4>Tax <span style="float: right" class="tot_tax">0%</span></h4>
+                                    <h4>Discount <span style="float: right" class="tot_discount"></span></h4>
+                                    <h4>Return Cash<span style="float: right" class="tot_return_cash">0</span></h4>
+                                </div>
+                            </div>
+
+                            <br/>
+                            <div class="check" style="border-top: dotted 1px">
+                                <div class="cash_pay"
+                                     style="padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Cash Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-11">
+                                            <label class="col-sm-5 control-label"
+                                                   style="text-align: right; font-weight: 400; font-size: 30px;">Cash
+                                                Amount</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%; height: 45px; font-size: 25px;"
+                                                       type="text"
+                                                       class="form-control cash_gave pay_input"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tax_pay"
+                                     style="display:none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Tax Percentage</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-11">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Tax
+                                                Amount</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control tax_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="discount_pay"
+                                     style="display:none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Discount</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-12">
+                                            <label class="col-sm-3 control-label"
+                                                   style="text-align: right;">Discount</label>
+                                            <div class="col-sm-5">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control discount_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                            <div class="btn-group col-sm-4" role="group"
+                                                 style="margin-bottom: 10px">
+                                                <button value="0" title="percentage" type="button"
+                                                        class="btn btn-primary discount_perce">
+                                                    %
+                                                </button>
+                                                <button value="0" type="button"
+                                                        class="btn btn-primary discount_cash">
+                                                    <span title="cash amount" class="fa fa-money"></span>
+                                                </button>
+                                            </div>
+                                            <input style="display: none" val="" class="discount_per"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="return_cash_pay"
+                                     style="display: none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Return Cash Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-11">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Return Cash
+                                                Amount</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control return_cash_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="credit_pay"
+                                     style="display: none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Credit Card Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Ref
+                                                No</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control credit_ref" placeholder="0"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label"
+                                                   style="text-align: right;">Amount</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control credit_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="gift_pay"
+                                     style="display: none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Gift Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Ref
+                                                No</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control gift_ref" placeholder="0"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label"
+                                                   style="text-align: right;">Amount</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control gift_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="loyalty_pay"
+                                     style="display: none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Loyalty Voucher Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Voucher
+                                                code</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text" readonly
+                                                       class="form-control loyalty_ref" placeholder="0"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label"
+                                                   style="text-align: right;">Amount (%)</label>
+                                            <div class="col-sm-7">
+                                                <input disabled style="width: 100%" type="text"
+                                                       class="form-control loyalty_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="loyalty_pt_pay"
+                                     style="display: none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Loyalty Points Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Ref
+                                                No</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text" readonly
+                                                       class="form-control loyalty_pt_ref" placeholder="0"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label"
+                                                   style="text-align: right;">Amount (Rs)</label>
+                                            <div class="col-sm-7">
+                                                <input disabled style="width: 100%" type="text"
+                                                       class="form-control loyalty_pt_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="bill_summery">
+                                <div class="bill_summery_sum">
+                                    <div class="row" style="text-align: center; padding-bottom: 10px">
+                                        <div class="form-group col-sm-6">
+                                            <label class="col-sm-4 control-label bb"
+                                                   style="text-align: right; font-weight: 400; ">Paid</label>
+                                            <div class="col-sm-8" style="padding-right: 0px;">
+                                                <input style="width: 100%;background: white; height: 45px; font-size: 25px;"
+                                                       type="text" disabled
+                                                       value="0"
+                                                       class="form-control paid_total"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class="col-sm-4 control-label bb"
+                                                   style="text-align: right; font-weight: 400;">Balance</label>
+                                            <div class="col-sm-8" style="padding-right: 0px;">
+                                                <input style="width: 100%;background: white; height: 45px; font-size: 25px;"
+                                                       type="text" disabled
+                                                       value="0"
+                                                       class="form-control need_paid"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <table class="pos_payment_controller" style="width:100%; ">
+                                        <tr style="padding: 0px;">
+                                            <th> 1</th>
+                                            <th> 2</th>
+                                            <th> 3</th>
+                                        </tr>
+                                        <tr style="padding: 0px;">
+                                            <th> 4</th>
+                                            <th> 5</th>
+                                            <th> 6</th>
+                                        </tr>
+                                        <tr style="padding: 0px;">
+                                            <th> 7</th>
+                                            <th> 8</th>
+                                            <th> 9</th>
+                                        </tr>
+                                        <tr style="padding: 0px;">
+                                            <th> 0</th>
+                                            <th> .</th>
+                                            <th title="delete last input"><i
+                                                        class="fa fa-angle-double-left"></i>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-4" style="text-align: center">
+                                    <div class="well" style="text-align: center;cursor: pointer">
+                                        <h4>Customer</h4>
+                                        <h5><span class="pay_customer pos_cus1"></span></h5>
+                                    </div>
+                                    <button class="btn btn-success invoice_btn"
+                                            style="width: 100%;margin-bottom: 8px"
+                                            disabled>Invoice
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Get Loyalty -->
+            <div class="modal fade loyalty_pay_model" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #4892bb;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Loyalty Promo Validity Check</h4>
+                        </div>
+                        <div class="modal-body" style="padding: 10px">
+                            <div class="row" style="">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Customer Name</label>
+                                        <div class="col-sm-7">
+                                            <input readonly type="text" class="form-control loyalty_pay_customer"
+                                                   name="customer_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Loyalty Ref</label>
+                                        <div class="col-sm-7">
+                                            <input readonly type="text" class="form-control loyalty_pay_loyalty"
+                                                   name="loyalty_loyalty">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Promo Code</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control loyalty_pay_promo_code"
+                                                   name="loyalty_promo"
+                                                   placeholder="Enter the promo code" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="well promo_pay_info" style="display: none;text-align: center;">
+                                <div class="row promo_pay_suc">
+                                    <div class="col-sm-8">
+                                        <h3 class="" style="color: green;margin-top: 5px;">Promo Code Validated !!</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-primary use_pay_code" value="">Use Code</button>
+                                    </div>
+                                </div>
+
+                                <h3 class="promo_pay_unsuc" style="color: red;display: none">Promo Code Not Valid
+                                    !!</h3>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default validate_pay_code">Validate Code</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        {#pos page#}
+        <div class="row zel" style="height: 100% ;">
+
+            {#left plane#}
+            <div class="col-sm-4  col-xs-12 bill"
+                 style="border-right-style: solid; border-right-color: #005266;overflow-x: hidden; overflow-y: auto;  ">
+                <div class="price" style="height: 50%;">
+                    <div style="overflow-y :auto ; height: 100%;">
+                        <table class="table">
+                            <tbody class="product_add_table">
+
+                            </tbody>
+                        </table>
+                        <table class="table" style="border: solid;border-color: #0a0a0a;border-width: 1px">
+                            <tbody class="product_return_table">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    {#<div>#}
+                    {##}
+                    {#</div>#}
+                </div>
+
+                <div class="hello">
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3" style="text-align: center;margin-top: 6%;padding-left: 5%">
+                            <button class="btn btn-danger btn-xs remove_all" style="margin-left: 2%">Remove All
+                            </button>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-sm-6 lead" style="margin-bottom: 0px;">
+                                    <h4 style="margin-bottom: 0px;font-size: 80%"><b>Total No of Products</b></h4>
+                                </div>
+                                <div class="col-sm-6 lead"
+                                     style="margin-bottom: 0px;padding-right: 10%;text-align: right">
+                                    <h4 style="margin-bottom: 0px;font-size: 80%"><span
+                                                class="total_product_count">0</span></h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 lead"
+                                     style="word-spacing: 15px;font-size: 90%;margin-bottom: 0px;">
+                                    <h4><b>Total (Rs.)</b></h4>
+                                </div>
+                                <div class="col-sm-6 lead"
+                                     style="font-size: 90%;margin-bottom: 0px;padding-right: 10%;text-align: right">
+                                    <h4><span class="total_product_amount">0</span></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pos_input_tab" style="height: 10%;margin-left: 0px; width: 100%;">
+                        <input value="" class="form-control pos_input "/>
+                    </div>
+                </div>
+
+
+                <div class="row cal" style="">
+                    <div class=" row col-sm-12">
+
+                        <div class="col-sm-6 col-xs-6 text-left">
+                            <div title="select or add customer" class="row"
+                                 style="height: 40px;cursor: pointer;margin: 0px">
+                                {#<div class="col-sm-2"><i class="fa fa-user"></i></div>#}
+                                <a class="btn btn-md btn-primary pos_cus pos_customer"
+                                   style="align-content: center;cursor: pointer"><span class="fa fa-user"></span> Add
+                                    Customer</a>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-sm-6 col-xs-6 text-right">
+                            <div class="row " style="height: 40px;cursor: pointer;margin: 0px">
+                                <div><a class="btn btn-md pos_payment btn-primary "
+                                        style="align-content: center;cursor: pointer;margin-left: 35px "><span
+                                                class="fa fa-chevron-circle-right"></span> Payment</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                    <div style="height: 55px"></div>
+                    <div style="padding: 0px">
+
+                        <table class="pos_controller" style="width:95%; margin-left: 15px ">
+                            <tr style="padding: 0px;">
+                                <th> 1</th>
+                                <th> 2</th>
+                                <th> 3</th>
+                                <th title="Enter product quantity" class="qty">Qty</th>
+                            </tr>
+                            <tr style="padding: 0px;">
+                                <th> 4</th>
+                                <th> 5</th>
+                                <th> 6</th>
+                                <th class="discount">
+                                    <div class="btn-group">
+                                        <button style="background-color: #e8e8e8;" type="button"
+                                                class="discount btn btn-default small_Modal">
+                                            <b>Dis</b>
+                                        </button>
+                                        {#<ul class="dropdown-menu" style="padding: 10px;">#}
+                                        {#<li><a style="color: white;background: #4892bb;" class="btn btn-primary loyalty_dis" href="#">Loyalty Discount</a></li>#}
+                                        {#<li><a style="color: white;background: #4892bb;" class="btn btn-primary normal_dis" href="#">Normal Discount</a></li>#}
+                                        {#</ul>#}
+                                    </div>
+                                </th>
+                            </tr>
+                            <tr style="padding: 0px;">
+                                <th> 7</th>
+                                <th> 8</th>
+                                <th> 9</th>
+                                <th class="enter" title="Enter input to apply"><i
+                                            class="fa  fa-mail-forward"></i>
+                                </th>
+                            </tr>
+                            <tr style="padding: 0px;">
+                                <th class="tax" title="enter tax values">Tax</th>
+                                <th> 0</th>
+                                <th> .</th>
+                                <th class="del" title="delete last input"><i
+                                            class="fa fa-angle-double-left"></i>
+                                </th>
+                            </tr>
+                        </table>
+                        <div class="col-sm-3 calldiv">
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            {# end left plane #}
+
+
+            {# right plane#}
+            <div class="col-sm-8  col-xs-12 mze"
+                 style="height:100%; background-color:#d9d9d9 ; padding: 0px;overflow-y: scroll;overflow-x: hidden">
+                <div class="row" style="background: #dadada;margin: 0px">
+                    <div class="col-sm-4" style="padding: 0px">
+                        <select id="type|home" class=" form-control product_type">
+                            <option selected disabled value="">choose product type</option>
+                            <option value="0">All</option>
+                            {% for cat in categories %}
+                                <option value="{{ cat.id }}">{{ cat.categoryName }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-sm-offset-1 col-sm-2">
+                        <button class=" btn btn-primary return_product">Return Product</button>
+                    </div>
+                    <div class="col-sm-offset-1 col-sm-4">
+                        {#<input class=" form-control product_search" type="text"#}
+                        {#placeholder="product search"/>#}
+                        {#placeholder="product search" autofocus />#}
+                        <input class=" form-control product_search " id="scannerInput" name="txtSearch"
+                               placeholder="product search" type="text" autofocus/>
+
+                    </div>
+                    <div class="col-sm-offset-0-5 col-sm-2">
+                        {#<input class=" form-control product_search1" type="text"#}
+                        {#placeholder="product1"/>#}
+                        <input class=" form-control product_search1" id="" placeholder="barcode" type="hidden"
+                               readonly="false"/>
+                    </div>
+                </div>
+                <div id="view|home" class="row product_view product_middle"
+                     style="overflow-y: scroll;background-color: #f2f2f2 ; height: 90%;  margin: 0px;cursor: pointer">
+                    {#{{ products|length }}#}
+                    {# {% for product in products %}
+                        {% if product.qty > 0 %}
+                            <div class="product_add " id="p_select-{{ product.product.id }}"
+                                 style="padding: 5px;min-height: 170px;overflow: hidden;display: inline-block;text-align: center;border: solid 1px #4892bb;border-radius: 10px;height: 160px; margin: 10px; background-color: #ffffff">
+                                <lable style="border-radius: 2px;background: #274454;padding: 1px 5px;color: #fcfaff; text-align: center; height: 20px;margin-top: 5px">
+                                    Rs {{ product.product.sellingPrice }}</lable>
+                                <br/>
+                                {% if product.product.imageUrl and product.product.imageUrl != 'null' %}
+                                    <img src="/uploads/products/{{ product.product.imageUrl }}"
+                                         style="padding: 10px;height: 100px ;">
+                                {% else %}
+                                    <img src={{ image.logo }} style="padding: 10px;height: 100px">
+                                {% endif %}
+                                <br/>
+                                <lable style=" text-align: center; height: 20px; padding: 3px">{{ product.product.productName }}</lable>
+                            </div>
+                        {% endif %}
+                    {% endfor %} #}
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 mn">
+                        <div class="btn-group btn-group-sm tt" style="margin-left: 10px;">
+                            <button disabled type="button" value="0" class="btn btn-primary product_page product_prev">
+                                Prev
+                            </button>
+                            <button type="button" value="1" class="btn btn-primary product_page product_next">Next
+                            </button>
+                        </div>
+
+                        <div class="btn-group btn-group-sm" style="margin-left: 20px">
+                            <button type="button" value="0" class="btn btn-primary product_page product_sync">Sync Products
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Discount Modal -->
+            <div class="modal fade bs-example-modal-sm discount_Modal" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #4892bb;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Select Discount type</h4>
+                        </div>
+                        <div class="modal-body">
+                            <a data-dismiss="modal" style="color: white;background: #4892bb; margin: 10px"
+                               class="btn btn-primary loyalty_dis" href="#">Loyalty Discount</a>
+                            <a data-dismiss="modal" style="color: white;background: #4892bb; margin: 10px"
+                               class="btn btn-primary normal_dis" href="#">Normal Discount</a>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!--Customer Modal -->
+            <div class="modal fade bs-example-modal-lg cus_list" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #4892bb;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Select Customer</h4>
+                        </div>
+                        <div class="modal-body" style="overflow-y: scroll;padding: 10px">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-6 " style="padding: 5px">
+                                        <div class="row">
+                                            <div class="form-group col-sm-9">
+                                                <input type="text" class="form-control search_customer"
+                                                       placeholder="Search Customer">
+                                            </div>
+                                            <div class="form-group col-sm-1"
+                                                 style="margin-left: -10%;padding-left: 0%">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-default" type="button"><i
+                                                                class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-1">
+                                                <button class="btn btn-primary add-customer"
+                                                        title="Add new customer"><span
+                                                            class="glyphicon glyphicon-plus"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="cus_table" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Telephone</th>
+                                            <th>Loyalty Reference</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="cus_list_tbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--Add New Customer Modal -->
+            <div class="modal fade new_customer" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #4892bb;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add New Customer</h4>
+                        </div>
+                        <div class="modal-body" style="overflow-y: scroll;padding: 10px">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Customer Name</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control customer" name="customer_name"
+                                                   placeholder="Enter Customer Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Email</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control email" name="customer_email"
+                                                   placeholder="Enter Customer Email Address" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Phone No</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control phone" name="customer_phone"
+                                                   placeholder="Enter Customer Phone Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Address</label>
+                                        <div class="col-sm-7">
+                                                <textarea type="text" class="form-control address"
+                                                          name="customer_address"
+                                                          rows="3" placeholder="Enter Customer Address"
+                                                          required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Loyalty Ref</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control customer_loyalty"
+                                                   name="customer_loyalty"
+                                                   placeholder="If already registered loyalty customer"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default add_customer">Add Customer</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--Get Loyalty -->
+            <div class="modal fade loyalty_customer_model" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #4892bb;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Loyalty Promo Validity Check</h4>
+                        </div>
+                        <div class="modal-body" style="padding: 10px">
+                            <div class="row" style="">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Customer Name</label>
+                                        <div class="col-sm-7">
+                                            <input readonly type="text" class="form-control loyalty_customer"
+                                                   name="customer_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Loyalty Ref</label>
+                                        <div class="col-sm-7">
+                                            <input readonly type="text" class="form-control loyalty_loyalty"
+                                                   name="loyalty_loyalty">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Promo Code</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control loyalty_promo_code"
+                                                   name="loyalty_promo"
+                                                   placeholder="Enter the promo code" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="well promo_info" style="display: none;text-align: center;">
+                                <div class="row promo_suc">
+                                    <div class="col-sm-8">
+                                        <h3 class="" style="color: green;margin-top: 5px;">Promo Code Validated !!</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-primary use_code" value="">Use Code</button>
+                                    </div>
+                                </div>
+
+                                <h3 class="promo_unsuc" style="color: red;display: none">Promo Code Not Valid !!</h3>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default validate_code">Validate Code</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</div>
+{# end content  #}
+
+
+<!-- ./wrapper -->
+
+
+<script src="/accests/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="/accests/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- PACE -->
+<script src="/accests/PACE/pace.min.js"></script>
+<!-- SlimScroll -->
+<script src="/accests/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="/accests/fastclick/lib/fastclick.js"></script>
+<!-- AdminLTE App -->
+<script src="/accests/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/accests/js/demo.js"></script>
+<!-- page script -->
+<script type="text/javascript">
+    // To make Pace works on Ajax calls
+    $(document).ready(function () {
+
+//        $('.small_Modal').click(function(){
+//            alert('click');
+//            $('.discount_Modal' ).modal();
+//
+//        });
+        $('#my-file').hide();
+
+    });
+    //    $(document).on('click', '.small_Modal', function () {
+    //        alert('click');
+    //        $('.discount_Modal' ).modal();
+    //    });
+
+    var inpu_log = false;
+    $('#choseFile').click(function () {
+        $('#my-file').click();
+    });
+    $(document).ajaxStart(function () {
+        Pace.restart()
+    });
+    $('.ajax').click(function () {
+        $.ajax({
+            url: '#', success: function (result) {
+                $('.ajax-content').html('<hr>Ajax Request Completed !')
+            }
+        })
+    });
+
+    function promo_validity(state, promo_code, callback) {
+        if (cashier != null) {
+            $.ajax({
+                type: 'POST',
+                url: "{{ getURL('get.pos.pos') }}/loyalty_voucher_validate",
+                data: {
+                    cashier_id: cashier,
+                    voucher_code: promo_code,
+                    state: state
+                },
+                success: function (results) {
+                    callback(true, results);
+                },
+                error: function () {
+                    callback(false, []);
+                }
+            });
+        }
+    }
+
+    function load_promo_window(dom, bucket) {
+        var loyalty_customer_model = $(dom.parents('.zel').find('.loyalty_customer_model'));
+        var use_code_btn = $($(loyalty_customer_model).find('.use_code'));
+        loyalty_customer_model.off();
+        loyalty_customer_model.modal('show');
+        loyalty_customer_model.on('click', '.validate_code', function () {
+            $(loyalty_customer_model).find('.promo_info').hide();
+            $(loyalty_customer_model).find('.promo_suc').hide();
+            $(loyalty_customer_model).find('.promo_unsuc').hide();
+            use_code_btn.val("");
+            use_code_btn.removeClass('btn-warning');
+
+            if (navigator.onLine) {
+                promo_validity(1, $(loyalty_customer_model.find('.loyalty_promo_code')).val(), function (status, results) {
+                    if (status) {
+                        var code = $(loyalty_customer_model.find('.loyalty_promo_code')).val();
+                        use_code_btn.val(code);
+
+                        if (results.validity) {
+                            if (bucket.used_codes.indexOf(code) > -1) {
+                                use_code_btn.addClass('btn-warning');
+//                                            use_code_btn.attr('disabled',true);
+                                use_code_btn.html('un-use code')
+                            }
+                            $(loyalty_customer_model).find('.promo_info').show();
+                            $(loyalty_customer_model).find('.promo_suc').show();
+                        } else if (results.status == 400 && !results.validity) {
+                            $(loyalty_customer_model).find('.promo_info').show();
+                            $(loyalty_customer_model).find('.promo_unsuc').show();
+                        } else {
+                            bootbox.alert('Can not make loyalty discount now !!');
+                        }
+                    } else {
+                        bootbox.alert('Server error try again later !!');
+                    }
+                });
+            } else {
+                bootbox.alert('Internet Connection not available now !!!');
+            }
+        });
+
+        loyalty_customer_model.on('click', '.use_code', function () {
+            var p_code = $(this).val();
+            var table = $($(this).parents('.zel').find('.product_add_table'));
+            var selected = $(table.find('.trSelect'));
+
+            if (selected && selected.length > 0) {
+                var x = selected[0].cells;
+                var pid = x[2].innerHTML;
+
+                var product = [];
+
+                for (var x in bucket.products) {
+                    if (parseInt(pid) === bucket.products[x].id) {
+                        product[0] = bucket.products[x];
+                        break;
+                    }
+                }
+
+//                var product = bucket.products.filter(function (x) {
+//                    return x.id === parseInt(pid)
+//                });
+
+                if (product.length > 0) {
+                    product = product[0];
+                    var index = bucket.used_codes.indexOf(p_code);
+                    if (index < 0) {
+                        bucket.used_codes.push(p_code);
+                        use_code_btn.addClass('btn-warning');
+                        use_code_btn.removeClass('btn-primary');
+                        use_code_btn.html('un-use code');
+                        product.loyalty = true;
+                        product.voucher_code = p_code;
+                    } else {
+                        bucket.used_codes.splice(index, 1);
+                        use_code_btn.addClass('btn-primary');
+                        use_code_btn.removeClass('btn-warning');
+                        use_code_btn.html('use code');
+                        product.loyalty = false;
+                        product.voucher_code = null;
+                    }
+//                                product.loyalty = true;
+//                                product.voucher_code = p_code;
+                   
+                }
+            } else {
+                bootbox.alert('No any product selected');
+            }
+            
+        });
+    }
+</script>
+
+
+{% block onloadJS %}
+    <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+    <script type="text/javascript">
+
+        var PARENT_PRODUCTS = [];
+        var bucket = {};
+        var products = {{ products|json_encode }};
+    
+        var products_parents = JSON.parse(JSON.stringify(products));
+
+        var bill_url = "{{ getURL('get.pos.bill') }}";
+       
+        var email_url = "{{ getURL('get.pos.bill') }}/email_bill";
+        var bill_return = "{{ getURL('get.pos.bill') }}/return";
+        var cashier = {{ user.id }};
+        var branch = {{ branch }} ;
+        var sessionId = {{ session.id }};
+        var BRANCH_ID = {{ user.branchId }};
+
+        var session_url = '{{ getURL('get.pos.session') }}';
+        var end_session_url = '{{ getURL('get.pos.cashBox') }}/{{ session.id }}';
+        loadAllProductsChunk();
+
+        function loadAllProductsChunk() {
+            $.ajax({
+               type: 'POST',
+                url: "{{ getURL('get.pos.pos') }}/getAllProducts",
+                data: {branch: BRANCH_ID},
+                success: function (results) {
+                    if (results && results.products) {
+                        PARENT_PRODUCTS = results.products;
+                        products = results.products;
+                        console.log('loadallpriducts',PARENT_PRODUCTS)
+                         
+                    }
+                }
+            });
+        }
+        
+          $('.product_sync').click(function () {
+      
+         //   loadAllProductsChunk();
+          
+        });  
+
+        var flag = true;
+        var offset = 1;
+        $(function () {
+            $('#cus_table').DataTable({
+                'paging': false,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': false,
+                'info': true,
+                'autoWidth': false
+            });
+
+            $('[data-toggle="popover"]').popover();
+        });
+
+        function emailBill(email, content) {
+            if (navigator.onLine) {
+             
+
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ getURL('get.pos.pos') }}/email",
+                    data: {
+                        content: JSON.stringify(content),
+                        email: email
+                    },
+                    success: function (results) {
+                        console.log(results);
+                    },
+                    error: function (e) {
+                        console.log(e.toString());
+                    }
+                });
+            }
+        }
+
+      {#  function offlineEmailBill(emails, callback) {
+            if (navigator.onLine && emails != []) {
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ getURL('get.pos.pos') }}/offlineEmail",
+                    data: {
+                        emails: JSON.stringify(emails)
+                    },
+                    success: function (results) {
+                        console.log(results);
+                        callback(results.ids);
+                    },
+                    error: function (e) {
+                        callback([]);
+                        console.log(e.toString());
+                    }
+                });
+            } else {
+                callback([]);
+            }
+        } #}
+    </script>
+    <script type="text/javascript" src="/js/bootbox.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            /**
+             * end session
+             * */
+            {#$('.end_session').click(function () {#}
+            {#var sessionId = {{ session.id }};#}
+            {#var cashier = {{ user.id }};#}
+            {#bootbox.confirm('Are you sure want to end this session', function (confirm) {#}
+            {#if (confirm) {#}
+            {#$.ajax({#}
+            {#type: 'POST',#}
+            {#url: "{{ getURL('get.pos.session') }}/endSession",#}
+            {#data: {session: sessionId, cashier: parseInt(cashier)},#}
+            {#success: function (results) {#}
+            {#if (results && results.status == 200) {#}
+            {#window.location = '{{ getURL('get.pos.session') }}';#}
+            {#}#}
+            {#else {#}
+            {#bootbox.alert('')#}
+            {#}#}
+            {#},#}
+            {#complete: function (dat) {#}
+            {#}#}
+            {#});#}
+            {#}#}
+            {#});#}
+            {#});#}
+
+            /**
+             * add new tab click event
+             * */
+            $('.add-one').click(function (e) {
+
+                var date = new Date();
+                var id = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+                var ids = id.replace(':', '');
+                ids = ids.replace(':', '');
+
+                var bod = $('#ext').clone();
+                bod.attr('id', 'bod' + ids);
+                bod.addClass('ptab-' + ids);
+
+                var active = $($('#extend').find('.nav-tab,.active'));
+
+
+                var tab = $('#tab-con').clone();
+                tab.attr('id', 'tab-' + ids);
+                
+                tab.children().prop('href', '#bod' + ids);
+                tab.children().html(id + ' <button class="btn btn-danger btn-xs tab_remove"><span class="glyphicon glyphicon-remove"></span></button>');
+
+//                var modal = $('#dumy_modal').clone();
+//                modal.attr('id','modal_' + id );
+
+
+                $('#extend').append(tab);
+                $('.tab-content').append(bod);
+//                $('#extend').append(modal);
+
+                active.removeClass('active');
+                tab.addClass('active');
+
+                var activeBod = $(document).find('.bucket.tab-pane.active');
+                activeBod.removeClass('active');
+                bod.addClass('active');
+
+                tab.trigger('click');
+
+            });
+            $(document).on('click', '.nav-tab', function (e) {
+              $($(document).find('.bucket.tab-pane.active').find('.product_search')).focus();
+               $(".product_view").load(location.href + " .product_view>*", "");
+
+            });
+
+            $('.nav-tabs').on('shown.bs.tab', '[data-toggle="tab"]', function () {
+                $($(document).find('.bucket.tab-pane.active').find('.product_search')).focus();
+            });
+
+            /**
+             * product type change event
+             */
+            $(document).on('change', '.product_type', function (e) {
+                var categoryId = $(this).val();
+                var html = '';
+                var tabDOM = $($(this).parents('.bucket').first()).attr('id');
+                if (!bucket[tabDOM]) {
+                    bucket[tabDOM] = {
+                        products: [],
+                        pids: [],
+                        return_flag: false,
+                        customer: null,
+                        return_products: [],
+                        return_pids: [],
+                        loyalty_flag: false,
+                        used_codes: []
+                    }
+                }
+                if (categoryId && categoryId != null) {
+                    if (parseInt(categoryId) == 0) {
+                        products = products_parents;
+                        html = displayProducts(products, bucket[tabDOM].products, $(this), 'str');
+                        $($(this).parents('.mze').find('.product_view')).html(html);
+                    } else {
+                        /**
+                         * local filter (deprecated)
+                         * */
+//                        var filteredProducts = products.filter(function (x) {
+//                            return x.product.categoryId === parseInt(categoryId)
+//                        });
+//                        html = displayProducts(filteredProducts, bucket[tabDOM].products,'str');
+
+                        /**
+                         * API call and filter (deprecated)
+                         * */
+//                        searchProducts(parseInt(categoryId),null,function(filteredProducts){
+//                            html = displayProducts(filteredProducts, bucket[tabDOM].products, $(this),name);
+//                            $($(this).parents('.mze').find('.product_view')).html(html);
+//                        }.bind(this));
+
+                        /**
+                         * Offline filter (active now)
+                         * */
+                        filterParentProducts({
+                            category_flag: true,
+                            categoryId: categoryId
+                        }, function (filteredProducts) {
+                            html = displayProducts(filteredProducts, bucket[tabDOM].products, $(this), name);
+                         $($(this).parents('.mze').find('.product_view')).html(html);
+                        }.bind(this))
+                    }
+                }
+            });
+
+            /**
+             * product search
+             */
+            $(document).on('input', '.product_search', function () {
+                var name = $(this).val();
+                var categoryId = $($(this).parents('.mze').find('.product_type')).val();
+                var tabDOM = $($(this).parents('.bucket').first()).attr('id');
+                var filteredProducts = {};
+                var html = '';
+                var added = (bucket[tabDOM] && bucket[tabDOM].pids) ? bucket[tabDOM].pids : [];
+
+                /**
+                 * search with category and product name or barcode
+                 * */
+                if (categoryId && categoryId != null && name && name != '') {
+                    /**
+                     * local filter (deprecated)
+                     * */
+//                    filteredProducts = products.filter(function (x) {
+//                        var catId = parseInt(categoryId);
+//                        /**
+//                         * if all category selected
+//                         * */
+//                        if (catId == 0) {
+//                            return ((x.product.productName.includes(name) && x.product.categoryId === parseInt(categoryId)) ||
+//                            (x.product.barcode.includes(name)))
+//                        } else {
+//                            return ((x.product.productName.includes(name) && x.product.categoryId === parseInt(categoryId)) ||
+//                            (x.product.barcode.includes(name) && x.product.categoryId === parseInt(categoryId)))
+//                        }
+//                    });
+
+                    /**
+                     * API call and filter (deprecated)
+                     * */
+//                    var catId = parseInt(categoryId);
+//                    if (catId == 0) {
+//
+//                        searchProducts(0,name,function(filteredProducts){
+//                            html = displayProducts(filteredProducts, added, $(this),name);
+//                            $($(this).parents('.mze').find('.product_view')).html(html);
+//                        }.bind(this));
+//
+//                    }
+//                    else{
+//                        searchProducts(parseInt(categoryId),name,function(filteredProducts){
+//                            html = displayProducts(filteredProducts, added, $(this),name);
+//                            $($(this).parents('.mze').find('.product_view')).html(html);
+//                        }.bind(this));
+//                    }
+
+                    /**
+                     * Offline filter (active now)
+                     * */
+                    var catId = parseInt(categoryId);
+                    filterParentProducts({
+                        search_flag: true,
+                        categoryId: (catId == 0) ? null : catId,
+                        name: name
+                    }, function (filteredProducts) {
+                        html = displayProducts(filteredProducts, added, $(this), name);
+                        $($(this).parents('.mze').find('.product_view')).html(html);
+                    }.bind(this))
+
+                } else if (name && name != '') {
+                    /**
+                     * without category filter
+                     * */
+
+                    /**
+                     * local filter (deprecated)
+                     * */
+//                    filteredProducts = products.filter(function (x) {
+//                        return (x.product.productName.includes(name) || x.product.barcode.includes(name))
+//                    });
+
+                    /**
+                     * API call and filter (deprecated)
+                     * */
+//                    searchProducts(0,name,function(filteredProducts){
+//                        html = displayProducts(filteredProducts, added, $(this),name);
+//                        $($(this).parents('.mze').find('.product_view')).html(html);
+//                    }.bind(this));
+
+                    /**
+                     * Offline filter (active now)
+                     * */
+                    filterParentProducts({
+                        search_flag: true,
+                        categoryId: null,
+                        name: name
+                    }, function (filteredProducts) {
+                        html = displayProducts(filteredProducts, added, $(this), name);
+                       $($(this).parents('.mze').find('.product_view')).html(html);
+                        if (filteredProducts && filteredProducts.length == 1 && inpu_log) {
+                            $(this).val('');
+                            $(this).trigger('input');
+                            inpu_log = false;
+                        }
+                    }.bind(this))
+
+                } else if (categoryId && categoryId != null) {
+                    if (parseInt(categoryId) == 0) {
+                        /**
+                         * local filter (deprecated)
+                         * */
+//                        filteredProducts = products.filter(function (x) {
+//                            return true
+//                        });
+
+                        products = products_parents;
+                       html = displayProducts(products, added, $(this), name);
+                        $($(this).parents('.mze').find('.product_view')).html(html);
+                    } else {
+                        /**
+                         * local filter (deprecated)
+                         * */
+//                        filteredProducts = products.filter(function (x) {
+//                            return x.product.categoryId === parseInt(categoryId)
+//                        });
+
+                        /**
+                         * API call and filter (deprecated)
+                         * */
+//                        searchProducts(parseInt(categoryId),null,function(filteredProducts){
+//                            html = displayProducts(filteredProducts, added, $(this),name);
+//                            $($(this).parents('.mze').find('.product_view')).html(html);
+//                        }.bind(this));
+
+                        /**
+                         * Offline filter (active now)
+                         * */
+                        filterParentProducts({
+                            search_flag: true,
+                            categoryId: parseInt(categoryId),
+                            name: null
+                        }, function (filteredProducts) {
+                            html = displayProducts(filteredProducts, added, $(this), name);
+                            $($(this).parents('.mze').find('.product_view')).html(html);
+                        }.bind(this))
+                    }
+                } else {
+                    products = products_parents;
+                  html = displayProducts(products, added, $(this), name);
+                   $($(this).parents('.mze').find('.product_view')).html(html);
+                }
+            });
+            $(document).on('input', '.product_search1', function () {
+                var name = $(this).val();
+                var categoryId = $($(this).parents('.mze').find('.product_type')).val();
+                var tabDOM = $($(this).parents('.bucket').first()).attr('id');
+                var filteredProducts = {};
+                var html = '';
+                var added = (bucket[tabDOM] && bucket[tabDOM].pids) ? bucket[tabDOM].pids : [];
+
+                /**
+                 * search with category and product name or barcode
+                 * */
+                if (categoryId && categoryId != null && name && name != '') {
+                    /**
+                     * local filter (deprecated)
+                     * */
+//                    filteredProducts = products.filter(function (x) {
+//                        var catId = parseInt(categoryId);
+//                        /**
+//                         * if all category selected
+//                         * */
+//                        if (catId == 0) {
+//                            return ((x.product.productName.includes(name) && x.product.categoryId === parseInt(categoryId)) ||
+//                            (x.product.barcode.includes(name)))
+//                        } else {
+//                            return ((x.product.productName.includes(name) && x.product.categoryId === parseInt(categoryId)) ||
+//                            (x.product.barcode.includes(name) && x.product.categoryId === parseInt(categoryId)))
+//                        }
+//                    });
+
+                    /**
+                     * API call and filter (deprecated)
+                     * */
+//                    var catId = parseInt(categoryId);
+//                    if (catId == 0) {
+//
+//                        searchProducts(0,name,function(filteredProducts){
+//                            html = displayProducts(filteredProducts, added, $(this),name);
+//                            $($(this).parents('.mze').find('.product_view')).html(html);
+//                        }.bind(this));
+//
+//                    }
+//                    else{
+//                        searchProducts(parseInt(categoryId),name,function(filteredProducts){
+//                            html = displayProducts(filteredProducts, added, $(this),name);
+//                            $($(this).parents('.mze').find('.product_view')).html(html);
+//                        }.bind(this));
+//                    }
+
+                    /**
+                     * Offline filter (active now)
+                     * */
+                    var catId = parseInt(categoryId);
+                    filterParentProducts({
+                        search_flag: true,
+                        categoryId: (catId == 0) ? null : catId,
+                        name: name
+                    }, function (filteredProducts) {
+                        html = displayProducts(filteredProducts, added, $(this), name);
+                     $($(this).parents('.mze').find('.product_view')).html(html);
+                    }.bind(this))
+
+                } else if (name && name != '') {
+                    /**
+                     * without category filter
+                     * */
+
+                    /**
+                     * local filter (deprecated)
+                     * */
+//                    filteredProducts = products.filter(function (x) {
+//                        return (x.product.productName.includes(name) || x.product.barcode.includes(name))
+//                    });
+
+                    /**
+                     * API call and filter (deprecated)
+                     * */
+//                    searchProducts(0,name,function(filteredProducts){
+//                        html = displayProducts(filteredProducts, added, $(this),name);
+//                        $($(this).parents('.mze').find('.product_view')).html(html);
+//                    }.bind(this));
+
+                    /**
+                     * Offline filter (active now)
+                     * */
+                    filterParentProducts({
+                        search_flag: true,
+                        categoryId: null,
+                        name: name
+                    }, function (filteredProducts) {
+                        html = displayProducts(filteredProducts, added, $(this), name);
+                        $($(this).parents('.mze').find('.product_view')).html(html);
+                        if (filteredProducts && filteredProducts.length == 1 && inpu_log) {
+                            $(this).val('');
+                            $(this).trigger('input');
+                            inpu_log = false;
+                        }
+                    }.bind(this))
+
+                } else if (categoryId && categoryId != null) {
+                    if (parseInt(categoryId) == 0) {
+                        /**
+                         * local filter (deprecated)
+                         * */
+//                        filteredProducts = products.filter(function (x) {
+//                            return true
+//                        });
+
+                        products = products_parents;
+                        html = displayProducts(products, added, $(this), name);
+                        $($(this).parents('.mze').find('.product_view')).html(html);
+                    } else {
+                        /**
+                         * local filter (deprecated)
+                         * */
+//                        filteredProducts = products.filter(function (x) {
+//                            return x.product.categoryId === parseInt(categoryId)
+//                        });
+
+                        /**
+                         * API call and filter (deprecated)
+                         * */
+//                        searchProducts(parseInt(categoryId),null,function(filteredProducts){
+//                            html = displayProducts(filteredProducts, added, $(this),name);
+//                            $($(this).parents('.mze').find('.product_view')).html(html);
+//                        }.bind(this));
+
+                        /**
+                         * Offline filter (active now)
+                         * */
+                        filterParentProducts({
+                            search_flag: true,
+                            categoryId: parseInt(categoryId),
+                            name: null
+                        }, function (filteredProducts) {
+                            html = displayProducts(filteredProducts, added, $(this), name);
+                           $($(this).parents('.mze').find('.product_view')).html(html);
+                        }.bind(this))
+                    }
+                } else {
+                    products = products_parents;
+                    html = displayProducts(products, added, $(this), name);
+                    $($(this).parents('.mze').find('.product_view')).html(html);
+                }
+            });
+
+            /**
+             * calculate total (copy of payment controller js (copied needed as event binding handled on payment js))
+             * */
+            function calculateTotal(dom) {
+                var table = $(dom.parents('.zel').find('.product_add_table'));
+                var total = 0;
+                var tabDOM = $(dom.parents('.bucket').first()).attr('id');
+                var totalproducts = 0;
+                /**
+                 * calculate product total
+                 */
+                if (bucket[tabDOM]) {
+                    for (var i = 0; i < bucket[tabDOM].products.length; i++) {
+                        if (bucket[tabDOM].products[i]) {
+                            total = total + parseFloat(bucket[tabDOM].products[i].amount);
+                            totalproducts += parseInt(bucket[tabDOM].products[i].qty);
+                        }
+
+                    }
+                    for (var i = 0; i < bucket[tabDOM].return_products.length; i++) {
+                        if (bucket[tabDOM].return_products[i]) {
+                            total = total - parseFloat(bucket[tabDOM].return_products[i].amount);
+                        }
+                    }
+                }
+
+                $(dom.parents('.zel').find('.total_product_amount')).text(parseFloat(total + '').toLocaleString('en-US', {minimumFractionDigits: 2}));
+                $(dom.parents('.zel').find('.total_product_count')).text(totalproducts);
+            }
+
+            /**
+             * display and increment searched product
+             */
+            function displayProducts(filteredProducts, added, dom, name) {
+                /**
+                 * only for barcode read
+                 * */
+                 console.log('filtered product list',filteredProducts)
+                 console.log('name of the search',name)
+
+                // alert(filteredProducts[0].product.barcode +"--name :--"+name);
+                if (parseInt(name) && filteredProducts.length == 1 && filteredProducts[0].product && filteredProducts[0].product.barcode == name) {
+                    // alert(filteredProducts[0].product);
+                    console.log('first if condition')
+                    var tabDOM = $(dom.parents('.bucket').first()).attr('id');
+                    if (!bucket[tabDOM]) {
+                        bucket[tabDOM] = {
+                            products: [],
+                            pids: [],
+                            return_flag: false,
+                            customer: null,
+                            return_products: [],
+                            return_pids: [],
+                            loyalty_flag: false,
+                            used_codes: []
+                        };
+                    }
+                    bucket[tabDOM]['key'] = 'none';
+                    /**
+                     * increase product qty if search result 1
+                     */
+                    if (filteredProducts.length == 1) {
+                           console.log('second if condition')
+                        console.log(filteredProducts.length);
+                        var p_table = $(dom.parents('.zel').find('.product_add_table'));
+                        var p_selected = $(p_table.find('.' + tabDOM + filteredProducts[0].product.id));
+                        var tr_selected = $(p_table.find('.trSelect'));
+                        tr_selected.removeClass('trSelect');
+
+                        var i_product = [];
+                        for (var x in bucket[tabDOM].products) {
+                            if (filteredProducts[0].product.id == bucket[tabDOM].products[x].id) {
+                                i_product[0] = bucket[tabDOM].products[x];
+                                break;
+                            }
+                        }
+                        var return_product = [];
+                        for (var x in bucket[tabDOM].return_products) {
+                            if (filteredProducts[0].product.id == bucket[tabDOM].return_products[x].id) {
+                                return_product[0] = bucket[tabDOM].return_products[x];
+                                break;
+                            }
+                        }
+
+//                        var i_product = bucket[tabDOM].products.filter(function (x) {
+//                            return x.id === filteredProducts[0].product.id
+//                        });
+
+//                        var return_product = bucket[tabDOM].return_products.filter(function (x) {
+//                            return x.id === filteredProducts[0].product.id
+//                        });
+
+                        /**
+                         * normal added product, increase quantity if product already added
+                         * */
+                        if (i_product && i_product.length > 0) {
+                            console.log('-------------------');
+                            var disc = (i_product[0].dis > 0) ? i_product[0].dis + '% discount' : '';
+                            var x0_html = i_product[0].name + '<br/> ' + (i_product[0].qty + 1) + ' x ' + i_product[0].cost +
+                                ',  ' + disc;
+                            x0_html += (i_product[0].tax > 0) ? ' ' + i_product[0].tax + '% tax' : '';
+                            var cost = (i_product[0].qty + 1) * (i_product[0].cost.toFixed(2));
+                            var dis = (i_product[0].dis > 0) ? i_product[0].dis : 0;
+                            var tax = (i_product[0].tax > 0) ? i_product[0].tax : 0;
+                            var amount = parseFloat((cost - ((i_product[0].qty + 1) * i_product[0].cost * (dis / 100)) + ((i_product[0].qty + 1) * i_product[0].cost * (tax / 100))) + '');
+
+                            i_product[0].qty += 1;
+                            i_product[0].amount = amount;
+
+                            if (p_selected.length > 0) {
+                                var x = p_selected[0].cells;
+                                var pid = x[2].innerHTML;
+                                x[0].innerHTML = x0_html;
+                                x[1].innerHTML = amount;
+                                p_selected.addClass('trSelect');
+                            }
+                           $(".product_view").load(location.href + " .product_view>*", "");
+                        } else if (return_product && return_product.length > 0) {
+                             console.log('-------------------');
+                            /**
+                             * returned product
+                             * */
+                            var re_product = [];
+                          
+                            var maxQty = (return_product[0].qty + 1);
+
+                            if (bucket[tabDOM].return_tot_products) {
+                                 console.log('-------------------');
+                                for (var x in bucket[tabDOM].return_tot_products) {
+                                    if (filteredProducts[0].product.id == bucket[tabDOM].return_tot_products[x].id) {
+                                        re_product[0] = bucket[tabDOM].return_tot_products[x];
+                                        break;
+                                    }
+                                }
+//                                re_product = bucket[tabDOM].return_tot_products.filter(function (x) {
+//                                    return x.id === filteredProducts[0].product.id
+//                                });
+                            }
+
+                            /**
+                             * check maximum quantity on last bill if bill no available or check if product on returend list
+                             * */
+                            if ((re_product.length > 0 && re_product[0].qty >= maxQty) || (re_product.length < 1)) {
+                                 console.log('-------------------');
+                                var disc = (return_product[0].dis > 0) ? return_product[0].dis + '% discount' : '';
+                                var x0_html = return_product[0].name + '<br/> ' + maxQty + ' x ' + return_product[0].cost +
+                                    ',  ' + disc;
+                                x0_html += (return_product[0].tax > 0) ? ' ' + return_product[0].tax + '% tax' : '';
+                                var cost = (return_product[0].qty + 1) * return_product[0].cost;
+                                var dis = (return_product[0].dis > 0) ? return_product[0].dis : 0;
+                                var tax = (return_product[0].tax > 0) ? return_product[0].tax : 0;
+                                var amount = parseFloat(cost - ((return_product[0].qty + 1) * return_product[0].cost * (dis / 100)) + ((return_product[0].qty + 1) * return_product[0].cost * (tax / 100)));
+
+                                return_product[0].qty += 1;
+                                return_product[0].amount = amount;
+
+                                if (p_selected.length > 0) {
+                                    var x = p_selected[0].cells;
+                                    var pid = x[2].innerHTML;
+                                    x[0].innerHTML = x0_html;
+                                    x[1].innerHTML = amount;
+                                    p_selected.addClass('trSelect');
+                                }
+                            } else {
+                                bootbox.alert('Existing bill have ' + re_product[0].qty + ' only !!');
+                            }
+                        } else {
+                            /**
+                             * add product on list
+                             * */
+                              console.log('-------------------');
+                          
+                            var i_row = '<tr class="trSelect ' + tabDOM + filteredProducts[0].product.id + '"><td>' + filteredProducts[0].product.productName + '<br/>' +
+                                '1 x ' + parseFloat(filteredProducts[0].product.sellingPrice).toLocaleString('en-US', {minimumFractionDigits: 2}) + '</td>' +
+                                '<td style="text-align: right">' + parseFloat(filteredProducts[0].product.sellingPrice).toLocaleString('en-US', {minimumFractionDigits: 2}) + '</td>' +
+                                '<td style="display: none">' + filteredProducts[0].product.id + '</td>' +
+                                '<td><button value="' + filteredProducts[0].product.id + '" class="btn btn-danger btn-xs product_remove"><span class="glyphicon glyphicon-remove"></span></button>';
+                            i_row += '<button title="return product" value="' + filteredProducts[0].product.id + '" class="btn btn-warning btn-xs product_return">' +
+                                '<span class="glyphicon glyphicon-level-up"></span></button>';
+
+                            i_row += '</td><tr/>';
+                            bucket[tabDOM].products.push({
+                                id: filteredProducts[0].product.id,
+                                name: filteredProducts[0].product.productName,
+                                cost: filteredProducts[0].product.sellingPrice,
+                                qty: 1,
+                                dis: 0,
+                                tax: 0,
+                                amount: filteredProducts[0].product.sellingPrice,
+                                available: filteredProducts[0].qty
+                            });
+                            bucket[tabDOM].pids.push(filteredProducts[0].product.id);
+                            $(p_table).append(i_row);
+                            added = bucket[tabDOM].pids;
+                            inpu_log = true;
+                        }
+                    }
+                    calculateTotal(dom);
+                    dom.val('');
+                    dom.focus();
+                }
+
+                /**
+                 * display search results
+                 */
+                var views = '';
+                for (var i = 0; i < filteredProducts.length; i++) {
+                    if (filteredProducts[i].qty) {
+                        /**
+                         * check whether product already selected
+                         * */
+                        if (added.indexOf(filteredProducts[i].product.id) > -1) {
+                            views += '<div class="" id="p_select-' + filteredProducts[i].product.id + '" style="padding: 5px;min-height: 170px;overflow: hidden;opacity:0.5;display: inline-block;width: 21%;text-align: center;border: solid 1px #d15a44;border-radius: 10px;height: 160px; margin: 10px; background-color: #ffffff">' +
+                                '<lable style="border-radius: 2px;background: #274454;padding: 1px 5px;color: #fcfaff; text-align: center; height: 20px;margin-top: 5px">Rs ' + filteredProducts[i].product.sellingPrice + '</lable>' +
+                                '<br/>';
+                        } else {
+                            views += '<div class="product_add" id="p_select-' + filteredProducts[i].product.id + '" style="padding: 5px;min-height: 170px;overflow: hidden;display: inline-block;width: 21%;text-align: center;border: solid 1px #4892bb;border-radius: 10px;height: 160px; margin: 10px; background-color: #ffffff">' +
+                                '<lable style="border-radius: 2px;background: #274454;padding: 1px 5px;color: #fcfaff; text-align: center; height: 20px;margin-top: 5px">Rs ' + filteredProducts[i].product.sellingPrice + '</lable>' +
+                                '<br/>';
+                        }
+
+                        if ((filteredProducts[i].product.imageUrl != null) && (filteredProducts[i].product.imageUrl != 'null')) {
+                            views += '<img src="/uploads/products/' + filteredProducts[i].product.imageUrl + '" style="padding: 10px;height: 100px ;">';
+                        } else {
+                            views += '<img src={{ images.logo }} style="padding:10px;height: 100px">';
+                        }
+                        views += '<br/>' +
+                            '<lable style=" text-align: center; height: 20px; padding: 3px">' + filteredProducts[i].product.productName + '</lable></div>';
+
+                    }
+                     //console.log('products html view',views)
+                }
+                return views;
+                
+            }
+
+            /**
+             * pos discount select
+             */
+
+            $(document).on('click', '.small_Modal', function () {
+                var tabDOM = $($(this).parents('.bucket').first()).attr('id');
+                if (!bucket[tabDOM]) {
+                    bucket[tabDOM] = {
+                        products: [],
+                        return_flag: false,
+                        pids: [],
+                        return_products: [],
+                        return_tot_products: [],
+                        return_pids: [],
+                        customer: 'customer',
+                        loyalty_flag: false,
+                        used_codes: []
+                    };
+                }
+                var discountModel = $($(this).parents('.zel').find('.discount_Modal'));
+                discountModel.off();
+                discountModel.modal('show');
+            });
+
+            /**
+             * pos customer select
+             */
+            $(document).on('click', '.pos_customer', function () {
+                var tabDOM = $($(this).parents('.bucket').first()).attr('id');
+                if (!bucket[tabDOM]) {
+                    bucket[tabDOM] = {
+                        products: [],
+                        return_flag: false,
+                        pids: [],
+                        return_products: [],
+                        return_tot_products: [],
+                        return_pids: [],
+                        customer: 'customer',
+                        loyalty_flag: false,
+                        used_codes: []
+                    };
+                }
+
+                var cusList = $($(this).parents('.zel').find('.cus_list'));
+
+                cusList.off();
+                cusList.modal('show');
+
+                /**
+                 * add new customer
+                 */
+                cusList.on('click', '.add-customer', function () {
+                    cusList.modal('hide');
+                    var newCustomer = $($(this).parents('.zel').find('.new_customer'));
+                    newCustomer.off();
+                    newCustomer.modal('show');
+                    newCustomer.on('click', '.add_customer', function (e) {
+                        var data = {
+                            id: null,
+                            customerName: $(newCustomer.find('.customer')).val(),
+                            telephone: $(newCustomer.find('.phone')).val(),
+                            address: $(newCustomer.find('.address')).val(),
+                            email: $(newCustomer.find('.email')).val(),
+                            loyaltyReference: $(newCustomer.find('.customer_loyalty')).val()
+                        };
+
+                        if (data.customerName != '') {
+                            $.ajax({
+                                type: 'POST',
+                                url: "{{ getURL('get.pos.session') }}/addCustomer",
+                                data: {customer: JSON.stringify(data)},
+                                success: function (results) {
+                                    newCustomer.modal('hide');
+                                    console.log(results);
+                                    if (results && results.status == 200) {
+                                        $(newCustomer.parents('.zel').find('.pos_cus').text(results.customer_id + ' : ' + results.customer_name));
+                                        $(newCustomer.parents('.bucket').find('.pos_pay_slide').find('.pos_cus1').text(results.customer_id + ' : ' + results.customer_name));
+                                        bucket[tabDOM].customer = results.customer_name;
+                                        bucket[tabDOM].customer_id = results.customer_id;
+                                        bucket[tabDOM].loyaltyReference = results.loyaltyReference;
+                                        bucket[tabDOM].email = results.email;
+                                        bucket[tabDOM].loyalty_flag = true;
+                                        $($(this).parents('.zel').find('.loyalty_customer_model').find('.loyalty_customer')).val(results.customer_name);
+                                        $($(this).parents('.zel').find('.loyalty_customer_model').find('.loyalty_loyalty')).val(data.loyaltyReference);
+                                    } else if (results && results.status == 400) {
+                                        bootbox.alert('Customer already added with this phone number!');
+                                    } else {
+                                        bootbox.alert('Customer adding error !!! Contact system admin');
+                                    }
+
+                                },
+                                complete: function () {
+                                }
+                            });
+                        } else {
+                            bootbox.alert('Enter the customer name !!');
+                        }
+                    });
+                });
+
+                /**
+                 * search existing customer
+                 */
+                cusList.on('input', '.search_customer', function () {
+                    var content_str = $(this).val();
+                    if (content_str && content_str != null && content_str.length >= 3) {
+                        $.ajax({
+                            type: 'POST',
+                            url: "{{ getURL('get.pos.session') }}/searchCustomer",
+                            data: {content: content_str},
+                            success: function (results) {
+                                if (results && results.status == 200 && results.data.length > 0) {
+                                    console.log(results.data);
+                                    loadTable(results.data, cusList);
+                                } else {
+                                    $.ajax({
+                                        type: 'POST',
+                                        url: "{{ getURL('get.pos.session') }}/searchCustomerLoyalty",
+                                        data: {content: content_str},
+                                        success: function (results) {
+
+                                            console.log(results);
+                                            if (results && results.status == 200 && results.data.length > 0) {
+                                                console.log(results.data);
+                                                loadApiTable(results.data, cusList);
+                                            }
+                                            //pass data to a load table function
+                                        }
+                                    })
+                                }
+                            }
+                        });
+                    }
+                });
+
+                /**
+                 * load search customer details
+                 * @param customers
+                 * @param cus_list
+                 */
+
+                /*Loading of customer data when it is not connected through API*/
+                function loadTable(customers, cus_list) {
+                    var cus_list_tbody = cus_list.find('.cus_list_tbody');
+                    cus_list_tbody.off();
+                    cus_list_tbody.html('');
+                    if (customers != null) {
+                        for (var m = 0; m < customers.length; m++) {
+                            var tr = '<tr style="text-align: center">' +
+                                '<td>' + customers[m].customerName + '</td>' +
+                                '<td>' + customers[m].email + '</td>' +
+                                '<td>' + customers[m].telephone + '</td>' +
+                                '<td>' + customers[m].loyaltyReference + '</td>' +
+                                '<td><button class="btn btn-primary btn-xs cus_select" id="' + customers[m].customerName + '' +
+                                '|' + customers[m].email + '|' + customers[m].loyaltyReference + '" value="' + customers[m].id + '"> Select </button></td>' +
+                                '</tr>';
+                            cus_list_tbody.append(tr);
+
+                        }
+
+                        /**
+                         * select specific customer
+                         */
+                        cus_list_tbody.on('click', '.cus_select', function () {
+                            cusList.modal('hide');
+                            var val = $(this).attr('id');
+                            var val_arr = val.split('|');
+                            $(cus_list.parents('.zel').find('.pos_cus').text($(this).val() + ' : ' + val_arr[0]));
+                            $(cus_list.parents('.zel').find('.loyalty_customer_model').find('.loyalty_customer')).val(val_arr[0]);
+                            $(cus_list.parents('.zel').find('.loyalty_customer_model').find('.loyalty_loyalty')).val(val_arr[2]);
+                            $(cus_list.parents('.bucket').find('.pos_pay_slide').find('.pos_cus1')).text($(this).val() + ' : ' + val_arr[0]);
+                            console.log($(cus_list.parents('.bucket').find('.pos_pay_slide').find('.pos_cus1').first()).text());
+                            bucket[tabDOM].customer = val_arr[0];
+                            bucket[tabDOM].customer_id = $(this).val();
+                            bucket[tabDOM].email = val_arr[1];
+                            bucket[tabDOM].loyaltyReference = val_arr[2];
+                            /**
+                             * TODO loyalty verification
+                             * */
+                            bucket[tabDOM].loyalty_flag = true;
+                        });
+                    }
+
+                }
+
+
+                /*Loading of customer data when it is connected through API at the fail of local da*/
+                function loadApiTable(customers, cus_list) {
+
+                    var cus_list_tbody = cus_list.find('.cus_list_tbody');
+                    cus_list_tbody.off();
+                    cus_list_tbody.html('');
+                    if (customers != null) {
+                        for (var m = 0; m < customers.length; m++) {
+                            var tr = '<tr style="text-align: center">' +
+                                '<td>' + customers[m].name + '</td>' +
+                                '<td>' + customers[m].email + '</td>' +
+                                '<td>' + customers[m].contactNo + '</td>' +
+                                '<td>' + customers[m].code + '</td>' +
+                                '<td><button class="btn btn-primary btn-xs cus_create" id="cusDataSet" data-customer="' + customers[m].name + '" data-email="' + customers[m].email + '" data-telephone="' + customers[m].contactNo + '" data-loyalty="' + customers[m].code + '" data-address="' + customers[m].address + '"> Create </button></td>' +
+                                '</tr>';
+                            cus_list_tbody.append(tr);
+                        }
+
+                        /**
+                         * Create specific customer from data gained through API
+                         */
+                        cus_list_tbody.on('click', '.cus_create', function () {
+                            cusList.modal('hide');
+                            var cusName = $(this).data('customer');
+                            var cusEmail = $(this).data('email');
+                            var cusTelephone = $(this).data('telephone');
+                            var cusLoyalty = $(this).data('loyalty');
+                            var cusAddress = $(this).data('address');
+
+
+                            var data = {
+                                id: null,
+                                customerName: cusName,
+                                telephone: cusTelephone,
+                                address: cusAddress,
+                                email: cusEmail,
+                                loyaltyReference: cusLoyalty
+                            };
+
+                            var cdom = $(this).parents('.zel').find('.pos_cus');
+                            var cdom1 = $(this).parents('.bucket').find('.pos_pay_slide').find('.pos_cus1');
+                            var cdom2 = $(this).parents('.zel').find('.loyalty_customer_model').find('.loyalty_customer');
+                            var cdom3 = $(this).parents('.zel').find('.loyalty_customer_model').find('.loyalty_loyalty');
+                            //load the add customer scenario
+
+                            $.ajax({
+                                type: 'POST',
+                                url: "{{ getURL('get.pos.session') }}/addCustomer",
+                                data: {customer: JSON.stringify(data)},
+                                success: function (results) {
+                                    if (results && results.status == 200) {
+                                        console.log(results);
+                                        console.log(cdom);
+                                        console.log($(cdom));
+
+                                        $(cdom).text(results.customer_id + ' : ' + results.customer_name);
+                                        $(cdom1).text(results.customer_id + ' : ' + results.customer_name);
+                                        bucket[tabDOM].customer = results.customer_name;
+                                        bucket[tabDOM].customer_id = results.customer_id;
+                                        bucket[tabDOM].loyaltyReference = results.loyaltyReference;
+                                        bucket[tabDOM].email = results.email;
+                                        bucket[tabDOM].loyalty_flag = true;
+                                        $(cdom2).val(results.customer_name);
+                                        $(cdom3).val(results.loyaltyReference);
+                                    } else if (results && results.status == 400) {
+                                        bootbox.alert('Customer already added with this phone number!');
+                                    } else {
+                                        bootbox.alert('Customer adding error !!! Contact system admin');
+                                    }
+
+                                },
+                                complete: function () {
+
+                                    //do after completion
+
+                                }
+                            });
+
+                        });
+                    }
+                }
+
+
+//                if(bucket[tabDOM].loyalty_flag){
+//                    var loyalty_customer_model = $($(this).parents('.zel').find('.loyalty_customer_model'));
+//                    var use_code_btn = $($(loyalty_customer_model).find('.use_code'));
+//                    loyalty_customer_model.off();
+//                    loyalty_customer_model.modal('show');
+//                    loyalty_customer_model.on('click','.validate_code',function(){
+//                        $(loyalty_customer_model).find('.promo_info').hide();
+//                        $(loyalty_customer_model).find('.promo_suc').hide();
+//                        $(loyalty_customer_model).find('.promo_unsuc').hide();
+//                        use_code_btn.val("");
+//                        use_code_btn.removeClass('btn-warning');
+//
+//                        if(navigator.onLine){
+//                            promo_validity($(loyalty_customer_model.find('.loyalty_promo_code')).val(),function(status,results){
+//                                if(status){
+//                                    var code = $(loyalty_customer_model.find('.loyalty_promo_code')).val();
+//                                    use_code_btn.val(code);
+//
+//                                    if(results.validity){
+//                                        if(bucket[tabDOM].used_codes.indexOf(code) > -1){
+//                                            use_code_btn.addClass('btn-warning');
+////                                            use_code_btn.attr('disabled',true);
+//                                            use_code_btn.html('un-use code')
+//                                        }
+//                                        $(loyalty_customer_model).find('.promo_info').show();
+//                                        $(loyalty_customer_model).find('.promo_suc').show();
+//                                    }
+//                                    else if(results.status == 400 && !results.validity){
+//                                        $(loyalty_customer_model).find('.promo_info').show();
+//                                        $(loyalty_customer_model).find('.promo_unsuc').show();
+//                                    }
+//                                    else{
+//                                        bootbox.alert('Can not make loyalty discount now !!');
+//                                    }
+//                                }
+//                                else{
+//                                    bootbox.alert('Server error try again later !!');
+//                                }
+//                            });
+//                        }
+//                        else{
+//                            bootbox.alert('Internet Connection not available now !!!');
+//                        }
+//                    });
+//
+//                    loyalty_customer_model.on('click','.use_code',function(){
+//                        var p_code = $(this).val();
+//                        var table = $($(this).parents('.zel').find('.product_add_table'));
+//                        var selected = $(table.find('.trSelect'));
+//
+//                        if (selected && selected.length > 0) {
+//                            var x = selected[0].cells;
+//                            var pid = x[2].innerHTML;
+//
+//                            var product = bucket[tabDOM].products.filter(function (x) {
+//                                return x.id === parseInt(pid)
+//                            });
+//
+//                            if(product.length > 0){
+//                                product = product[0];
+//                                var index = bucket[tabDOM].used_codes.indexOf(p_code);
+//                                if(index < 0){
+//                                    bucket[tabDOM].used_codes.push(p_code);
+//                                    use_code_btn.addClass('btn-warning');
+//                                    use_code_btn.removeClass('btn-primary');
+//                                    use_code_btn.html('un-use code');
+//                                    product.loyalty = true;
+//                                    product.voucher_code = p_code;
+//                                }
+//                                else{
+//                                    bucket[tabDOM].used_codes.splice(index,1);
+//                                    use_code_btn.addClass('btn-primary');
+//                                    use_code_btn.removeClass('btn-warning');
+//                                    use_code_btn.html('use code');
+//                                    product.loyalty = false;
+//                                    product.voucher_code = null;
+//                                }
+////                                product.loyalty = true;
+////                                product.voucher_code = p_code;
+//                                console.log(bucket[tabDOM]);
+//                            }
+//                        }
+//                        else{
+//
+//                        }
+//                        console.log(bucket[tabDOM].used_codes);
+//                    });
+//                }
+//                else{
+//
+//                }
+
+            });
+
+            $(document).on('click', '.product_page', function () {
+                
+                var dom = $(this);
+                var offset = $(this).val();
+                var tabDOM = $($(this).parents('.bucket').first()).attr('id');
+                if (!bucket[tabDOM]) {
+                    bucket[tabDOM] = {
+                        products: [],
+                        return_flag: false,
+                        pids: [],
+                        return_products: [],
+                        return_tot_products: [],
+                        return_pids: [],
+                        customer: 'customer',
+                        loyalty_flag: false,
+                        used_codes: []
+                    }
+                }
+              
+
+                if (parseInt(offset) >= 0 && BRANCH_ID) {
+                          
+                    /**
+                     * Offline filter (active now)
+                     * */
+                    filterParentProducts({
+                        offset_flag: true,
+                        offset: parseInt(offset)
+                    }, function (filteredProducts) {
+                             
+                        var html = displayProducts(filteredProducts, bucket[tabDOM].products, dom, 'str');
+                        
+                        $(dom.parents('.mze').find('.product_view')).html(html);
+                        var prev = $(dom.parent().find('.product_prev'));
+                            
+
+                                
+                        if (dom.hasClass('product_next')) {
+                                  
+                            prev.attr('disabled', false);
+                            dom.val(parseInt(offset) + 1);
+                            prev.val((parseInt(offset) < 0) ? 0 : parseInt(offset) - 1);
+                            $($(document).find('.bucket.tab-pane.active').find('.product_search')).focus();
+                        } else if (dom.hasClass('product_prev')) {
+                                 
+                            dom.val((parseInt(offset) - 1 < 0) ? 0 : parseInt(offset) - 1);
+                            $(dom.parent().find('.product_next')).val(parseInt(offset) + 1);
+                            $($(document).find('.bucket.tab-pane.active').find('.product_search')).focus();
+                            if (parseInt(offset) - 1 < 0) {
+                                prev.attr('disabled', true);
+                                     
+                            } else {
+                                prev.attr('disabled', false);
+                                      
+                            }
+                        }
+                    }.bind(this));
+
+
+                    /**
+                     * Online Search (Deprecated)
+                     */
+                    {#$.ajax({#}
+                    {#type: 'POST',#}
+                    {#url: "{{ getURL('get.pos.pos') }}/getProducts",#}
+                    {#data: {offset: parseInt(offset),branch:BRANCH_ID},#}
+                    {#success: function (results) {#}
+                    {#if (results && results.products) {#}
+                    {#products = results.products;#}
+                    {#var html = displayProducts(results.products, bucket[tabDOM].products,dom,'str');#}
+                    {#$(dom.parents('.mze').find('.product_view')).html(html);#}
+                    {#var prev = $(dom.parent().find('.product_prev'));#}
+
+                    {#if(dom.hasClass('product_next')){#}
+                    {#dom.val(parseInt(offset)+1);#}
+                    {#prev.val((parseInt(offset) < 0)?0:parseInt(offset) -1)#}
+                    {#}#}
+                    {#else if(dom.hasClass('product_prev')){#}
+                    {#dom.val((parseInt(offset) -1 < 0)?0:parseInt(offset) -1);#}
+                    {#$(dom.parent().find('.product_next')).val(parseInt(offset) + 1);#}
+                    {#}#}
+                    {#}#}
+                    {#}#}
+                    {#});#}
+                }
+            });
+
+            /**
+             * search and filter products (Online)
+             * @param category
+             * @param name
+             * @param callback
+             */
+            function searchProducts(category, name, callback) {
+                var dom = $(this);
+                var tabDOM = $($(this).parents('.bucket').first()).attr('id');
+                if (!bucket[tabDOM]) {
+                    bucket[tabDOM] = {
+                        products: [],
+                        used_codes: []
+                    }
+                }
+                if ((category != null || name != null) && BRANCH_ID) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ getURL('get.pos.pos') }}/searchProducts",
+                        data: {branch: BRANCH_ID, category: category, name: name},
+                        success: function (results) {
+                            if (results && results.products) {
+                                products = results.products;
+//                                products_parents = results.products;
+
+                                callback(results.products);
+                            } else {
+                                callback({});
+                            }
+                        }
+                    });
+                }
+                ;
+            };
+
+            /**
+             * search and filter products (Offline)
+             * @param attr
+             * @param callback
+             */
+            function filterParentProducts(attr, callback) {
+                var filteredProducts = [];
+                if (attr.category_flag || (attr.search_flag && attr.categoryId != null && attr.name == null)) {
+                    filteredProducts = PARENT_PRODUCTS.filter(function (x) {
+                        return x.product.categoryId === parseInt(attr.categoryId)
+                    });
+                } else if (attr.offset_flag) {
+                    var from = parseInt(attr.offset) * 200;
+                    filteredProducts = PARENT_PRODUCTS.slice(from, from + 200);
+                } else if (attr.search_flag) {
+                    if (attr.categoryId == null && attr.name != null) {
+                        filteredProducts = PARENT_PRODUCTS.filter(function (x) {
+                            return (x.product.productName.toLowerCase().includes(attr.name.toString().toLowerCase()) || x.product.barcode.includes(attr.name))
+                        });
+                    } else if (attr.categoryId != null && attr.name != null) {
+                        filteredProducts = PARENT_PRODUCTS.filter(function (x) {
+                            return (x.product.categoryId === parseInt(attr.categoryId) && (x.product.productName.toLowerCase().includes(attr.name.toString().toLowerCase()) || x.product.barcode.includes(attr.name)))
+                        });
+                    }
+                }
+
+                if (filteredProducts.length > 200) {
+                    filteredProducts = filteredProducts.slice(0, 200);
+                }
+
+
+                callback(filteredProducts);
+            };
+//            navigator.onLine
+            $('.product_type').val(0).change();
+            $('.product_type').val([]).change();
+
+        });
+    </script>
+
+    <script>
+        var rx = /INPUT|SELECT|TEXTAREA/i;
+
+        $(document).bind("keydown keypress", function (e) {
+            if (e.which == 8) { // 8 == backspace
+                if (!rx.test(e.target.tagName) || e.target.disabled || e.target.readOnly) {
+                    console.log('backspace key pressed')
+                    e.preventDefault();
+                }
+            }
+        });
+
+    </script>
+
+
+    <script src="/controller/pos/posPosController.js"></script>
+    <script src="/controller/pos/posPaymentController.js"></script>
+    <script src="/js/jquery.scannerdetection.js"></script>
+{% endblock %}
+</body>
+</html>

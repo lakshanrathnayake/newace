@@ -1,0 +1,109 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+{#{% extends '../layout.twig' %}#}
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <div style="height:50px;"></div>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Edit Store</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
+                <form class="form-horizontal" method="post" action="{{ getURL('post.store.update') }}"  name="data">
+
+                    <div class="box-body col-sm-12">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Barcode</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="barcode" name="barcode" value={{ results.product.barcode }}  readonly/>
+                                <input type="hidden"  id = "id" name="id" value={{ results.id }} />
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Product Name</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="productName" name="productName" placeholder="Name" value="{{ results.product.productName }}"  readonly/>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Quantity</label>
+
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="qty" name="qty" placeholder="Quantity" value={{ results.qty }} required>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-3 control-label">Reorder Level</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="reorderLevel" name="reorderLevel" placeholder="Reorder Level" value={{ results.reorderLevel }} required>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="inputPassword3" class="col-sm-3 control-label">Min. Order Quantity</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="minOrderQuantity" name="minOrderQuantity" placeholder="Min.Order Quantity" value={{ results.minOrderQuantity }} required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+
+                        </div>
+                    </div>
+                    <div class="col-sm-9" style="display: none">
+                        <input type="text" class="form-control" id="quantity" name="quantity" placeholder="Quantity" value={{ results.qty }} required>
+                    </div>
+
+                    <div class="col-sm-9" style="display: none">
+                        <input type="text" class="form-control" id="role" name="role" placeholder="Quantity" value={{ user.role }} required>
+                    </div>
+                    <div class="col-sm-9" style="display: none">
+                        <input type="text" class="form-control" id="branch_name" name="branch_name" placeholder="Quantity" value={{ user.branch }} required>
+                    </div>
+                    <div class="col-sm-9" style="display: none">
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Quantity" value={{ user.username }} required>
+                    </div>
+                    <div class="col-sm-9" style="display: none">
+                        <input type="text" class="form-control" id="userid" name="userid" placeholder="Quantity" value={{ user.id }} required>
+                    </div>
+                    <div class="col-sm-9" style="display: none">
+                        <input type="text" class="form-control" id="rl" name="rl" placeholder="Quantity" value={{ results.reorderLevel }} required>
+                    </div>
+                    <div class="col-sm-9" style="display: none">
+                        <input type="text" class="form-control" id="mol" name="mol" placeholder="Quantity" value={{ results.minOrderQuantity}} required>
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+
+                        <button type="submit" id="update" class="btn btn-info pull-right">Update</button>
+                    </div>
+                    <!-- /.box-footer -->
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    {#<div class="col-sm-2"></div>#}
+
+{% endblock %}

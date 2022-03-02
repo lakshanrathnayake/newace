@@ -1,0 +1,30 @@
+{
+  "mysql": {
+    "host": "127.0.0.1",
+    "username": "root",
+    "password": "",
+    "port": 3306,
+    "database": "posoak",
+    "maxPoolSize": 30,
+    "minPoolSize": 0,
+    "acquire": 30000,
+    "idle": 1000
+  },
+  "host": {
+    "host": "http://127.0.0.1",
+    "port": ":3000/"
+  },
+  "loyalty": {
+    "client_id": "2_1r2g52vklz0kcsco8c8w8k04wgokco84s8csgskssg4gsww08c",
+    "client_secret": "5s1qykwwj5cs4go44g8wwgc80c40o4c0kc8sk4k4wco40s4o0c",
+    "baseURL": "https://ejg.aptabas.com/",
+    "urls": {
+      "login": "oauth/v2/token",
+      "voucher_verification": "api/client/voucher/verification",
+      "redeem_voucher_verification": "api/client/redeem/voucher/verification",
+      "client_transaction": "api/client/transaction",
+      "customer_registration": "api/client/customer-registration",
+      "search_customer": "api/client/customer/search"
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% else %}
+    {% extends 'admin.twig' %}
+{% endif %}
+
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <div class="row">
+
+
+        <div style="height: 50px"></div>
+
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div style="cursor: pointer;"  class="info-box">
+                    <span id="taxCog" class="info-box-icon bg-orange"><i class="fa fa-money"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Tax Configuration</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div style="cursor: pointer;" onclick="location.href='{{ getURL('get.control.add.template') }}'"
+                     class="info-box">
+                    <span id="template" class="info-box-icon bg-blue"><i class="fa  fa-cubes"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Product Template <br/>Configuration</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+    {% block onloadJS %}
+    {% endblock %}

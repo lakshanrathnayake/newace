@@ -1,0 +1,49 @@
+<div>
+    <div id="loade" class="modal fade" role="dialog" >
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius: 10px;background: transparent">
+                <div class="modal-body" style="top:50px">
+                    <div class="row" style="text-align: center">
+                        <div class="overlay" style="display: inline">
+                            <i style="font-size: 2000%;color: #f7f4f4;" class="fa fa-refresh fa-spin"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="info" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="border-radius: 10px">
+                <div class="modal-header" style="background: #4892bb; border-radius: 10px 10px 0px 0px">
+                    <h4 class="modal-title" id="info-head"></h4>
+                </div>
+                <div class="modal-body" style="text-align: center">
+                    <img id="info-img" src={{images.error404}} style="display: inline;" class="img img-responsive">
+                </div>
+                <div class="modal-footer">
+                    <form method="post" action="{{ getURL('post.product.download.barcode') }}">
+                        <input name="info_bar" id="info-barcode" type="text" style="display: none" value="" />
+                        <button type="submit" class="btn btn-primary">Download</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <div id="update" class="modal fade" role="dialog" style="top: 20%">
+            <div class="modal-dialog">
+                <div class="modal-content" style="">
+                    <div class="modal-body">
+                        <div class="row">
+                            <h5 id="postup" style="color: green">User deleted successfully !!</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

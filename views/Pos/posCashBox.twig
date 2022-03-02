@@ -1,0 +1,278 @@
+{% extends './base.twig' %}
+{% block styles %}
+    <style>
+        .wrapper {
+            background: none !important;
+        }
+
+
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div id="divcon2" class="col-sm-offset-2 col-sm-8" style="background:  #f0eeee;overflow-y: scroll;overflow-x: hidden;
+            border-left:#d7d7d7;border-left-style: dashed; border-left-width: 1px">
+                <div class="container-fluid">
+                    <div class="box-header" style="margin-top: 10px">
+                        <h2 class="box-title" style="text-align: center">
+                            <b>Cash box</b>
+                        </h2>
+                    </div>
+                    <div class="box-body">
+                        {% if session > 0 %}
+                            <div class="row">
+                                <div class="form-group col-sm-6">
+                                    <label class="col-sm-5 control-label">Opening Balance</label>
+                                    <div class="col-sm-7">
+                                        <input disabled type="text" class="form-control" id="obal" name="obal"
+                                               value="{{ sess.startBalance }}"/>
+                                    </div>
+                                </div>
+                                <div class="form-group col-sm-6 " hidden>
+                                    <label class="col-sm-6 control-label">Cash Transaction</label>
+                                    <div class="col-sm-6">
+                                        <input disabled type="text" class="form-control" value="{{ total }}" id="cbal"
+                                               name="cbal" hidden/>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="row">
+                            <div class="form-group col-sm-offset-2 col-sm-8">
+                                <table id="table" class="table table-bordered table-striped" style="text-align: center">
+                                    <thead>
+                                    <tr>
+                                        <th>Coin/Bill Value</th>
+                                        <th>Number of Bills/Coins</th>
+                                        <th>Subtotal</th>
+
+
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td>5000</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="fiveThousandIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="fiveThousandTotal">0</label>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2000</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="twoThousandIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="twoThousandTotal">0</label>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>1000</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="thousandIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="thousandTotal">0</label>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>500</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="fiveHundredIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="fiveHundredTotal">0</label>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td>100</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="hundredIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="hundredTotal">0</label>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>50</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="fiftyIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="fiftyTotal">0</label>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>20</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="twentyIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="twentyTotal">0</label>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="tenIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="tenTotal">0</label>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="fiveIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="fiveTotal">0</label>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="twoIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="twoTotal">0</label>
+                                        </td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>
+                                            <input type="number" class="form-control" id="oneIn" placeholder="0"
+                                                   style="text-align: center">
+                                        </td>
+                                        <td>
+                                            <label id="oneTotal">0</label>
+                                        </td>
+
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                                <label for="inputEmail3" id="total" class="col-sm-12 control-label"
+                                       style="text-align: right">Total: 00</label>
+                                <a id="btnNext" type="button"
+                                   class="btn btn-success pos" style="width: 80px;float: right;margin-left: 2%">
+                                    Next
+                                </a>
+                                <a id="btnNext" type="button"
+                                   class="btn btn-success pos"
+                                   style="display: none;width: 80px;float: right;margin-left: 2%">
+                                    Next
+                                </a>
+                                <a id="btnBack" href="{{ getURL('get.pos.session') }}" type="button"
+                                   class="btn btn-danger" style="width: 80px; float: right">
+                                    Back
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-2" id="divcon3"
+                 style="background:  #f0eeee;height:100px;border-left: #d7d7d7;border-left-style: dashed;border-left-width: 1px ;">
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block onloadJS %}
+    <script type="text/javascript" src="/controller/pos/posCashBoxController.js"></script>
+    <script type="text/javascript" src="/js/bootbox.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+
+            $('.pos').click(function () {
+                var ifSessionExits = {{ session }};
+                if (!ifSessionExits) {
+                    var total = (parseInt($('#total').text()) && parseInt($('#total').text()) != NaN) ? parseInt($('#total').text()) : 0;
+                    localStorage.setItem("storageName", total);
+                    var cashierId = {{ user.id }};
+                    bootbox.confirm('Are you sure want to submit ?', function (confirm) {
+                        if (confirm) {
+                            if (total && total != null && total <= 0) {
+                                total = parseFloat({{ total }});
+                            }
+                            $.ajax({
+                                type: 'POST',
+                                url: "{{ getURL('get.pos.session') }}",
+                                data: {cash: total, cashier: parseInt(cashierId), session_id:{{ session }} },
+                                success: function (results) {
+                                    var session = JSON.parse(JSON.stringify(results));
+//                                    localStorage.setItem("session", session);
+                                    if (results && results.status == 200) {
+
+                                        window.location = '{{ getURL('get.pos.pos') }}/' + results.session_id;
+                                    }
+                                    else if (results && results.status == 700) {
+
+
+                                        window.location = '{{ getURL('get.pos.session') }}/summary/' + results.session_id;
+
+                                        {#window.location = '{{ getURL('get.pos.session') }}';#}
+                                    }
+                                    else {
+                                        bootbox.alert('submission error !! Contact system admin')
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+                else {
+                    var total = (parseInt($('#total').text()) && parseInt($('#total').text()) != NaN) ? parseInt($('#total').text()) : 0;
+                    localStorage.setItem("cashBox", total);
+
+
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ getURL('post.pos.end_cash_balance') }}",
+                        data: {cash: total},
+                        success:function (results) {
+
+                            if(results.status == 700){
+                                window.location = '{{ getURL('get.pos.session') }}/summary/' + {{ session }};
+                            }
+
+                        }
+
+                    });
+
+                }
+
+
+            });
+        });
+    </script>
+{% endblock %}

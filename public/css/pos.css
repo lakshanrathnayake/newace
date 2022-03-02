@@ -1,0 +1,62 @@
+.callable{
+    margin: 0px;
+    border: 1px;
+    border-style: groove;
+    border-color: #b3cccc;
+    width: 60px;
+}
+.calldiv{
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+}
+
+th{
+    border: 1px solid ;
+    border-color: #b3b3cc;
+    width: 25%;
+    text-align: center;
+    height: 40px;
+}
+
+.cal{
+    padding: 10px;
+    border-top-style: solid;
+    border-top-color: #39ac73;
+}
+.mze{
+    margin: 0px;
+}
+
+html{
+    background: #f3f3f2;
+    height: 100% !important;
+}
+
+body{
+
+    overflow: hidden;
+    background: #f3f3f2 !important;
+    height: 100% !important;
+}
+
+.bill{
+    overflow-y:auto;
+    height: 100% !important;
+    background: #e7e7e7 !important;
+}
+
+.price{
+    height: 65%;
+    margin-left: 15px;
+    background: white
+}
+li{
+    background: white !important;
+    height: 34px !important;
+}
+
+li a{
+    padding-top: 5px !important;
+}
+

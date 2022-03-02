@@ -1,0 +1,358 @@
+{% extends 'super_admin.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link href="/select2/dist/css/select2.min.css" rel="stylesheet"/>
+    {# <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script lang="javascript" src="https://unpkg.com/xlsx@0.16.7/dist/xlsx.full.min.js"></script>
+
+   <script lang="javascript" src="/fileServer/FileServer.min.js"></script> #}
+    <style>
+        .content-wrapper {
+            background: white;
+        }
+
+        .vertical-center {
+            min-height: auto;
+            min-height: auto;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .select2-selection__choice {
+            color: black !important;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            background-color: #2196F3;
+            padding: 10px;
+        }
+
+        .grid-item {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td {
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+
+    </style>
+
+{% endblock %}
+{% block content %}
+    <div class="bo">
+        <div class="box-header with-border">
+            <h3 class="box-title">Sales Analysis</h3>
+        </div>
+
+        <div class="box-body vertical-center">
+            <div class="form-group col-sm-6">
+                <label class="col-sm-3 control-label">Branch</label>
+                <div class="col-sm-9">
+                    <select class="form-control" id="branch" name="branch" required>
+                        {% if user.role == 'SUPER_ADMIN' %}
+                            {% for branch in branches %}
+                                <option value="{{ branch.id }}">{{ branch.branchName }}</option>
+                            {% endfor %}
+                            <option value="0" selected>All</option>
+                        {% else %}
+                            <option value="{{ user.branchId }}">{{ user.branch }}</option>
+                        {% endif %}
+
+                    </select>
+                </div>
+            </div>
+            {#<div class="form-group col-sm-2">#}
+                {#<div class="col-sm-12">#}
+                    {#<button class="btn btn-primary">View Report</button>#}
+                {#</div>#}
+            {#</div>#}
+        </div>
+
+        <hr style="height: 3px;margin: 0%">
+
+        <div class="well">
+            <div class="">
+                <form class="form_filter" method="post">
+                    <div class="row" style="margin-bottom: 0.3%">
+                        <div class="col-sm-10">
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-default" style="text-align: left;width: 100%"><span
+                                            class="fa fa-clock-o"></span> Date Filter
+                                </button>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group" style="text-align: center">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input id="from" name="from" type="text"
+                                           value="{{ "now"|date("m/d/Y") }}"
+                                           class="form-control date" id="from"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                    <input id="end" name="end" type="text"
+                                           value="{{ "now"|date("m/d/Y") }}"
+                                           class="form-control date" id="end"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 0.3%">
+                        <div class="col-sm-10">
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-default" style="text-align: left;width: 100%"><span
+                                            class="fa fa-filter"></span> Filter By
+                                </button>
+                            </div>
+                            <div class="col-sm-3">
+                                <select id="product_by" class="form-control" name="product_by">
+                                    <option value="0">Sales Only</option>
+                                    <option selected value="1">All Products</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-3">
+                                <select id="user_by" class="form-control" name="user_by">
+                                    <option selected value="ALL">All</option>
+                                    <option value="CASHIER">Cashier</option>
+                                    <option value="MANAGER">Manager</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-4">
+                                <input id="name" type="text" name="name" class="form-control" placeholder="name"
+                                       value="*" list="suggestions2"/>
+                                <datalist id="suggestions2">
+                                    <option value="*">ALL</option>
+                                </datalist>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-10">
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-default" style="text-align: left;width: 100%"><span
+                                            class="fa fa-object-group"></span> Group By
+                                </button>
+                            </div>
+                            <div class="col-sm-10">
+                                <select class="js-example-basic-multiple group_by" name="group_by[]"
+                                        multiple="multiple">
+                                    <option disabled>Group Type</option>
+                                    <option value="CAT" selected>Category</option>
+                                    <option value="PRO">Product</option>
+                                    <option disabled>Group By Period</option>
+                                    <option value="YEAR">Yearly</option>
+                                    <option value="MONTH">Monthly</option>
+                                    {#<option value="WEAK">Weakly</option>#}
+                                    <option value="DAY" selected>Day</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <button type="button" class="btn btn-primary custom_filter" style="text-align: left;">
+                                <span class="fa fa-gears"></span> Filter Report
+                            </button>
+                             <i class="fa fa-spinner fa-spin filter_loader" style="font-size:24px"></i>
+                        </div>
+                    </div>
+                </form>
+                <hr style="height: 3px;margin: 0%;margin-top: 0.25%">
+                <div class="row">
+                    <div class="col-sm-9">
+                        <div class="col-sm-6">
+                            <div class="" style="display: inline-block;">
+                                <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                                    <button title="table view" type="button" class="btn btn-sm btn-default"><span
+                                                class="fa fa-table"></span></button>
+                                    <button disabled title="download report" type="button" class="btn btn-sm btn-default download"><span
+                                                class="fa fa-download"></span></button>
+                                                 <i class="fa fa-spinner fa-spin download_loader" style="font-size:24px;margin-left:5px" ></i>
+                                    {#<button title="bar chart view" type="button" class="btn btn-sm btn-default"><span#}
+                                                {#class="fa fa-bar-chart"></span></button>#}
+                                    {#<button title="pie chart view" type="button" class="btn btn-sm btn-default"><span#}
+                                                {#class="fa fa-pie-chart"></span></button>#}
+                                </div>
+                            </div>
+                            {#<div style="display: inline-block;">#}
+                                {#<div class="btn-group btn-group-sm" role="group" aria-label="...">#}
+                                    {#<button disabled title="minimize window" type="button"#}
+                                            {#class="btn btn-sm btn-default"><span#}
+                                                {#class="glyphicon glyphicon-resize-small"></span></button>#}
+                                    {#<button title="maximize window" type="button" class="btn btn-sm btn-default"><span#}
+                                                {#class="glyphicon glyphicon-fullscreen"></span></button>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<div style="display: inline-block;">#}
+                                {#<div class="btn-group btn-group-sm" role="group" aria-label="...">#}
+                                    {#<button title="refresh results" type="button" class="btn btn-sm btn-default refresh"><span#}
+                                                {#class="glyphicon glyphicon-refresh"></span></button>#}
+                                    {#<button disabled title="download report" type="button" class="btn btn-sm btn-default download"><span#}
+                                                {#class="fa fa-download"></span></button>#}
+                                {#</div>#}
+                            {#</div>#}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="well product_table" style="height: 450px;overflow-x: scroll;margin-top: 1%;background: white;margin-bottom: 0px;padding: 5px;">
+                <div>
+                    <table id="table" class="table table-bordered table-striped display">
+                        <thead >
+                        <tr>
+                            <th></th>
+                            <th colspan="2">{{ 'now'|date("m/d/Y") }}</th>
+                        </tr>
+                        <tr>
+                            <th>Products</th>
+                            {#{% for j in 1..12 %}#}
+                            <th style="white-space: pre-wrap;">Product Quantity</th>
+                            <th style="white-space: pre-wrap;">Total Revenue</th>
+                            {#{% endfor %}#}
+                        </tr>
+                        <tr>
+                            <th class="first" style="text-align: left">
+                                <span class="fa fa-minus-square all_products"> </span> All
+                            </th>
+
+                            {% set qtyTotal = 0 %}
+                            {% set revenueTotal = 0 %}
+                            {#{% for j in 1..12 %}#}
+                            {% for category in categories %}
+                                {% if report[category.id] is defined and report[category.id] not null %}
+                                    {% set qtyTotal = qtyTotal + report[category.id].total_qty %}
+                                    {% set revenueTotal = revenueTotal + report[category.id].total_revenue|round(2) %}
+                                {% endif %}
+                            {% endfor %}
+                            <th style="text-align: right" class="amount">{{ qtyTotal }}</th>
+                            <th style="text-align: right">{{ revenueTotal }}</th>
+                            {#{% endfor %}#}
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+
+                        {% for category in categories %}
+                            <tr class="all_display" style="{% if all_flag %} {% else %} display: none{% endif %}">
+                                <td class="first" style="text-align: left;">
+                                    {#<span id="{{ category.id }}" class="fa fa-plus-square"> </span> #}
+                                    All/{{ category.categoryName }}
+                                </td>
+                                {% if report[category.id] is defined and report[category.id] not null %}
+                                    {#{% for j in 1..12 %}#}
+                                    <td class="amount" style="text-align: right">
+                                        {{ report[category.id].total_qty }}
+                                    </td>
+                                    <td class="amount" style="text-align: right">
+                                        {{ report[category.id].total_revenue|round(2) }}
+                                    </td>
+                                    {#{% endfor %}#}
+                                {% else %}
+                                    {#{% for j in 1..12 %}#}
+                                    <td class="amount" style="text-align: right">
+                                        0
+                                    </td>
+                                    <td class="amount" style="text-align: right">
+                                        0
+                                    </td>
+                                    {#{% endfor %}#}
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <form style="display:none" method="post" action="{{ getURL('get.revenue_analysis.revenue') }}/download">
+            <input id="file_name" name="file_name" />
+            <button id="revenue_download" type="submit"></button>
+        </form>
+    </div>
+
+{% endblock %}
+    {% block onloadJS %}
+        <script src="/select2/dist/js/select2.min.js"></script>
+        <script type="text/javascript" src="/js/bootbox.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript">
+            var filter_url = "{{ getURL('get.sales_analysis.home') }}/filter";
+            var categories = {{ categories|json_encode }};
+            var users = {{ users|json_encode }};
+            console.log(users);
+            console.log(categories);
+            var categoryLists = [];
+            categories.forEach(function(value){
+                categoryLists[value.id] = value.categoryName
+            });
+            console.log(categoryLists);
+        </script>
+        <script>
+            $(function () {
+                $('.date').datepicker({
+                    daysOfWeekHighlighted: "0,6",
+                    autoclose: true,
+                    todayHighlight: true,
+                    endDate: '+1d' //Disable future dates
+                });
+//                $('.product_table').css('height',($(window).height())*0.5);
+                $('.js-example-basic-multiple').select2();
+
+//                $('#table').DataTable({
+//                    'paging': true,
+//                    'lengthChange': true,
+//                    'searching': true,
+//                    'ordering': true,
+//                    'info': true,
+//                    "order": [[0, "desc"]],
+//                    'autoWidth': false
+//                });
+            })
+        </script>
+        <script src="/controller/backend/order_analysis/sales_analysis.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                $('.custom_filter').click();
+                $(".filter_loader").hide()
+                $(".download_loader").hide()
+            });
+        </script>
+        {# <script>
+        var wb = XLSX.utils.table_to_book(document.getElementById('table'), {sheet:"Sheet JS"});
+        var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
+        function s2ab(s) {
+                        var buf = new ArrayBuffer(s.length);
+                        var view = new Uint8Array(buf);
+                        for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                        return buf;
+        }
+        $(".download").click(function(){
+        saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'test.xlsx');
+        });
+</script> #}
+
+
+
+    {% endblock %}

@@ -1,0 +1,120 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <style>
+        .content-wrapper{
+            background: white;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div style="height:10px; "></div>
+    <div class="bo">
+        <div class="box-header with-border">
+            <h3 class="box-title">Product List</h3>
+        </div>
+        <div style="height:20px;"></div>
+        <form class="form-horizontal" id="data" method="get" name="data">
+            <!-- search details -->
+            <div class="row">
+                <div class="col-sm-4">
+
+                    <h5>  Transfer Reference : {{ results[0].transferManagementSummary.grnNo }}</h5>
+                    
+                    <input id="transferId" name="transferId" value="{{ results[0].transferId }}" hidden>
+
+                </div>
+            </div>
+        </form>
+
+
+        <!-- search details -->
+
+
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="display:none;">Product ID</th>
+                    <th>Barcode</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Cost</th>
+                    <th>Accepted Quantity</th>
+               
+                </tr>
+                </thead>
+                <tbody id="tbody">
+
+                {% for result in results %}
+                    <tr id="row">
+                        <td style="display:none;">{{ result.product.id }}</td>
+                        <td>{{ result.product.barcode }}</td>
+                        <td>{{ result.product.productName }}</td>
+                        <td>{{ result.qty }}</td>
+                        <td>{{ result.cost }}</td>
+                     {#   <td> 
+                         <div class="col-sm-9">
+                            <input type="text" id={{ result.product.id }} name="accepted_qty" >
+                        </div>  
+                         </td> #}
+                        <td contenteditable='true'   name="accepted_qty">{{""}}</td>
+                     
+                      
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+                {{ app.request.uri }}
+            </table>
+
+            {# <div class="box-footer">
+                 <a href="{{ getURL('get.branch.list')~'?page='~results.pageNext[0] }}">
+                     <button type="submit" class="btn btn-info pull-right">Next</button>
+                 </a>
+
+                 <a href="{{ getURL('get.branch.list')~'?page='~results.pagePrev[0] }}">
+                     <button style="margin-right: 1%" type="submit" class="btn btn-info pull-right">Previous</button>
+                 </a>
+             </div>#}
+
+            <div class="box-footer">
+                <button style="margin-right: 5px" id="accept" name="accept" class="btn btn-success pull-left">Accept</button>
+                <button id="reject" name="reject" class="btn btn-danger pull-left">Reject</button>
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endblock %}
+    {% block onloadJS %}
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                $('#table').DataTable({
+                    'paging': false,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    "order": [[1, "desc"]],
+                    'autoWidth': false
+                });
+            })
+        </script>
+
+        <script>
+            var url1 = '{{ getURL('post.store.store_in_accept') }}';
+            var url2 = '{{ getURL('post.store.store_in_reject')  }}'
+        </script>
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+        <script type="text/javascript" src="../controller/backend/store/store_in_list.js"></script>
+    {% endblock %}

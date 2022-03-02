@@ -1,0 +1,212 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+{#{% extends '../layout.twig' %}#}
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+{% endblock %}
+{% block content %}
+   
+    <div class="box" style="border-top: 3px solid #4892bb;">
+    <div style="height:20px;"></div>
+        <div class="box-header">
+            <h3 class="box-title">Store Rejected Info</h3>
+            
+    <div>
+    
+ 
+     {# <button id="pdf" class="btn btn-default" style="background-color: #00c0ef; color: white; border-radius: 0;">Download Report</button>  #}
+        </div>
+        </div>
+         <!-- /.box-header -->
+        <div class="box-body">
+            <div style="height:50px;"></div>
+            <table id="table" class="table table-bordered table-striped">
+         
+                <thead>
+                <tr>
+                    <th  style="display:none;">ID</th>
+                    <th>Transfer No</th>
+                    <th>Product Name</th>
+                    <th>Barcode</th>
+                    <th>Destination</th>
+                    <th>Transfer Qty</th>
+                    <th>Rejected Qty</th>
+                    <th>Transfer Date</th>
+                     <th>ReAccepted Qty</th>
+                    <th> ReRejected Qty</th>
+                     <th>Errored Qty</th>
+                    
+
+                     <th style="text-align: center">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="tbody">
+                {% for result in results %}
+                    <tr >
+                        <td  style="display:none;">{{ result.id }}</td>
+                        <td>{{ result.grn_no }}</td>
+                        <td>{{ result.description }}</td>
+                        <td>{{ result.barcode}}</td>
+                        <td>{{ result.destination }}</td>
+                        {% if result.sent_qty == null %}
+                        <td>0</td>
+                        {% else %}
+                        <td>{{ result.sent_qty }}</td>
+                        {% endif %}
+                        {% if result.rejected_qty == null %}
+                        <td>0</td>
+                        {% else %}
+                        <td>{{ result.rejected_qty}}</td>
+                        {% endif %}
+                        
+                        <td>{{ result.date }}</td>
+                         <td contenteditable='true'  id={{ result.id }} name="accepted_qty" style="background-color:#B0E0E6">{{""}} </td>
+                         <td contenteditable='true'  id={{ result.id }} name="accepted_qty" style="background-color:#B0E0E6">{{""}}</td>
+                         <td contenteditable='true'  id={{ result.id }} name="accepted_qty" style="background-color:#B0E0E6">{{""}}</td>
+                         <div>
+                            <td style="text-align: center">
+
+                             
+                                        <button style="width: 100%" type="submit" id="add"  class="btn btn-success btn-xs add" value ={{result.id}}>Add</button>
+                                 
+                            </td>
+                        </div>    
+                        
+                       
+             
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endblock %}
+    {% block onloadJS %}
+
+     
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+
+       
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript">
+            var url = '{{ getURL('post.store.storein_report') }}';
+        </script>
+        <script>
+        $(document).ready(function () {
+     $(function () {
+            $(document).on('click','.add',function(){
+                
+      
+                let name = $(this).val();
+                var results =[]
+                $(this).closest('tr').find('td').each(function() {
+                  var textval = $(this).text(); 
+               
+                 if(textval >= 0){
+                    results.push(parseInt(textval))
+                 }
+                 else if (textval == isNaN){
+                     results.push(0)
+                 }
+                 else{
+                     results.push(0)
+                 }
+                 
+              });
+            
+
+              var results = results.map(results =>{ return isNaN(results) ? 0 : results});
+    
+             console.log(results)
+                                   
+              console.log('results new one the best',results)
+              var reject_qty=results[6]
+              var reaccept_qty = results[8]
+              var rereject_qty =results[9]
+              var error_qty =results[10]
+              var total_qty = reaccept_qty + rereject_qty + error_qty
+              console.log('total quantity',total_qty)
+               if(total_qty==reject_qty){
+                        bootbox.confirm("Are you sure that you want to reject this store in?", function(confirm){
+                if(confirm) {
+                      var data ={
+                 reacceptqty:results[8],
+                 rerejected:results[9],
+                 errored:results[10],
+                      id:name 
+                      }
+               
+                console.log('add sucess')
+                
+                 $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: data,
+                        success: function (result) {
+                            bootbox.alert("Store in accepted", function () {
+                               window.location.reload()
+                            })
+                        }
+                   });
+                
+                }
+        });  
+
+               }
+            else{
+                bootbox.alert('Please add correct quantities',function(){
+                    if(confirm){
+                        window.location.reload()
+                    }
+                })
+            
+            }
+             
+              
+            });
+
+          
+        })
+});
+
+        </script>
+         <script>
+            let theadCount = $('table').find('th').length;
+            let removeOrderOn = theadCount - 1;
+            let orderable = true;
+            if (removeOrderOn > 5) {
+                orderable = false
+            }
+            $(function () {
+                $('#table').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    "order": [[1, "desc"]],
+                    'autoWidth': false,
+                    "columnDefs": [
+                        {
+                            "targets": [removeOrderOn], //first column / numbering column
+                            "orderable": orderable, //set not orderable
+                        },
+                    ],
+                });
+            })
+        </script> 
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.1/jspdf.min.js"></script>
+         <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+         <script src="https://rawcdn.githack.com/FuriosoJack/TableHTMLExport/v2.0.0/src/tableHTMLExport.js"></script>
+   
+    {% endblock %}

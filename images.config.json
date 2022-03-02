@@ -1,0 +1,17 @@
+{
+    "images":{
+       "profile":{"file":"/img/profile.png"},
+       "logo":{"file":"/img/jg.png"},
+       "branch":{"file":"/img/branch.jpg"},
+       "upload":{"file":"/img/upload.jpg"},
+       "error500":{"file":"/img/500.png"},
+       "error404":{"file":"/img/404.png"},
+       "suplier":{"file":"/img/suplier.png"},
+       "barcode":{"file":"/img/barcode.png"},
+       "invoiceLogo":{"file":"/img/jg-logo.png"},
+       "avatar":{"file":"/img/avatar04.png"},
+       "defaultProductImage": {"file": "/img/jg.png"}
+
+       
+    }
+}

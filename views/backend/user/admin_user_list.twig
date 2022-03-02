@@ -1,0 +1,190 @@
+{% extends 'super_admin.twig' %}
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <style>
+        .content-wrapper{
+            background: white;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div style="height:10px; "></div>
+    <div class="bo">
+        <div class="box-header with-border">
+            <h3 class="box-title"><b>List of Users</b></h3>
+        </div>
+        <div style="height:20px;"></div>
+        {# <form class="form-horizontal" id="data" method="get" name="data" action="{{ getURL('get.user.list') }}">
+             <!-- search details -->
+             <div class="row" style="margin:1px">
+                 <div class="col-sm-4">
+                     <div class="form-group">
+                         <label for="username" class="col-sm-3 control-label">Username</label>
+
+                         <div class="col-sm-9">
+                             <input type="text" id="username" name="username" list="suggestion" class="form-control"
+                                    autocomplete="off" placeholder="Enter username">
+                             <datalist class="form-control" id="suggestion" style="display: none">
+                                 {{ formOptionBoxSearch('user','username','','username') }}
+                             </datalist>
+                         </div>
+                     </div>
+
+                 </div>
+                 <div class="col-sm-3">
+                     <div class="form-group">
+                         <label for="branch" class="col-sm-3 control-label">Branch</label>
+
+                         <div class="col-sm-9">
+                             <input type="text" id="branch" name="branch" list="suggestion1" class="form-control"
+                                    autocomplete="off" placeholder="Enter branch">
+                             <datalist class="form-control" id="suggestion1" style="display: none">
+                                 {{ formOptionBoxSearch('branch','branchName','','id') }}
+                             </datalist>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-sm-3">
+                     <div class="form-group">
+                         <label for="role" class="col-sm-3 control-label">Role</label>
+
+                         <div class="col-sm-9">
+                             <select class="form-control" id="role" name="role">
+                                 <option value="" selected disabled>Select role</option>
+                                 {{ formOptionBoxSearch('user_role','name','','id') }}
+                             </select>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-sm-1">
+                     <button type="submit" id="add" class="btn btn-info pull-right">
+                         <span class="glyphicon glyphicon-search"></span>
+                     </button>
+                 </div>
+             </div>
+
+             #}{#<div class="row">#}{#
+                 #}{#<div class="col-sm-12">#}{#
+                     #}{#<input type="submit" id="add" class="btn btn-info pull-right" value="Search">#}{#
+                 #}{#</div>#}{#
+             #}{#</div>#}{#
+         </form>
+ #}
+
+        <!-- search details -->
+
+
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="table" class="table table-bordered table-striped">
+                <thead >
+                <tr>
+                    <th style="display:none;">ID</th>
+                    <th>Name</th>
+                    <th>Username</th>
+                    <th>Branch</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th style="text-align: center">Action</th>
+
+                </tr>
+                </thead>
+                <tbody id="tbody">
+
+                {% for result in results %}
+                    <tr>
+                        <td style="display:none;">{{ result.id }}</td>
+                        <td>{{ result.fullName }}</td>
+                        <td>{{ result.username }}</td>
+                        <td>{{ result.branch.branchName }}</td>
+                        <td>{{ result.user_role.name }}</td>
+                        <td>{{ result.user_status.name }}</td>
+                        <div>
+                            <td style="text-align: center">
+
+                                <a class="btn btn-success editbtn fa fa-edit"
+                                   href="{{ getURL('get.user.edit')~'?id='~result.id }}">
+                                </a>
+                                <a class="btn btn-danger editbtn fa fa-trash"
+                                   onclick="deleteUser({{ result.id }},{{ result.userRole.id }})">
+                                </a>
+
+                            </td>
+                        </div>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+            {# <div class="box-footer">
+                 #}{#<a href="{{ getURL('get.user.list')~'?page='~results.pageNext[0] }}">
+                     <button type="submit" class="btn btn-info pull-right">Next</button>
+                 </a>
+
+                 <a href="{{ getURL('get.user.list')~'?page='~results.pagePrev[0] }}">
+                     <button style="margin-right: 1%"  type="submit" class="btn btn-info pull-right">Previous</button>
+                 </a>#}{#
+             </div>#}
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endblock %}
+    {% block onloadJS %}
+        <script type="text/javascript">
+
+            var url = '{{ getURL('post.user.delete') }}';
+
+        </script>
+        
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+
+        <script>
+            function deleteUser(id, roleId) {
+                bootbox.confirm("Are you sure that you want to delete this user? This action cannot be undone.", function (confirm) {
+                    if (confirm) {
+                        var data = {
+                            id: id,
+                            roleId: roleId
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: data,
+                            success: function (result) {
+                                bootbox.alert("User deleted!", function () {
+                                    location.reload();
+                                });
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                bootbox.alert("User deletion failed!", function () {
+                                    location.reload();
+                                });
+                            }
+                        });
+
+                    }
+                });
+            }
+        </script>
+
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                $('#table').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    "order": [[1, "desc"]],
+                    'autoWidth': false
+                });
+            })
+        </script>
+
+
+        {# <script type="text/javascript" src="../controller/backend/user/list_user_controller.js"></script>#}
+    {% endblock %}

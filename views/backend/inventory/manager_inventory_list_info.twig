@@ -1,0 +1,190 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <style>
+        .content-wrapper{
+            background: white;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div style="height:10px; "></div>
+    <div class="bo">
+        <div class="box-header with-border">
+            <h3 class="box-title">Inventory Info</h3>
+        </div>
+        <div style="height:20px;"></div>
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title">Main Info</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                class="fa fa-minus"></i>
+                    </button>
+                </div>
+                <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+
+            <div class="box-body">
+                {% for result in results.transferSummary %}
+
+                <div class="row">
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Transfer Type</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="type" name="type" list="suggestion" class="form-control"
+                                   placeholder="Trnasfer Type" value="{{ result.type_name }}" readonly>
+
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Date</label>
+                        <div class="col-sm-9">
+                            <input id="dateShow" name="dateShow" class="form-control" placeholder="Date"
+                                  value="{{ result.date_formatted|date('Y-m-d H:i:s') }}" readonly>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Source</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="source" name="source" list="suggestion" class="form-control"
+                                   placeholder="Source"  value="{{ result.source_name }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Destination</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="destination" name="destination" list="suggestion1"
+                                   name="destinationShowCaseValue" class="form-control"
+                                   placeholder="Destination"  value="{{ result.destination_name }}" readonly>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Supplier</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="supplier" id="supplier" list="suggestion"
+                                   class="form-control" placeholder="Supplier"  value="{{ result.supplier_name }}"  readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Invoice Number</label>
+                        <div class="col-sm-9">
+                            <input type="text" id="invoice" name="invoice" list="suggestion1"
+                                   class="form-control" placeholder="Invoice Number" value="{{ result.id}}"  readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Transfer Status</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="transfer_status" id="transfer_status" list="suggestion"
+                                   class="form-control" placeholder="Transfer Status"  value="{{ result.status_name }}" readonly>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Transfer Reference</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="transfer_reference" id="transfer_reference"
+                                   list="suggestion" class="form-control" placeholder="Transfer Reference"
+                                   value="{{ result.grn_no }}"  readonly>
+                        </div>
+                    </div>
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- /.box-body -->
+        </div>
+
+
+        <!-- search details -->
+
+
+        <!-- /.box-header -->
+        <div class="box-body">
+            <div class="box-header with-border">
+                <h3 class="box-title">Product Info</h3>
+            </div>
+
+            <table id="table" class="table table-bordered table-striped">
+                <thead>
+
+                <tr>
+                    <th>Barcode</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Total Price</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+
+                {% for result in results.transferInfo %}
+                    <tr id="">
+                        <td>{{ result.product.barcode }}</td>
+                        <td>{{ result.product.productName }}</td>
+                        <td>{{ result.qty }}</td>
+                        <td>{{ result.cost }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                {{ app.request.uri }}
+            </table>
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endblock %}
+    {% block onloadJS %}
+
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        {#<script>
+            $(function () {
+                $('#table').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    "order":[[1,"desc"]],
+                    'autoWidth': false
+                });
+            })
+        </script>#}
+
+        <script>
+            let url1 = '{{ getURL('post.store.order_accept') }}';
+            let url2 = '{{ getURL('post.store.order_reject') }}';
+        </script>
+
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+        <script type="text/javascript" src="../controller/backend/store/order_request_list.js"></script>
+
+    {% endblock %}

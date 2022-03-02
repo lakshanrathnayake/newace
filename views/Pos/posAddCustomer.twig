@@ -1,0 +1,185 @@
+{% extends './base.twig' %}
+{% block styles %}
+    <style>
+        .wrapper{
+            background: none !important;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+    <div class="row">
+        <div id="divcon1" class="col-sm-2" style="background:  #f0eeee; height: 1000px; border-right:#d7d7d7;border-right-style: dashed; border-right-width: 1px">
+
+        </div>
+
+
+        <div id ="divcon2" class="col-sm-8" style="background:  #f0eeee">
+            <div  style="height: 10px"></div>
+
+            <div class="row">
+
+                <div class="form-group col-sm-3" style="padding: 5px;margin-left: 10px">
+                    <button type="button" class="btn btn-secondary btn-lg">Cancel</button>
+                </div>
+
+                <div class="form-group col-sm-3 "></div>
+
+                {#search#}
+                <div class="form-group col-sm-4 " style="padding: 5px">
+
+                    <div class="row">
+                        <div class="form-group col-sm-11">
+                            <input type="text" class="form-control" id="usr" placeholder="Search Customer">
+                        </div>
+
+                        <div class="form-group col-sm-1" style="margin-left: -10%;padding-left: 0%">
+                           <div class="input-group-btn">
+                            <button class="btn btn-default" type="submit"><i class="fas fa-search"></i></button>
+                      </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+
+
+                </div>
+
+
+                <div class="form-group col-sm-1" style="padding: 5px;">
+                     <button type="button" class="btn btn-default" id="btnAddUser"> <i class="fas fa-user-plus" style="size: 9px"></i></button>
+
+                </div>
+
+
+            </div>
+
+            <div class="container-fluid" style="background:#f0eeee; display: none " id="addCustomerDiv">
+
+                <div class="row" style="height: 10px"></div>
+
+                <div class="row">
+                    <div class="form-group col-sm-10"></div>
+
+                    <div class="form-group col-sm-1">
+                         <button type="button" class="btn btn-default" id="btnSave"> <i class="fas fa-save"></i></button>
+
+                    </div>
+
+                    <div class="form-group col-sm-1">
+                         <button type="button" class="btn btn-default" id="btnRefresh"> <i class="fas fa-undo"></i></button>
+
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="form-group col-sm-2">
+                        <label>Name</label>
+                     </div>
+
+                      <div class="form-group col-sm-4">
+                        <input type="text" class="form-control" id="usr">
+                     </div>
+
+                     <div class="form-group col-sm-2">
+                        <label>Address</label>
+                     </div>
+
+                     <div class="form-group col-sm-4">
+                        <input type="text" class="form-control" id="usr">
+                     </div>
+
+                </div>
+
+                 <div class="row">
+
+                    <div class="form-group col-sm-2">
+                        <label>Telephone No</label>
+                     </div>
+
+                      <div class="form-group col-sm-4">
+                         <input type="text" class="form-control" id="usr">
+                     </div>
+
+                     <div class="form-group col-sm-2">
+                        <label>Loyalty Reference</label>
+                     </div>
+
+                     <div class="form-group col-sm-4">
+                        <input type="text" class="form-control" id="usr">
+                     </div>
+
+                </div>
+
+
+                  <div class="row" style="height: 20px"></div>
+
+
+            </div>
+
+
+            <div class="row" style="height: 20px"></div>
+            <div class="row" style="padding: 10px">
+
+                <table class="table table-bordered" style="background: #f7f7f7">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Telephone</th>
+                        <th>Loyalty Reference</th>
+                    </tr>
+                    </thead>
+
+                </table>
+
+            </div>
+
+        </div>
+
+        <div class="col-sm-2" id="divcon3" style="background:  #f0eeee;height:100px;border-left: #d7d7d7;border-left-style: dashed;border-left-width: 1px ;">
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- en
+
+
+<!-- /.box-body -->
+
+    <!-- /.box -->
+
+
+
+
+    <!-- ./wrapper -->
+
+{% endblock %}
+{% block onloadJS %}
+    <script type="text/javascript" src="/controller/Pos/posAddCustomerController.js"></script>
+{% endblock %}

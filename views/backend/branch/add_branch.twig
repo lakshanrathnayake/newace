@@ -1,0 +1,107 @@
+{% extends 'super_admin.twig' %}
+
+
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <!-- Content Header (Page header) -->
+    
+    <div class="row">
+     
+        <div class="col-sm-12">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add Branch</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <div class="row">
+                    <div class="col-sm-8">
+                        <form class="form-horizontal" id="form" method="post" name="form" onsubmit="return false"
+                              autocomplete="off">
+
+                            <div class="box-body col-sm-12">
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="branchName" name="branchName"
+                                               placeholder="Name" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label">Address</label>
+
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="address" name="address"
+                                               placeholder="Address" required>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label">Telephone</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" id="telephone" name="telephone"
+                                               placeholder="Telephone Number" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Branch type</label>
+
+                                    <div class="col-sm-9">
+                                        <select class="form-control" id="typeId" name="typeId" required>
+                                            {% for type in branchtypes %}
+                                                <option value="{{ type.id }}">{{ type.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-3 control-label">Status</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" id="statusId" name="statusId" required>
+                                            {% for status in branchstatus %}
+                                                <option value="{{ status.id }}">{{ status.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-10 col-sm-2">
+                                        <button type="submit" style="width: 100%" id="add"
+                                                class="btn btn-info pull-right">Add
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                       
+
+                        </form>
+                    </div>
+                    <div class="col-sm-4">
+                        <img src={{ images.branch }} class="img img-responsive" style="opacity: 0.6"/>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+{% endblock %}
+    {% block onloadJS %}
+        <script type="text/javascript">
+            var url = '{{ getURL('post.branch.post') }}';
+        </script>
+        {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+        <script type="text/javascript" src="../controller/backend/branch/add_branch_controller.js"></script>
+    {% endblock %}

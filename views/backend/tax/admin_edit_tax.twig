@@ -1,0 +1,109 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% else %}
+    {% extends 'admin.twig' %}
+{% endif %}
+{#{% extends '../layout.twig' %}#}
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <!-- Content Header (Page header) -->
+  
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Edit Tax</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <div class="row">
+            <div class="col-sm-8">
+                <form class="form-horizontal" id="data">
+                    {% for result in results %}
+                        <div class="box-body col-sm-12">
+                            <div class="form-group">
+                                <div class="col-sm-9">
+                                    <input type="hidden" name="id" value={{ result.id }}>
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Tax Name</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="taxName" name="taxName" placeholder="Name"
+                                           value={{ result.taxName }}  required>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-10 col-sm-2">
+                                    <button style="width: 100%" type="button" id="update" class="btn btn-info pull-right">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="col-sm-4">
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+    {% block onloadJS %}
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+        <script type="text/javascript">
+            $('#update').click(function(){
+
+                let isValid = validateForm();
+
+                if(isValid) {
+                 
+                    bootbox.confirm("Are you sure that you want to update the tax?", function(confirm) {
+                        if(confirm) {
+                            var data = $('#data').serialize();
+          
+
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ getURL('post.tax.update') }}",
+                                data: data,
+                                success: function (result) {
+                                
+
+                                    if(result.status === 500) {
+                                        bootbox.alert("Tax Already Exist", function () {
+                                            window.location.reload();
+                                        });
+                                    }else {
+                                        bootbox.alert("Tax updated successfully", function () {
+                                            let redirectUri = "{{ getURL('get.tax.list') }}";
+                                            window.location.replace(redirectUri);
+                                        });
+                                    }
+
+                                }
+                            });
+                        }
+                    });
+                }
+
+            });
+
+            function validateForm() {
+                if($('#taxName').val().length > 0) {
+                    return true;
+                }
+
+                bootbox.alert('Please Enter Tax name');
+
+                return false;
+            }
+
+        </script>
+    {% endblock %}

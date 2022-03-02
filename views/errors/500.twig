@@ -1,0 +1,22 @@
+{% if user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+{% block styles %}
+
+{% endblock %}
+
+{% block content %}
+<div class="row" style="padding: 2%">
+    
+    <div class="col-md-12" style="text-align: center">
+        <img src={{ images.error500 }}  style="display: inline" class="img img-responsive" />
+        <h1>{{message}}</h1>
+        <h2>{{error.status}}</h2>
+        <p style="text-align: justify"><pre>Server Error !!! Contact System Admin</pre></p>
+        
+    </div>
+</div>
+{% endblock %}
+

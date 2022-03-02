@@ -1,0 +1,110 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% else %}
+    {% extends 'admin.twig' %}
+{% endif %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <style>
+        .content-wrapper{
+            background: white;
+        }
+
+        .btn-group{
+            margin-bottom: 1%;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div style="height:10px; "></div>
+    <div class="bo">
+        <div class="box-header with-border">
+            <h3 class="box-title"><b>List of Available Templates</b></h3>
+        </div>
+        <div class="box-body">
+            <table id="table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                   
+                    <th>Type</th>
+                    <th>Variations</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                {% for result in templates %}
+                    <tr>
+                      
+                        <td>{{ result.type }}</td>
+                        <td>
+                            {% for var in result.variation %}
+                                <div class="btn-group btn-group-sm" role="group">
+                                    {% for key, value in var %}
+                                        <button type="button" class="btn btn-success">{{ key }}</button>
+                                        <button type="button" class="btn btn-default">{{ value }}</button>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                        </td>
+                        <td style="text-align: center">
+                            <a style="margin-bottom: 5%" href="{{  getURL('get.control.add.template') }}/edit/{{ result.id }}" type="button" class="btn btn-primary btn-sm glyphicon glyphicon-edit"></a>
+                            <button value="{{ result.id }}" type="button" class="btn btn-danger btn-sm glyphicon glyphicon-trash delete"></button>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endblock %}
+    {% block onloadJS %}
+        <script type="text/javascript" src="/js/bootbox.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                $('#table').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    "order": [[0, "desc"]],
+                    'autoWidth': false
+                });
+
+                $('.delete').click(function(){
+                    var id = $(this).val();
+                    if(parseInt(id)){
+                        bootbox.confirm('Are you sure want to delete this template', function (confirm) {
+                            if (confirm) {
+                                $.ajax({
+                                    type: 'POST',
+                                    url: "{{ getURL('get.control.add.template') }}/delete",
+                                    data: {id: parseInt(id)},
+                                    success: function (results) {
+                                        if (results && results.status == 200) {
+                                            bootbox.alert('Template deleted successfully');
+                                            window.location = '{{ getURL('get.control.list.template') }}';
+                                        }
+                                        else {
+                                            bootbox.alert('Template delete error !!!!');
+                                        }
+                                    },
+                                    complete: function (dat) {
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            })
+        </script>
+
+    {% endblock %}

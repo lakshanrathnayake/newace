@@ -1,0 +1,263 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% else %}
+    {% extends 'admin.twig' %}
+{% endif %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <style>
+        .form-inline .form-control{
+            width: 100% !important;
+        }
+
+    </style>
+{% endblock %}
+{% block content %}
+
+
+    <div>
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add New Templates</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+                <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <form class="form-horizontal" id="main_form">
+                <div class="box-body">
+                    <div class="form-group col-sm-12" id="parameter">
+                        {#<div style="height: 20px"></div>#}
+                        <div class="tax">
+                            <div style="height: 20px"></div>
+                            <label for="inputEmail3" class="col-sm-2 control-label">Parameters </label>
+                            <div class="col-sm-10 repeat-panel">
+                                <div class="repeat-content">
+                                    <div class="dummy" style="display: none">
+                                        <div class="row repeat-row" style="margin-top: 10px">
+                                            <div class="col-sm-3" style="margin-top: 3px">
+                                                
+                                                <input  class="form-control template" placeholder="name"
+                                                       name="parameter[]" list="suggestions">
+                                            </div>
+                                            <div class="col-sm-9">
+
+                                                <div class="re-col" >
+                                                    <div class="col-sm-3 " style="margin: 10px;margin-top: 3px">
+                                                        <div class="input-group">
+                                                            <div class="row">
+                                                                <div class="col-sm-7" style="padding: 0%">
+                                                                    <input class="form-control" placeholder="value" name="value[]">
+                                                                </div>
+                                                                <div class="col-sm-5" style="padding: 0%">
+                                                                    <input  value="" class="form-control" placeholder="num" name="numvalue[]">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="re-col2" style="display: none">
+                                                    <div class="col-sm-3 " style="margin: 10px;margin-top: 3px">
+                                                        <div class="input-group">
+                                                            <div class="row">
+                                                                <div class="col-sm-7" style="padding: 0%">
+                                                                    <input class="form-control" placeholder="value" name="value[]">
+                                                                </div>
+                                                                <div class="col-sm-5" style="padding: 0%">
+                                                                    <input value="" class="form-control" placeholder="num" name="numvalue[]">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                  
+                                                </div>
+                                                <div class="col-sm-1" style="margin-top: 3px;display: none">
+                                                    <input class="form-control" placeholder="name"
+                                                           name="value[]" value="DIV" />
+                                                    <input class="form-control" placeholder="name"
+                                                           name="numvalue[]" value="DIV" />
+                                                </div>
+                                                <div class="col-sm-2" style="margin-top: 3px">
+                                                    <button type="button"
+                                                            class="btn btn-default btn-sm addtax pull-right repeat-action3"
+                                                            id="addtax"><i class="fa fa-plus-square"></i></button>
+                                                    <button type="button" style="margin-right: 3px"
+                                                            class="btn btn-default btn-sm addtax pull-right close-repeat3"><i
+                                                                class="fa fa-close"></i></button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row repeat-row" style="margin-top: 10px">
+                                        <div class="col-sm-3" style="margin-top: 3px">
+                                            <input  class="form-control template" placeholder="name"
+                                                   name="parameter[]" list="suggestions">
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <div class="re-col" >
+                                                <div class="col-sm-3 " style="margin: 10px;margin-top: 3px">
+                                                    <div class="input-group">
+                                                        <div class="row">
+                                                            <div class="col-sm-7" style="padding: 0%">
+                                                                <input class="form-control" placeholder="value" name="value[]">
+                                                            </div>
+                                                            <div class="col-sm-5" style="padding: 0%">
+                                                                <input value="" class="form-control" placeholder="num" name="numvalue[]">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="re-col2" style="display: none">
+                                                <div class="col-sm-3 " style="margin: 10px;margin-top: 3px">
+                                                    <div class="input-group">
+                                                        <div class="row">
+                                                            <div class="col-sm-7" style="padding: 0%">
+                                                                <input class="form-control" placeholder="value" name="value[]">
+                                                            </div>
+                                                            <div class="col-sm-5" style="padding: 0%">
+                                                                <input value="" class="form-control" placeholder="num" name="numvalue[]">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-1" style="margin-top: 3px;display: none">
+                                                <input class="form-control" placeholder="name"
+                                                       name="value[]" value="DIV" />
+                                                <input class="form-control" placeholder="name"
+                                                       name="numvalue[]" value="DIV" />
+                                            </div>
+                                            <div class="col-sm-2" style="margin-top: 3px">
+                                                <button type="button"
+                                                        class="btn btn-default btn-sm addtax pull-right repeat-action3"
+                                                        id="addtax"><i class="fa fa-plus-square"></i></button>
+                                                <button type="button" style="margin-right: 3px"
+                                                        class="btn btn-default btn-sm addtax pull-right close-repeat3"><i
+                                                            class="fa fa-close"></i></button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <div class="col-sm-2">
+                                        <button type="button"
+                                                class="btn btn-default btn-sm addtax pull-left repeat-action2"
+                                                id="addtax"><i class="fa fa-plus-square"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="form-group row">
+                            <div class="form-group col-sm-11">
+                                <button type="submit" id="add" name="add" class="btn btn-info pull-right save"
+                                        style=" margin-right: -60px;">Add Template
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+
+
+
+{% endblock %}
+    {% block onloadJS %}
+        <script type="text/javascript" src="/controller/backend/control/add_template.js"></script>
+        <script>
+            $(function () {
+                /**
+                 * group form inputs
+                 * @param formData
+                 * @returns {{}}
+                 */
+                function groupFormInputs(formData) {
+                    let formDataGrouped = {};
+                    formData.forEach(function (entry) {
+                        if (typeof formDataGrouped[entry.name] == 'undefined') {
+                            formDataGrouped[entry.name] = [];
+                        }
+                        formDataGrouped[entry.name].push(entry.value);
+                    });
+
+                    return formDataGrouped;
+                }
+
+                $("#add").click(function (event) {
+                    console.log('add click buttonnew')
+                    event.preventDefault();
+                    let formData = $('#main_form').serializeArray();
+                    let groupData = groupFormInputs(formData);
+                    let parrameters = groupFormInputs(formData)['parameter[]'];
+                    let values = groupFormInputs(formData)['value[]'];
+                    let numvalues = groupFormInputs(formData)['numvalue[]'];
+                    console.log('values',values)
+                    values = values.filter(function (val) {
+                        return (val != null && val != "");
+                    });
+                    numvalues = numvalues.filter(function (val) {
+                        return (val != null && val != "");
+                    });
+                    let objArray = {};
+                    let j = 0;
+                    let valArray = [];
+                    for (let i = 0; i < values.length; i++) {
+                        if (values[i] != 'DIV') {
+                            let obj = {};
+                            obj[values[i]] = numvalues[i];
+                            valArray.push(obj);
+                        }
+                        else {
+                            var parra = parrameters[j];
+                            parra = parra.split(" ").join("");
+                            objArray[parra] = valArray;
+                            valArray = [];
+                            j++;
+                        }
+                    }
+                    let keys = Object.keys(objArray);
+                    let combinationArray  = {};
+                    for (var i = 0; i < keys.length; i++) {
+                        let name = keys[i];
+                        let values = objArray[name];
+                        if (name != null && name != "") {
+                            combinationArray[name] = values;
+                            console.log(values);
+                        }
+
+                    }
+         
+                    $.ajax({
+                        type: 'POST',
+                        url: "{{ getURL('get.control.add.template') }}",
+                        data: {temps:JSON.stringify(combinationArray)},
+                        success: function (results) {
+                            window.location.reload();
+                        },
+                        complete: function (dat) {
+                        }
+                    });
+                });
+            })
+        </script>
+
+
+    {% endblock %}

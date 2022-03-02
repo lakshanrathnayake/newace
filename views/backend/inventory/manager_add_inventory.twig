@@ -1,0 +1,359 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+
+
+    <div>
+        <form id="main_form" method="post" name="data" action="{{ getURL('post.inventory.post') }}">
+
+            <div>
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Add Transfer</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                        class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                     {% if transferInfo %}
+                      <div class="box-body">
+                       <input  id="transfer" name="transfer"   value="transfer" hidden>
+                        <input id="transferId" name="transferId" value="{{ results[0].transferId }}" hidden>
+                                 
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Invoice Number</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="grnNo" name="grnNo" class="form-control" readonly value="{{grnNo}}">
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Transfer Type</label>
+                                <div class="col-sm-9" id="transfer">
+                                    <select class="form-control" id="typeId" name="typeId" >
+                                            <option value="2">Store Transfer</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Source</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="source" name="source" >
+                                            <option  value="{{ transferInfo.destination_id }}">{{ transferInfo.destination_name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-6" id="dest">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Destination</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="destination" name="destination" >
+                                            <option value="{{ transferInfo.source_id }}">{{ transferInfo.source_name }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6" id="dest">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Invoice Number Old</label>
+                                <div class="col-sm-9">
+                           
+                                    <input type="text" id="invoiceNumber" name="invoiceNumber" list=""
+                                           class="form-control" autocomplete="off" disabled  value ={{grnNoOld}}>
+                                    <datalist class="form-control" id="suggestion1" style="display: none">
+
+                                    </datalist>
+                              
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    
+                    
+                    {% else %}
+                     <div class="box-body">
+
+
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for="inputEmail3" class="col-sm-3 control-label">NO</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="grnNo" name="grnNo" class="form-control" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Transfer Type</label>
+                                <div class="col-sm-9" id="transfer">
+
+
+                                    <select class="form-control" id="typeId" name="typeId">#}
+                                        <option value="5" selected disabled>Select Type</option>
+                                        {% for transferType in transferTypes %}
+                                            <option value="{{ transferType.id }}">{{ transferType.name }}</option>
+                                        {% endfor %}
+                                    </select>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group col-sm-6">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Source</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="source" name="source" disabled>
+                                        {% for branch in branches %}
+                                            <option  value="{{ branch.id }}" {% if branch.id == user.branchId %} selected {% endif %}>{{ branch.branchName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-6" id="dest">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Destination</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="destination" name="destination" disabled>
+                                        <option></option>
+                                        {% for branch in branches %}
+                                            <option value="{{ branch.id }}">{{ branch.branchName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="form-group col-sm-6" id="sup">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Supplier</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="supplierId" name="supplierId" disabled>
+                                        <option></option>
+                                        {% for supplier in suppliers %}
+                                            <option value="{{ supplier.id }}">{{ supplier.supplierName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-sm-6" id="inv">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Invoice Number</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="invoiceNumber" name="invoiceNumber" list=""
+                                           class="form-control" autocomplete="off" disabled>
+                                    <datalist class="form-control" id="suggestion1" style="display: none">
+
+                                    </datalist>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    {% endif %}
+                   
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Product Info</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
+                <div class="box-body">
+                    <div class="box-body" style="padding: 0;">
+
+
+                        <div class="row">
+                            <div class="form-group col-sm-3" style="margin: 0">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Search</label>
+                                <div class="col-sm-9">
+                                    <input type="text" id="barcode" name="barcode" list="suggestion1"
+                                           class="form-control" autocomplete="off" placeholder="Search..">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-3" style="margin: 0">
+                                <div class="row">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Barcode</label>
+                                    <div class="col-sm-9">
+                                        <input id="barcode1" class="form-control" placeholder="Barcode" readonly>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px">
+                                    <label for="inputEmail3" class="col-sm-3 control-label">Product Name</label>
+                                    <div class="col-sm-9">
+                                        <input id="productName1" style="font-size:12px" class="form-control"
+                                               placeholder="Product Name" readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-2" style="margin: 0">
+                                <label for="inputEmail3" class="col-sm-3 control-label">QIH</label>
+                                <div class="col-sm-9">
+                                    <input type="number" id="qih" class="form-control" placeholder="QIH" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-2" style="margin: 0">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Unit Price</label>
+                                <div class="col-sm-9">
+                                    <input type="number" id="unitPrice" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-2" style="margin: 0">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Qty</label>
+                                <div class="col-sm-9">
+                                    <input type="number" class="form-control" id="qty">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div style="height: 10px">
+
+                        </div>
+
+
+                        <div class="form-group col-sm-11">
+
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <button type="button" id="add" name="add" class="btn btn-info pull-right"
+                                    style=" margin-right: 0px;" disabled>Add
+                            </button>
+                        </div>
+
+                        <div style="height: 40px"></div>
+
+
+                        <table id="table" name="table" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th style="display:none;">Product ID</th>
+                                <th>Barcode</th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Unit Price</th>
+                                <th>Line Total</th>
+                                <th>Action</th>
+
+                            </tr>
+                            </thead>
+                            <tbody name="body">
+
+                             {% for result in results %}
+                                <tr id="">
+                                    <td style="display:none;">{{ result.product.id }}</td>
+                                    <td>{{ result.product.barcode }}</td>
+                                    <td>{{ result.product.productName }}</td>
+                                    <td>{{ result.qty }}</td>
+                                    <td>{{ result.cost/result.qty }}</td>
+                                    <td>{{ result.cost }}</td>
+                                    <td><button type="button" class="btn btn-danger btn-sm rowDeleteButton" value="new button"><i class="fa fa-trash"></i></button></td>
+
+                                </tr>
+                            {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+
+                        {#<button class="btn btn-danger editbtn" id="rowDeleteButton" >
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>#}
+
+                        <label for="inputEmail3" id="dd" class="control-label col-sm-12">Estimated Total
+                            Price(LKR)</label>
+                        <label for="inputEmail3" id="total" class="control-label col-sm-12"></label>
+
+                        <label for="inputEmail3" id="dd" class="control-label col-sm-12">Total Units</label>
+                        <label for="inputEmail3" id="total_units" class="control-label col-sm-12"></label>
+                        <div style="height: 20px"></div>
+                        <div class="form-group col-sm-11">
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <button type="submit" id="confirm" class="btn btn-info pull-right"
+                                    style=" margin-right: 0px;" disabled>Confirm
+                            </button>
+                        </div>
+                        <!-- end table   -->
+                        <!-- /.box-body -->
+
+                        <!-- /.box -->
+                    </div>
+
+                </div>
+                {#</form>#}
+
+            </div>
+
+        </form>
+    </div>
+
+
+{% endblock %}
+    {% block onloadJS %}
+        {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
+        {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+        <script>
+            var url3 = '{{ getURL('get.store.search_by_barcode_product_name_one') }}';
+            var url2 = '{{ getURL('get.store.combo_update') }}';
+            var url1 = '{{ getURL('get.common.row') }}';
+            var url = '{{ getURL('post.inventory.post') }}';
+        </script>
+
+
+
+        <script>
+            $(document).ready(function () {
+                var user = {{ user|json_encode }};
+                if (user.role != 'ADMIN' && user.role != 'SUPER_ADMIN') {
+                    $('#typeId option:contains(Store In)').remove();
+                }
+
+
+                $("#barcode").prop('disabled', true);
+                $('#transfer').on('change', function () {
+
+
+                    $("input").prop('disabled', false);
+
+                });
+
+
+
+            });
+        </script>
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+        <script type="text/javascript" src="../controller/backend/inventory/add_inventory_controller.js"></script>
+
+    {% endblock %}

@@ -1,0 +1,456 @@
+{% extends 'super_admin.twig' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link href="/select2/dist/css/select2.min.css" rel="stylesheet"/>
+    <style>
+        .content-wrapper {
+            background: white;
+        }
+
+        .vertical-center {
+            min-height: auto;
+            min-height: auto;
+
+            display: flex;
+            align-items: center;
+        }
+
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .select2-selection__choice {
+            color: black !important;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: auto auto auto;
+            background-color: #2196F3;
+            padding: 10px;
+        }
+
+        .grid-item {
+            background-color: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            font-size: 30px;
+            text-align: center;
+        }
+
+        th {
+            text-align: center;
+        }
+
+        td {
+            font-size: 12px;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        table.custom_table tr td {
+            padding: 0;
+            border: 0;
+        }
+
+        .table.custom_table {
+            background-color: rgba(0, 0, 0, 0) !important;
+        }
+
+
+    </style>
+
+{% endblock %}
+{% block content %}
+
+    <div id="billModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog"
+         aria-labelledby="myLargeModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="bill-id">Bill Id</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="well" style="margin-bottom: 0px">
+                        <div class="row payment_html" style="border-bottom: double;margin-bottom: 15px;">
+                            <div class="form-group col-sm-12">
+                                <label for="inputPassword3" class="col-sm-2 control-label">Bill Total</label>
+                                <div class="col-sm-4">
+                                    <input readonly type="text" class="form-control" id="bill_no">
+                                </div>
+                                <label for="inputPassword3" class="col-sm-2 control-label">Discount</label>
+                                <div class="col-sm-4">
+                                    <input readonly type="text" class="form-control" id="discount">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="well"
+                             style="margin-bottom: 0px;background: white;height: 300px;overflow-y: scroll;">
+                            <table id="item_table" class="table table-bordered table-striped display">
+                                <thead>
+                                <tr>
+                                    <th>Product Name</th>
+                                    <th>Qty</th>
+                                    <th>Unit Price (Rs)</th>
+                                    <th>Discount (%)</th>
+                                    <th>Tax (%)</th>
+                                    <th>Total (Rs)</th>
+                                </tr>
+                                </thead>
+                                <tbody id="item_table_tbody">
+                                </tbody>
+                            </table>
+                            <div class="ret_dis" style="display: none">
+                                <br/>
+                                <h3>Return Bill Information</h3>
+                                <table id="return_table" class="table table-bordered table-striped display">
+                                    <thead>
+                                    <tr>
+                                        <th>Product Name</th>
+                                        <th>Qty</th>
+                                        <th>Unit Price (Rs)</th>
+                                        <th>Discount (%)</th>
+                                        <th>Tax (%)</th>
+                                        <th>Total (Rs)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="item_table_tbody">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr>
+                            <div>
+
+                                {#----new---#}
+                                <div class="row">
+                                    <div class="col-md-12 col-sm-12 col-xs-12">
+                                        <h4>Assign Customer</h4>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-xs-5">
+                                        <label for="search_customer" class="col-sm-9 control-label">Search</label>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7 col-xs-7">
+                                        <input type="text" class="form-control" id="search_customer">
+                                    </div>
+
+                                </div>
+                                <br/>
+
+
+                                <input type="hidden" class="form-control" id="customer_id" readonly>
+
+
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-xs-5">
+                                        <label for="customer_name" class="col-sm-9 control-label"
+                                               style="font-weight: 400;">Name</label>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7 col-xs-7">
+                                        <input type="text" class="form-control" id="customer_name" readonly>
+                                    </div>
+
+                                </div>
+
+                                <br/>
+
+
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-xs-5">
+                                        <label for="customer_mobile" class="col-sm-9 control-label"
+                                               style="font-weight: 400;">Mobile No.</label>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7 col-xs-7">
+                                        <input type="text" class="form-control" id="customer_mobile" readonly>
+                                    </div>
+                                </div>
+
+                                <br/>
+
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-xs-5">
+                                        <label for="customer_address" class="col-sm-9 control-label"
+                                               style="font-weight: 400;">Address</label>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7 col-xs-7">
+                                        <input type="text" class="form-control" id="customer_address" readonly>
+                                    </div>
+                                    <br/>
+                                </div>
+                                <br/>
+
+                                <div class="row">
+                                    <div class="col-md-5 col-sm-5 col-xs-5">
+                                        <label for="customer_loyalty_reference" class="col-sm-9 control-label"
+                                               style="font-weight: 400;">Loyalty Reference</label>
+                                    </div>
+                                    <div class="col-md-7 col-sm-7 col-xs-7">
+                                        <input type="text" class="form-control" id="customer_loyalty_reference"
+                                               readonly>
+                                    </div>
+                                    <br/>
+                                </div>
+
+                                <br/>
+
+
+                                <button type="button" class="btn btn-default assign_customer"
+                                        style="background-color:#65cbbe; border-radius: 5px;">Assign
+                                </button>
+
+                            </div>
+
+                            <br/>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="bo">
+        <!--BILL Modal -->
+
+        <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#bill_summary" data-toggle="tab">POS Bill Controller</a></li>
+                <li class=""><a href="#session_restart" data-toggle="tab">Session Restart</a></li>
+            </ul>
+        </div>
+
+        <div class="tab-content padding">
+            <div class="tab-pane in active" id="bill_summary">
+                <div class="box-body vertical-center">
+                    <div class="form-group col-sm-5">
+                        <label class="col-sm-3 control-label">Branch</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="branch" name="branch" required>
+                                {% if user.role == 'SUPER_ADMIN' %}
+                                    {% for branch in branches %}
+                                        <option value="{{ branch.id }}">{{ branch.branchName }}</option>
+                                    {% endfor %}
+                                {% else %}
+                                    <option value="{{ user.branchId }}">{{ user.branch }}</option>
+                                {% endif %}
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <div class="col-md-6">
+                            <div class="input-group" style="text-align: center">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input id="from" name="from" type="text"
+                                       value="{{ "now"|date("m/d/Y") }}"
+                                       class="form-control date"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-primary view_transactions" style="text-align: left;">
+                                <span class="fa fa-gears"></span> View Transactions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="height: 3px;margin: 0%">
+
+
+                <div class="well bill_table" style="margin-top: 1%;background: white;margin-bottom: 0px;padding: 5px;">
+                    <div>
+                        <table id="bill_table" class="table table-bordered table-striped display">
+                            <thead>
+                            <tr>
+                                <th>Session Id</th>
+                                <th>Bill No</th>
+                                <th>Time</th>
+                                <th>Cashier</th>
+                                <th>Bill Status</th>
+                                <th>Total</th>
+                                <th>Payments</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="bill_table_tbody">
+                            {% for bill in bills %}
+                                <tr>
+                                    <td>{{ bill.sessionId }}</td>
+                                    <td>{{ bill.billNo }}</td>
+                                    <td>{{ bill.date|date("h:m:s") }}</td>
+                                    <td>{{ bill.user.username }}</td>
+                                    <td>{{ bill.bill_status.code }}</td>
+                                    <td>
+                                        {% set total_amount = 0 %}
+                                        {% for bill_payment_info in bill_payment_infos %}
+                                            {% set total_amount = total_amount + bill_payment_info.amount %}
+                                        {% endfor %}
+                                        {{ total_amount|round}}
+                                    </td>
+                                    <td>
+                                        <table class="table custom_table">
+                                            {% for payment_info in bill_payment_infos %}
+                                                <tr>
+                                                    <td>{{ payment_info.bill_payment_method.name }}</td>
+                                                    <td>:</td>
+                                                    <td>{{ payment_info.amount }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </td>
+                                    <td style="text-align: center">
+                                        <div class="btn-group btn-group-sm" role="group" aria-label="">
+                                            <button type="button"
+                                                    class="view_bill   btn btn-default glyphicon glyphicon-list-alt"></button>
+                                            <button type="button"
+                                                    class="remove_bill btn btn-danger glyphicon glyphicon-trash"></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="tab-pane" id="session_restart">
+                <div class="box-body vertical-center">
+                    <div class="form-group col-sm-6">
+                        <div class="col-md-6">
+                            <div class="input-group" style="text-align: center">
+                                <div class="input-group-addon">
+                                    Session Id
+                                </div>
+                                <input id="sess_id" name="from" type="text"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <button type="button" class="btn btn-primary session_view" style="text-align: left;">
+                                <span class="fa fa-gears"></span> View Session
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <hr style="height: 3px;margin: 0%">
+
+
+                <div class="well ses_table"
+                     style="display: none;height: 450px;overflow-x: scroll;margin-top: 1%;background: white;margin-bottom: 0px;padding: 5px;">
+                    <div>
+                        <table id="session_table" class="table table-bordered table-striped display">
+                            <thead>
+                            <tr>
+                                <th>Session Id</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Start Balance</th>
+                                <th>End Balance</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="bill_table_tbody">
+                            <tr>
+                                <td id="se_id"></td>
+                                <td id="se_st"></td>
+                                <td id="se_en"></td>
+                                <td id="se_sb"></td>
+                                <td id="se_eb"></td>
+                                <td id="se_sta"></td>
+                                <td>
+                                    <button value="1" class="btn btn-xs btn-success status restart">restart</button>
+                                    <button value="2" class="btn btn-xs btn-danger status finish">finish</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+    {% block onloadJS %}
+        <script src="/select2/dist/js/select2.min.js"></script>
+        <script type="text/javascript" src="/js/bootbox.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+        <script type="text/javascript">
+            var sessionUrl = '{{ getURL('get.pos.bill_controller') }}';
+            var customerSearchUrl = '{{ getURL('get.pos.search_customer') }}';
+            var customerBillAddUrl = '{{ getURL('post.pos.add_customer_to_bill') }}';
+        </script>
+
+        <script>
+            $(function () {
+                $('.date').datepicker({
+                    daysOfWeekHighlighted: "0,6",
+                    autoclose: true,
+                    todayHighlight: true,
+                    endDate: '+1d' //Disable future dates
+                });
+            });
+
+            $('#bill_table').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                "order": [[1, "desc"]],
+                'autoWidth': false
+            });
+            $('#item_table').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                "order": [[0, "desc"]],
+                'autoWidth': false
+            });
+
+            $('#return_table').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': false,
+                'ordering': true,
+                'info': true,
+                "order": [[0, "desc"]],
+                'autoWidth': false
+            });
+
+            $('#session_table').DataTable({
+                'paging': true,
+                'lengthChange': true,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                "order": [[0, "desc"]],
+                'autoWidth': false
+            });
+        </script>
+        <script src="/controller/backend/order_analysis/bill_controller.js"></script>
+        <script>
+            $(function () {
+                $('.view_transactions').click();
+            })
+        </script>
+    {% endblock %}

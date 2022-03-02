@@ -1,0 +1,131 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+{% endblock %}
+{% block content %}
+    <div style="height:10px; "></div>
+    <div class="bo">
+        <div class="box-header with-border">
+            <h3 class="box-title">List of Order Requests</h3>
+        </div>
+        <div style="height:20px;"></div>
+        <form class="form-horizontal" id="data" method="get" name="data" >
+            <!-- search details -->
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+            </div>
+        </form>
+
+
+        <!-- search details -->
+
+
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="display:none;">Transfer ID</th>
+                    <th>Transfer Reference</th>
+                    <th>Source Branch</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+
+                {% for result in results %}
+                    <tr id="">
+                        <td style="display:none;">{{ result.id }}</td>
+                        <td>{{ result.grn_no }}</td>
+                        <td>{{ result.source_name }}</td>
+                        <td>{{ result.date_formatted|date('Y-m-d H:i:s') }}</td>
+                        <div>
+                            <td style="text-align:left">
+                                <a class="editButton btn btn-success fa fa-eye"  data-id='{{ result.id}}'>  </a>
+                                <a class="btn btn-danger fa fa-trash" onclick="deleteOrder({{ result.id }})"> </a>
+                                  <a class="editButton btn btn-success fa fa-edit"  href="{{ getURL('get.store.order_request_list')~'?id='~result.id~'&source_id='~result.source_id~'&destination_id='~result.destination_id~'&source_name='~result.source_name~'&destination_name='~result.destination_name~'&grnNo='~result.grn_no }}"> </a>
+                             
+                                
+
+                            </td>
+                        </div>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+                {{ app.request.uri }}
+            </table>
+
+
+
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endblock %}
+    {% block onloadJS %}
+     <script type="text/javascript" src="../js/bootbox.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+         <script type="text/javascript">
+            var url2 = '{{ getURL('post.store.order_request_list_delete') }}';
+        </script>
+
+        <script>
+            function deleteOrder(id) {
+                bootbox.confirm("Are you sure that you want to delete this ?", function(confirm) {
+                    if(confirm) {
+                        var data = {
+                            id: id
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: url2,
+                            data: data,
+                            success: function (result) {
+                                bootbox.alert(" deleted!", function () {
+                                    window.location.reload();
+                                });
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                bootbox.alert(" deletion failed!", function () {
+                                    location.reload();
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        </script>
+         <script>
+            $(document).on('click', '.editButton', function(){
+                var transferId  = ($(this).data("id"));
+                var urlTemp ='{{ getURL('get.inventory.info')  }}'+'?id='+transferId+'';
+                window.location.href=urlTemp
+            });
+
+        </script> 
+        <script>
+            $(function () {
+                $('#table').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    "order":[[2,"desc"]],
+                    'autoWidth': false
+                });
+            })
+        </script>
+
+    {% endblock %}

@@ -1,0 +1,195 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
+    <style>
+        .content-wrapper {
+            background: white;
+        }
+    </style>
+
+{% endblock %}
+{% block content %}
+    <div style="height:10px; "></div>
+    <div class="bo">
+        <div class="box-header with-border">
+            <h3 class="box-title">List of Branches</h3>
+        </div>
+        <div style="height:20px;"></div>
+
+        {# <form class="form-horizontal" id="data" method="get" name="data" action="{{ getURL('get.branch.list') }}">
+             <!-- search details -->
+             <div class="row">
+                 <div class="col-sm-4">
+                     <div class="form-group">
+                         <label for="branchName" class="col-sm-3 control-label">Name</label>
+
+                         <div class="col-sm-9">
+                             <input type="text" id="branchName" name="branchName" list="suggestion" class="form-control"
+                                    autocomplete="off">
+                             <datalist class="form-control" id="suggestion" style="display: none">
+                                 {{ formOptionBoxSearch('branch','branchName','','branchName') }}
+                             </datalist>
+                         </div>
+                     </div>
+
+                 </div>
+                 <div class="col-sm-4">
+                     <div class="form-group">
+                         <label for="branch" class="col-sm-4 control-label">Branch Type</label>
+
+                         <div class="col-sm-8">
+                             <input type="text" id="branch" name="branch" list="suggestion1" class="form-control"
+                                    autocomplete="off">
+                             <datalist class="form-control" id="suggestion1" style="display: none">
+                                 {{ formOptionBoxSearch('branch_type','name','','id') }}
+                             </datalist>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="col-sm-1">
+                     <button type="submit" id="add" class="btn btn-info pull-right">
+                         <span class="glyphicon glyphicon-search"></span>
+                     </button>
+                 </div>
+
+             </div>
+
+
+         </form>#}
+
+        <!-- search details -->
+
+
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="display:none;">ID</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Telephone</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    {% if user.role == 'SUPER_ADMIN' %}
+                        <th style="text-align: center">Action</th> {% endif %}
+
+                </tr>
+                </thead>
+                <tbody id="tbody">
+
+                {% for result in results %}
+                    <tr id="">
+                        <td style="display:none;">{{ result.id }}</td>
+                        <td>{{ result.branchName }}</td>
+                        <td>{{ result.address }}</td>
+                        <td>{{ result.telephone }}</td>
+                        <td>{{ result.branch_type.name }}</td>
+                        <td>{{ result.branch_status.name }}</td>
+                        {% if user.role == 'SUPER_ADMIN' %}
+                            <div>
+                                <td style="text-align: center">
+
+                                    <a class="btn btn-success editbtn fa fa-edit"
+                                       href="{{ getURL('get.branch.edit')~'?id='~result.id }}">
+                                        {#<button class="editbtn">Edit</button>#}
+                                    </a>
+                                    <a class="btn btn-danger editbtn fa fa-trash"
+                                       onclick="deleteFunction({{ result.id }})"></a>
+
+                                </td>
+                            </div>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+                {{ app.request.uri }}
+            </table>
+
+            {#<div class="box-footer">
+                <a href="{{ getURL('get.branch.list')~'?page='~results.pageNext[0] }}">
+                    <button type="submit" class="btn btn-info pull-right">Next</button>
+                </a>
+
+                <a href="{{ getURL('get.branch.list')~'?page='~results.pagePrev[0] }}">
+                    <button style="margin-right: 1%" type="submit" class="btn btn-info pull-right">Previous</button>
+                </a>
+            </div>#}
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endblock %}
+    {% block onloadJS %}
+
+        <script type="text/javascript">
+
+            var url = '{{ getURL('post.branch.delete') }}';
+
+        </script>
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+
+        <script>
+            function deleteFunction(id) {
+                bootbox.confirm("Are you sure that you want to delete this branch? This may delete all the users associated with the branch too.", function (confirm) {
+                    if (confirm) {
+                        var data = {
+                            id: id
+                        }
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            data: data,
+                            success: function (result) {
+                                bootbox.alert("Branch deleted!", function () {
+                                    location.reload();
+                                });
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                bootbox.alert("Branch deletion failed!", function () {
+                                    location.reload();
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        </script>
+
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            let theadCount = $('table').find('th').length;
+            let removeOrderOn = theadCount - 1;
+            let orderable = true;
+            if (removeOrderOn > 5) {
+                orderable = false
+            }
+            $(function () {
+                $('#table').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    "order": [[1, "desc"]],
+                    'autoWidth': false,
+                    "columnDefs": [
+                        {
+                            "targets": [removeOrderOn], //first column / numbering column
+                            "orderable": orderable, //set not orderable
+                        },
+                    ],
+                });
+            })
+        </script>
+
+
+    {% endblock %}

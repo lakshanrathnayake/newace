@@ -1,0 +1,102 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <!-- Content Header (Page header) -->
+ 
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <h3 class="box-title">Edit Supplier</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <div class="row">
+                <div class="col-sm-8">
+                    <form class="form-horizontal" id="data" name="data" onsubmit="return false">
+                        {% for result in results %}
+                            <div class="box-body col-sm-12">
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label" hidden>ID</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="hidden"  name="id" value={{ result.id }} />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Full Name</label>
+
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="supplierName" name="supplierName" placeholder="Name" value="{{ result.supplierName }}"  required>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputEmail3" class="col-sm-4 control-label">Address</label>
+
+
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="{{ result.address }}" required>
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-4 control-label">Telephone</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="telephone" name="telephone" placeholder="Telephone" value={{ result.telephone }} required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-4 control-label">Telephone</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="email" name="email" placeholder="Email" value={{ result.email }} required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputPassword3" class="col-sm-4 control-label">State</label>
+                                    <div class="col-sm-8">
+                                        <select class="form-control" id="state" name="state" required>
+                                            <option value="0" {% if not result.state %} selected {% endif %}>Inactive</option>
+                                            <option value="1" {% if result.state %} selected {% endif %}>Active</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-offset-10 col-sm-2">
+                                        <button style="width: 100%" type="submit" id="update" class="btn btn-info pull-right">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                      
+                        {% endfor %}
+                    </form>
+                </div>
+                <div class="col-sm-4">
+                    <img src={{ images.suplier }} class="img img-responsive" style="opacity: 0.6"/>
+                </div>
+            </div>
+
+        </div>
+ 
+
+{% endblock %}
+    {% block onloadJS %}
+        <script>
+            var url = " {{  getURL('post.supplier.update')  }} "
+        </script>
+
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+        <script type="text/javascript" src="../controller/backend/supplier/edit_supplier_controller.js"></script>
+
+    {% endblock %}

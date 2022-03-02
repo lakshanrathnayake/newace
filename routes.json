@@ -1,0 +1,791 @@
+{
+  "get.user.add": {
+    "prefix": "test",
+    "controller": "User",
+    "pattern": "add",
+    "route": "get.user.add",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.login.log": {
+    "prefix": "",
+    "controller": "index",
+    "pattern": "log",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": "INIT"
+  },
+  "get.logout.log": {
+    "prefix": "",
+    "controller": "index",
+    "pattern": "logout",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": "INIT"
+  },
+  "get.user.list": {
+    "prefix": "",
+    "controller": "user",
+    "pattern": "list",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.branch.add": {
+    "prefix": "",
+    "controller": "branch",
+    "pattern": "add",
+    "auth": "SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.branch.list": {
+    "prefix": "",
+    "controller": "branch",
+    "pattern": "list",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.product.add": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.image.upload": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.product.add": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.product.edit": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "edit",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.product.delete": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "delete",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.product.activate": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "activate",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.product.update": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "update",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.product.list": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "list",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.product.inactive_list": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "inactive_list",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.product.list.barcode": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "barcode",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": "INIT"
+  },
+  "get.supplier.add": {
+    "prefix": "",
+    "controller": "supplier",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.supplier.list": {
+    "prefix": "",
+    "controller": "supplier",
+    "pattern": "list",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.customer.add": {
+    "prefix": "",
+    "controller": "customer",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.customer.list": {
+    "prefix": "",
+    "controller": "customer",
+    "pattern": "list",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER"
+  },
+  "get.customer.edit": {
+    "prefix": "",
+    "controller": "customer",
+    "pattern": "edit",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER"
+  },
+  "post.customer.update": {
+    "prefix": "",
+    "controller": "customer",
+    "pattern": "update",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER"
+  },
+  "get.home.admin": {
+    "prefix": "",
+    "controller": "home",
+    "pattern": "admin",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.home.super_admin": {
+    "prefix": "",
+    "controller": "home",
+    "pattern": "super_admin",
+    "auth": "SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.home.manager": {
+    "prefix": "",
+    "controller": "home",
+    "pattern": "manager",
+    "auth": "MANAGER",
+    "tag": ""
+  },
+  "get.category.add": {
+    "prefix": "",
+    "controller": "category",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.inventory.add": {
+    "prefix": "",
+    "controller": "inventory",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.inventory.list": {
+    "prefix": "",
+    "controller": "inventory",
+    "pattern": "list",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+
+  "get.inventory.filter": {
+    "prefix": "",
+    "controller": "inventory",
+    "pattern": "filter",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+
+  "get.inventory.table": {
+    "prefix": "",
+    "controller": "inventory",
+    "pattern": "table",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.inventory.id": {
+    "prefix": "",
+    "controller": "inventory",
+    "pattern": "id",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.common.row": {
+    "prefix": "",
+    "controller": "common",
+    "pattern": "row",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": ""
+  },
+  "get.store.add": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.list": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "list",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.user.post": {
+    "prefix": "",
+    "controller": "user",
+    "pattern": "post",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.branch.post": {
+    "prefix": "",
+    "controller": "branch",
+    "pattern": "post",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.category.update": {
+    "prefix": "",
+    "controller": "category",
+    "pattern": "update",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.category.state-update": {
+    "prefix": "",
+    "controller": "category",
+    "pattern": "state-update",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.supplier.post": {
+    "prefix": "",
+    "controller": "supplier",
+    "pattern": "post",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.inventory.post": {
+    "prefix": "",
+    "controller": "inventory",
+    "pattern": "post",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.user.list": {
+    "prefix": "",
+    "controller": "user",
+    "pattern": "list",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.user.edit": {
+    "prefix": "",
+    "controller": "user",
+    "pattern": "edit",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.user.update": {
+    "prefix": "",
+    "controller": "user",
+    "pattern": "update",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.user.delete": {
+    "prefix": "",
+    "controller": "user",
+    "pattern": "delete",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.store.branchbulkdelete":{
+    "prefix": "",
+    "controller": "store",
+    "pattern": "branchbulkdelete",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.bulkdelete":{
+    "prefix": "",
+    "controller": "store",
+    "pattern": "bulkdelete",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.activate":{
+    "prefix": "",
+    "controller": "store",
+    "pattern": "activate",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.zero_quantity_delete":{
+    "prefix": "",
+    "controller": "store",
+    "pattern": "zero_quantity_delete",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.branchactivate":{
+    "prefix": "",
+    "controller": "store",
+    "pattern": "branchactivate",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.inactive_list":{
+    "prefix": "",
+    "controller": "store",
+    "pattern": "inactive_list",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+
+  },
+  "post.store.active":{
+    "prefix": "",
+    "controller": "store",
+    "pattern": "active",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+
+  },
+  "post.product.bulkdelete":{
+    "prefix": "",
+    "controller": "product",
+    "pattern": "bulkdelete",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.product.inactivate":{
+    "prefix": "",
+    "controller": "product",
+    "pattern": "inactivate",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.branch.edit": {
+    "prefix": "",
+    "controller": "branch",
+    "pattern": "edit",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.branch.update": {
+    "prefix": "",
+    "controller": "branch",
+    "pattern": "update",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.branch.delete": {
+    "prefix": "",
+    "controller": "branch",
+    "pattern": "delete",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.category.add": {
+    "prefix": "",
+    "controller": "category",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.supplier.edit": {
+    "prefix": "",
+    "controller": "supplier",
+    "pattern": "edit",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.supplier.update": {
+    "prefix": "",
+    "controller": "supplier",
+    "pattern": "update",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.supplier.delete": {
+    "prefix": "",
+    "controller": "supplier",
+    "pattern": "delete",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.store.edit": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "edit",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.update": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "update",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.delete": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "delete",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.order": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "order",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+
+  "post.requestinventory.post":{
+    "prefix": "",
+    "controller": "inventory",
+    "pattern": "add_order_transfer_requests",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.combo_update": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "combo_update",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.order_requests": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "order_requests",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.order_request_list": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "order_request_list",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.order_request_list_delete": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "order_request_list_delelte",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.order_accept": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "order_accept",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.order_reject": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "order_reject",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.inventory.id_by_branch_type": {
+    "prefix": "",
+    "controller": "inventory",
+    "pattern": "id_by_branch_type",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.inventory.info_by_id": {
+    "prefix": "",
+    "controller": "inventory",
+    "pattern": "info_by_id",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.category.list": {
+    "prefix": "",
+    "controller": "category",
+    "pattern": "list",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.store_in": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "store_in",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.store_in_list": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "store_in_list",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.store_in_accept": {
+    "prefix": "",
+    "controller": "store",
+    "pattern": "store_in_accept",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.product.download.barcode": {
+    "prefix": "",
+    "controller": "product",
+    "pattern": "barcode/download",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.store_in_reject": {
+    "controller": "store",
+    "pattern": "store_in_reject",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.inventory.id_by_branch_type_date": {
+    "controller": "inventory",
+    "pattern": "id_by_branch_type_date",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.inventory.id_by_product_name_barcode": {
+    "controller": "inventory",
+    "pattern": "id_by_product_name_barcode",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.search_by_barcode_product_name":{
+    "controller": "store",
+    "pattern": "search_by_barcode",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.category.edit":{
+    "controller": "category",
+    "pattern": "edit",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.pos.session":{
+    "controller": "pos",
+    "pattern": "session",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": "API_AUTH"
+  },
+  "get.pos.cashBox":{
+    "controller": "pos",
+    "pattern": "cashbox",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": "API_AUTH"
+  },
+  "get.pos.pos":{
+    "controller": "pos",
+    "pattern": "pos",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": "API_AUTH"
+  },
+  "get.pos.bill":{
+    "controller": "pos",
+    "pattern": "bill",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": "API_AUTH"
+  },
+
+  "post.pos.add_customer_to_bill":{
+    "controller": "pos",
+    "pattern": "add_customer_to_bill",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": "API_AUTH"
+  },
+  "get.store.search_by_barcode_inactive_product_name":{
+    "controller": "store",
+    "pattern": "search_by_barcode_inactive_product_name",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.store_transfer_reject":{
+    "controller": "store",
+    "pattern": "store_transfer_reject",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.store_transfer_reject_list":{
+    "controller": "store",
+    "pattern": "store_transfer_reject_list",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.search_by_barcode_product_name_one":{
+    "controller": "store",
+    "pattern": "search_by_barcode_product_name_one",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.search_in_all_branches":{
+    "controller": "store",
+    "pattern": "search_in_all_branches",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.product.search_by_barcode_product_name":{
+    "controller": "product",
+    "pattern": "search_by_barcode_product_name",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.product.search_by_barcode_inactive_product_name":{
+    "controller": "product",
+    "pattern": "search_by_barcode_inactive_product_name",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.tax.add":{
+    "controller": "tax",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.tax.add":{
+    "controller": "tax",
+    "pattern": "add",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.tax.list":{
+    "controller": "tax",
+    "pattern": "list",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.tax.edit":{
+    "controller": "tax",
+    "pattern": "edit",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.tax.update":{
+    "controller": "tax",
+    "pattern": "update",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.control.add.template":{
+    "controller": "control",
+    "pattern": "addTemplate",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.control.list.template":{
+    "controller": "control",
+    "pattern": "listTemplate",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.pos.auth":{
+    "controller": "API/authentication",
+    "pattern": "auth",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": "API"
+  },
+  "test":{
+    "controller": "pos",
+    "pattern": "test",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": "API"
+  },
+  "get.inventory.info":{
+    "controller": "inventory",
+    "pattern": "info",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.pos.summary":{
+    "controller": "pos",
+    "pattern": "summary",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.sales_analysis.home":{
+    "controller": "sales_analysis",
+    "pattern": "home",
+    "auth": "SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.revenue_analysis.revenue":{
+    "controller": "revenue_analysis",
+    "pattern": "revenue",
+    "auth": "SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.sales.reports":{
+    "controller": "pos",
+    "pattern": "reports",
+    "auth": "SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.store.reports":{
+    "controller": "store",
+    "pattern": "reports",
+    "auth": "SUPER_ADMIN",
+    "tag": ""
+  },
+  "get.store.storein_report":{
+    "controller": "store",
+    "pattern": "storein_report",
+    "auth": "SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.store.storein_report_admin":{
+    "controller": "store",
+    "pattern": "storein_report_admin",
+    "auth": "SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "post.store.storein_report":{
+    "controller": "store",
+    "pattern": "storein_report",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER",
+    "tag": ""
+  },
+  "get.pos.bill_controller":{
+    "controller": "bill_controller",
+    "pattern": "transactions",
+    "auth": "SUPER_ADMIN",
+    "tag": ""
+  },
+  "post.pos.newendsession":{
+    "controller": "pos",
+    "pattern": "newendsession",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": ""
+  },
+  "post.pos.end_cash_balance":{
+    "controller": "pos",
+    "patten": "end_cash_balance",
+    "auth": "ADMIN|SUPER_ADMIN|MANAGER|CASHIER",
+    "tag": ""
+
+  },
+  "get.pos.search_customer":{
+    "controller": "pos",
+    "patten": "search_customer",
+    "auth": "ADMIN|SUPER_ADMIN",
+    "tag": ""
+
+  }
+
+}
+
+

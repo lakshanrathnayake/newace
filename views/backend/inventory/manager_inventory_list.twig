@@ -1,0 +1,234 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    {#<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">#}
+    <style>
+        .content-wrapper{
+            background: white;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div style="height:10px; "></div>
+    <div class="bo">
+        <div class="box-header with-border">
+            <h3 class="box-title">List of Transfers</h3>
+        </div>
+        <div style="height:20px;"></div>
+        {#<div class="row">#}
+
+         <form class="form-horizontal" id="data" method="post" name="data">
+            <!-- search details -->
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Branch</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" id="branchId" name="branchId" data-placeholder="Branch">
+                            <option selected readonly value={{ 0 }}>Select Branch</option>
+                            {% for branch in branches %}
+                                <option value="{{ branch.id }}">{{ branch.branchName }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-3">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Type</label>
+                    <div class="col-sm-9" id="transfer">
+                        <select class="form-control" id="typeId" name="typeId">
+                            <option selected readonly value={{ 0 }}>Select Type</option>
+                            {% for type in transfertypes%}
+                                <option value="{{ type.id }}">{{ type.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-3">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" id="date" name="date" class="form-control pull-right">
+                    </div>
+                </div>
+
+                {# <div class="form-group col-sm-3">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Product</label>
+                    <div class="col-sm-9">
+                        <input type="text" id="search_by_name" name="search_by_name" class="form-control pull-right">
+                    </div>
+                </div> #}
+
+                
+                  <div class="form-group col-sm-3">
+                <div class="col-sm-9">
+                    <button type="button" id="report_button" name="report_button" class="btn btn-default"
+                            style="background-color: #00c0ef; color: white; border-radius: 0;">Filter Report
+                    </button>
+                </div>
+            </div>
+
+            </div> 
+
+       </form> 
+      {# <form class="form-horizontal" id="data" method="post" name="data">
+            <!-- search details -->
+            <div class="row">
+                <div class="col-sm-3">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Branch</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" id="branchId" name="branchId" data-placeholder="Branch">
+                           
+                            {% if user.role == 'ADMIN' %}
+                                {{ branch_options }} 
+                            {% else %}
+                                <option selected readonly value="{{ user.branchId }}">{{ user.branch }}</option>
+                            {% endif %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-3">
+                    <label for="inputEmail3" class="col-sm-3 control-label">Date</label>
+                    <div class="col-sm-9">
+                        <input type="date" id="date" name="date" class="form-control pull-right">
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group ">
+                <div class="col-sm-offset-5 col-sm-3 control-label">
+                    <button type="button" id="report_button" name="add_filter_button" class="btn btn-default"
+                            style="background-color: #00c0ef; color: white; border-radius: 0;">Filter Report
+                    </button>
+                </div>
+            </div>
+
+
+        </form> #}
+        {#</div>#}
+        <!-- search details -->
+        {# <h5 style="margin-left: 15px">Page <span id="pageNumber" name="pageNumber"></span></h5> #}
+
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="display:none;">ID</th>
+                    <th>Transfer Reference</th>
+                    <th>Source</th>
+                    <th>Item Count</th>
+                    <th>Date</th>
+                    <th>Transfer Type</th>
+                    <th style="text-align: center">Action</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+
+                {% for result in results %}
+                    <tr id="">
+                        <td style="display:none;">{{ result.id }}</td>
+                        <td>{{ result.grn_no}}</td>
+                        <td>{{ result.source_name }}</td>
+                        {% if result.qty == null %}
+                         <td>{{ 0 }}</td>
+                        {% else %}
+                         <td>{{ result.qty }}</td>
+                        {% endif %}
+                       
+                        <td>{{ result.date}}</td>
+                        <td>{{ result.type_name }}</td> 
+                        <div>
+                             <td style="text-align: center">
+
+                                <a class="editButton btn btn-success fa fa-eye"  data-id='{{ result.id}}'>
+                                </a>
+
+                            </td> 
+                        </div>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table> 
+
+             <div class="box-footer">
+
+                {# <a href="{{ getURL('get.store.list')~'?page='~results.pageNext[0] }}">#}
+                {# <button type="submit" id="nextButton" name="nextButton" class="btn btn-info pull-right">Next</button> #}
+                {#  </a>#}
+
+                {#   <a href="{{ getURL('get.store.list')~'?page='~results.pagePrev[0] }}">#}
+                {# <button style="margin-right: 2px" id="prevButton" name="prevButton" type="submit" class="btn btn-info pull-right" disabled>Previous</button> #}
+                {#   </a>#}
+            {# </div> #} 
+        {# </div> #}
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endblock %}
+    {% block onloadJS %}
+    <script type="text/javascript" src="../js/bootbox.min.js"></script>
+
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+         <script>
+            let theadCount = $('table').find('th').length;
+            let removeOrderOn = theadCount - 1;
+            let orderable = true;
+            if (removeOrderOn > 5) {
+                orderable = false
+            }
+            $(function () {
+                $('#table').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    //"order": [[1, "desc"]],
+                    'autoWidth': false,
+                    "columnDefs": [
+                        {
+                            "targets": [removeOrderOn], //first column / numbering column
+                            "orderable": orderable, //set not orderable
+                        },
+                    ],
+                });
+            })
+             $(document).on('click', '.editButton', function(){
+                var transferId  = ($(this).data("id"));
+                var urlTemp ='{{ getURL('get.inventory.info')  }}'+'?id='+transferId+'';
+                window.location.href=urlTemp
+            });
+
+        </script> 
+
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+       
+
+
+       
+
+
+         {# <script>
+             var url1 = '{{ getURL('get.inventory.id_by_branch_type_date') }}';
+            var url2 = '{{ getURL('get.inventory.id_by_product_name_barcode') }}'; 
+
+    
+
+        </script>  #}
+          <script>    var url3 = "{{ getURL('get.inventory.filter') }}";   </script>
+                       
+         {# <script type="text/javascript" src="../controller/backend/inventory/inventory_list_controller.js"></script>   #}
+        <script type="text/javascript" src="../controller/backend/inventory/inventory_filter_controller.js"></script>
+       
+
+    {% endblock %}

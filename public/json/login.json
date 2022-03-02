@@ -1,0 +1,25 @@
+[{
+    "name": "tharindu",
+    "password":"123456",
+    "branch":"Moratuwa",
+    "privilage":"manager",
+    "status":"good"
+},{
+    "name": "admin",
+    "password":"123",
+    "branch":"Moratuwa",
+    "privilage":"manager",
+    "status":"good"
+},{
+    "name": "manager",
+    "password":"12345",
+    "branch":"Moratuwa",
+    "privilage":"manager",
+    "status":"goodnjkllllk"
+},{
+    "name": "cashier",
+    "password":"aaa",
+    "branch":"Moratuwa",
+    "privilage":"manager",
+    "status":"good"
+}]

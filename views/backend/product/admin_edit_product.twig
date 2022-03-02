@@ -1,0 +1,309 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% else %}
+    {% extends 'admin.twig' %}
+{% endif %}
+{#{% extends '../layout.twig' %}#}
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Edit Product</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form class="form-horizontal" method="post" encType="multipart/form-data"
+              action="{{ getURL('post.product.update') }}">
+            {% for result in results %}
+                <div class="box-body">
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Product ID</label>
+                        <div class="col-sm-9">
+                            <input name="pid" type="text" id="pid" class="form-control" value="{{ result.id }}"
+                                   required  readonly>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Design Number</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="partNumber" id="pnum" class="form-control"
+                                   value="{{ result.partNumber }}" required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="productName" id="name" class="form-control"
+                                   value="{{ result.productName }}" required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="description" class="form-control" id="description"
+                                   value="{{ result.description }}"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6" style="display: none;">
+
+                            <input type="number" name="cost"  id="cost" value="">
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Category</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="category" name="categoryId" required>
+                                <option value="{{ result.category.id }}">{{ result.category.categoryName }}</option>
+                                {% for category in categories %}
+                                    <option value="{{ category.id }}">{{ category.categoryName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {#<label for="inputEmail3" class="col-sm-3 control-label">Category</label>#}
+                        {#<div class="col-sm-9">#}
+                        {#<input type="text" id="category" list="suggestion" value="{{ result.category.name }}"#}
+                        {#class="form-control">#}
+                        {#<datalist class="form-control" id="suggestion" style="display: none">#}
+
+                        {#</datalist>#}
+                        {#</div>#}
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputPassword3" class="col-sm-3 control-label">MF Price</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="mf_price"
+                                   name="manufacturerPrice" value="{{ result.manufacturerPrice }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputPassword3" class="col-sm-3 control-label">MIn Quantity</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="min_quantity"
+                                   name="minOrderQuantity" value="{{ result.minOrderQuantity }}" required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Selling Price</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="selling_price"
+                                   name="sellingPrice" value="{{ result.sellingPrice }}"
+                                   required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Barcode</label>
+                        <div class="col-sm-9">
+                            <input name="barcode" type="text" class="form-control" id="barcode"
+                                   value="{{ result.barcode }}" required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-6" id="tax">
+
+                        <label for="inputEmail3" class="col-sm-3 control-label">Reorder Level</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="reorder_level"
+                                   name="reorderLevel" value="{{ result.reorderLevel }}"
+                                   required>
+                        </div>
+
+                    </div>
+
+                    <input style="display:none;" type="text"  id="rel-tax" name="tax" value="">
+                    <div class="form-group col-sm-6">
+
+                        <label for="inputEmail3" class="col-sm-3 control-label">Taxes</label>
+                        <div class="col-sm-9 repeat-panel">
+                            <div>
+                                {% for key,tax in result.tax %}
+                                    <div class="row" style="margin-bottom: 5px">
+                                        <div class="col-sm-4 tax-edit-{{ key }}" >
+                                            <select class="form-control" name="tax_type[]" required>
+                                                {% for type in taxtypes%}
+                                                    <option value="{{ type.id }}">{{ type.taxName }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <input id="{{ key }}" type="number" class="form-control" name="tax_amount[]"
+                                                   pattern="^[0-9]" min="0" placeholder="amount"
+                                                   value="{{ tax }}">
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <div class="repeat-content">
+                                <div class="row repeat-row">
+                                    <div class="col-sm-4">
+                                        <select class="form-control" name="tax_type[]" required>
+                                            {% for type in taxtypes%}
+                                                <option value="{{ type.id }}">{{ type.taxName }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="number" class="form-control" name="tax_amount[]"
+                                               pattern="^[0-9]" min="0" placeholder="amount">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="button"
+                                                class="btn btn-default btn-sm addtax pull-right close-repeat"><i
+                                                    class="fa fa-close"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-11">
+                                    <button type="button"
+                                            class="btn btn-default btn-sm addtax pull-right repeat-action"
+                                            id="addtax"><i class="fa fa-plus-square"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Product Image</label>
+                        <div class="col-sm-9">
+                            <input type='file' name="sampleFile" class="form-control" id="product_image"/>
+                            <img id="img_preview" class="img img-responsive"
+                                 style="" {% if result.imageUrl and result.imageUrl != "" and result.imageUrl != 'null' %}
+                                src="/uploads/products/{{ result.imageUrl }}" {% else %} src={{ images.defaultProductImage }} {% endif %}
+                                 alt="upload product image"/>
+                            {#<input name="barcode" type="text" class="form-control" id="barcode" value="{{ result.barcode }}" required>#}
+                        </div>
+                    </div>
+                    {#<div class="form-group col-sm-6">#}
+                    {#<label for="inputEmail3" class="col-sm-3 control-label">Image</label>#}
+                    {#<div class="col-sm-5">#}
+                    {#<img src="img/avatar04.png" class="img-rounded" alt="Cinque Terre" width="150" height="150">#}
+                    {#</div>#}
+                    {#<div class="col-sm-4">#}
+                    {#<div class="file btn btn-lg btn-primary" style="position: relative; overflow: hidden;">#}
+                    {#Upload#}
+                    {#<input type="file" id="location" name="file"#}
+                    {#style="position: absolute; font-size: 50px; opacity: 0;  right: 0; top: 0;"/>#}
+                    {#</div>#}
+                    {#</div>#}
+
+                    {#</div>#}
+
+
+                    {#<div class="form-group col-sm-6">#}
+
+                    {#</div>#}
+                    <div style="height: 80px">
+
+                    </div>
+
+
+                    <div class="form-group col-sm-10">
+
+                    </div>
+                    {#<div class="form-group col-sm-1">#}
+                    {#<button type="button" id="edit" class="btn btn-info pull-right edit" style="margin-right: -40px;">#}
+                    {#Edit#}
+                    {#</button>#}
+                    {#</div>#}
+                    <div class="form-group col-sm-1">
+                        <button type="button" id="save" name="save" class="btn btn-info pull-right save"
+                                style=" margin-right: -60px;">Update
+                        </button>
+                    </div>
+                    <div style="height: 40px"></div>
+                </div>
+            {% endfor %}
+        </form>
+
+    </div>
+
+
+{% endblock %}
+    {% block onloadJS %}
+        <script type="text/javascript">
+            {#var data = '{{ data }}';#}
+            {#var a = JSON.parse(data);#}
+            {#var category = a.category;#}
+            {#var taxType = a.taxType;#}
+
+        </script>
+        {#<script type="text/javascript" src="../controller/admin/addProduct.js"></script>#}
+        {#<script type="text/javascript" src="../support/barcodeGenerator.js"></script>#}
+        <script>
+            $(document).ready(function () {
+                var tax = {{ tax|json_encode }};
+                for(var i in tax){
+                    $('.tax-edit-'+i+' select').val(i);
+                }
+                function readURL(input) {
+                    if (input.files && input.files[0]) {
+                        var reader = new FileReader();
+                        reader.onload = function (e) {
+                            console.log(e.target.result);
+                            $('#img_preview').attr('src', e.target.result);
+                        };
+
+                        reader.readAsDataURL(input.files[0]);
+                    }
+                }
+
+                $("#product_image").change(function () {
+                    readURL(this);
+                });
+
+                $('.save').click(function() {
+                    var data = $('form').serializeArray();
+                    var taxTypes = data.filter(function(x){
+                        return x.name == 'tax_type[]'
+                    });
+                    var taxAmmounts = data.filter(function(x){
+                        return x.name == 'tax_amount[]'
+                    });
+
+                    var taxes = {};
+                    var tax = 0;
+                    for(var i in taxTypes){
+                        if(taxAmmounts[i].value != null && taxAmmounts[i].value != ""){
+                            taxes[taxTypes[i].value] = (taxes[taxTypes[i].value])?taxes[taxTypes[i].value]+parseInt(taxAmmounts[i].value):
+                                    parseInt(taxAmmounts[i].value);
+                            tax = taxes[taxTypes[i].value];
+                        }
+                    }
+                    var cost = ($('#mf_price').val() != "") ? parseInt($('#mf_price').val()) + (parseInt($('#mf_price').val()) * (tax / 100)) : 0;
+                    $('#cost').val(cost);
+
+                    $('#rel-tax').val(''+JSON.stringify(taxes));
+                    var data = $('form').serializeArray();
+
+                    $('form').submit();
+                });
+
+                $('.repeat-action').click(function () {
+                    var newRow = $($(this).parents('.repeat-panel').find('.repeat-row').last().wrap('<p/>').parent().html());
+                    newRow.find('.close-repeat').click(function () {
+                        $(this).parents('.repeat-row').remove();
+                    });
+                    $(this).parents('.repeat-panel').find('.repeat-content').append(newRow);
+                });
+            });
+        </script>
+    {% endblock %}

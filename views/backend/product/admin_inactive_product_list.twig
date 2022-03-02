@@ -1,0 +1,158 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% else %}
+    {% extends 'admin.twig' %}
+{% endif %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+    {% include 'extends/loader.twig' %}
+    {#<div style="height:50px; "></div>#}
+    <div class="box" style="border-top: 3px solid #4892bb;">
+        <div class="box-header with-border" style="margin-bottom: 1%">
+            <h3 class="box-title">Inactive Product List</h3>
+        </div>
+        {#<div style="height:20px;"></div>#}
+        <!-- search details -->
+        <form class="form-horizontal" id="data" method="get" name="data" action="{{ getURL('get.product.inactive_list') }}">
+            <div class="row " style="margin: 1px ">
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+
+                        <div class="col-sm-9">
+                            <input type="text" id="barcode" name="barcode" list="suggestion1"
+                                   class="form-control" autocomplete="off" placeholder="Barcode">
+                        </div>
+                        <div class="col-sm-3">
+                            <a class="btn btn-info fa fa-search" id="searchbtn"></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+
+                        <div class="col-sm-9">
+                            <input type="text" id="productName" name="productName" list="suggestion"
+                                   class="form-control" autocomplete="off" placeholder="Product Name">
+                        </div>
+                        <div class="col-sm-3">
+                            <a class="btn btn-info fa fa-search" id="searchbtn1"></a>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+
+                        <div class="col-sm-9">
+
+                            <select class="form-control" id="new_category_id"  name="new_category_id">
+                                <option selected readonly value="">All</option>
+                                {% for category in categories %}
+                                    <option value= "{{category.categoryName}}">{{category.categoryName}}</option>
+                                {% endfor %}
+
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+
+        <h5 style="margin-left: 15px">Page <span id="pageNumber" name="pageNumber">1</span></h5>
+        <!-- search details -->
+        {#<div class="row">#}
+            {#<div class="col-sm-3">#}
+                {#<h5>Page <span id="pageNumber" name="pageNumber"></span></h5>#}
+
+                {#<input id="pageNumber" name="pageNumber" class=" col-sm-3 control-label " readonly>#}
+            {#</div>#}
+        {#</div>#}
+
+        <!-- /.box-header -->
+        <div class="box-body">
+            {#<div style="height:50px;"></div>#}
+            <table id="table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="display: none">ID</th>
+                    <th>Barcode</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Manufacturer Price</th>
+                    <th>Selling Price</th>
+                    <th>Minimum Order Quantity</th>
+                    <th>Reorder Level</th>
+                    <th style="text-align: center; min-width: 170px;">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for result in results %}
+                    <tr id="">
+                    
+                        <td style="display: none">{{ result.id }}</td>
+                        <td title="preview/download barcode image" style="cursor: pointer" class="barcode-info"
+                            id="{{ result.productName }}#{{ result.barcode }}"><a>{{ result.barcode }}</a></td>
+                        <td>{{ result.productName }}</td>
+                        <td>{{ result.category.categoryName }}</td>
+                        <td>{{ result.manufacturePrice }}</td>
+                        <td>{{ result.sellingPrice }}</td>
+                        <td>{{ result.minOrderQuantity }}</td>
+                        <td>{{ result.reorderLevel }}</td>
+                        <div>
+                            <td style="text-align: center">
+                                <a class="activateButton btn btn-info fa fa-ravelry" data-id = {{result.id}}></a>
+                   
+                                  
+                            </td>
+                        </div>
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+            <div class="box-footer">
+                <button type="submit" id="nextButton" name="nextButton" class="btn btn-info pull-right">Next</button>
+                <button style="margin-right: 2px" id="prevButton" name="prevButton" type="submit"
+                        class="btn btn-info pull-right" disabled>Previous
+                </button>
+            
+            </div>
+
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+
+{% endblock %}
+
+    {% block onloadJS %}
+            {{ parent() }}
+            
+            <script type="text/javascript" src="../controller/backend/product/list_inactive_product.js"></script>
+            <script type="text/javascript" src="../js/bootbox.min.js"></script>
+
+            <script type="text/javascript">
+               
+                var url1 = '{{ getURL('get.product.inactive_list') }}'
+                var url2 = '{{ getURL('post.product.activate') }}'
+                var url3 = '{{ getURL('get.product.search_by_barcode_inactive_product_name')}}'     
+                var url4 = '{{getURL('post.store.branchactivate')}}'           
+            </script>
+
+    {% endblock %}
+
+
+
+    

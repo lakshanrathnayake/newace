@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Junior George |POS</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+
+
+    {% block stylesheets %}
+
+        <link rel="stylesheet" href="/admin-lte/bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="/admin-lte/bower_components/font-awesome/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="/admin-lte/bower_components/Ionicons/css/ionicons.min.css">
+        <!-- bootstrap datepicker -->
+        <link rel="stylesheet"
+              href="/admin-lte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="/admin-lte/dist/css/AdminLTE.min.css">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" href="/admin-lte/dist/css/skins/_all-skins.min.css">
+        <!-- Morris chart -->
+        <link rel="stylesheet" href="/admin-lte/bower_components/morris.js/morris.css">
+        <!-- jvectormap -->
+        <link rel="stylesheet" href="/admin-lte/bower_components/jvectormap/jquery-jvectormap.css">
+        <!-- Date Picker -->
+        <link rel="stylesheet"
+              href="/admin-lte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+        <!-- Daterange picker -->
+        <link rel="stylesheet" href="/admin-lte/bower_components/bootstrap-daterangepicker/daterangepicker.css">
+        <!-- bootstrap wysihtml5 - text editor -->
+        <link rel="stylesheet" href="/admin-lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+
+        <!-- Google Font -->
+        <link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+
+
+        <style>
+            .head-user {
+                color: white;
+            }
+        </style>
+    {% endblock %}
+    {% block styles %}
+
+    {% endblock %}
+
+</head>
+<body>
+<div class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>P</b>OS</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>POS</b></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src= {{ images.profile }} class="user-image" alt="User Image">
+                                <span class="hidden-xs">{{ user.username }}</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src={{ images.profile }} class="img-circle" alt="User Image">
+
+                                    <p>
+                                    <h4 class="head-user">{{ user.username }} - {{ user.role }}</h4>
+                                    <h5 class="head-user">{{ getDate() }}</h5>
+                                    </p>
+                                </li>
+
+                                <li class="user-footer">
+                                    <div class="pull-right">
+                                        <a href="{{ getURL('get.logout.log') }}" class="btn btn-default btn-flat">Sign
+                                            out</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <div class="user-panel">
+                    <div>
+                        <img src={{ images.logo }} class="img-circle center-block" alt="User Image"
+                             style="width:30%;  height: 60px;">
+                    </div>
+
+                </div>
+                <form action="#" method="get" class="sidebar-form">
+                    <div class="input-group">
+
+
+                    </div>
+                </form>
+                <ul class="sidebar-menu" data-widget="tree">
+
+                    <li class="{% if route in ['get.home.super_admin'] %} active {% endif %}">
+                        <a id="home" href="{{ getURL('get.home.super_admin') }}" style="cursor: pointer;">
+                            <i class="fa fa-home" aria-hidden="true"></i> <span style="padding: 8px;">Home</span>
+
+                        </a>
+
+                    </li>
+
+
+                    <li class="treeview {% if route in ['get.product.add','get.product.list','get.category.add','get.product.edit','get.category.list'
+                        ,'get.tax.add','get.tax.list','get.tax.edit','get.control.add.template','get.control.list.template'] %} active {% endif %}"
+                        style="cursor: pointer;">
+                        <a href="#">
+                            <i class="fa fa-shopping-cart" aria-hidden="true"></i> <span style="padding: 8px;">Product Management</span>
+                            <span class="pull-right-container">
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{% if route in ['get.product.add'] %} active {% endif %}"><a id="addproduct"
+                                                                                                    href="{{ getURL('get.product.add') }}"><i
+                                            class="fa fa-plus"></i> Add Product</a></li>
+                            <li class="{% if route in ['get.product.list','get.product.edit'] %} active {% endif %}"><a
+                                        id="listproduct" href="{{ getURL('get.product.list') }}"><i
+                                            class="fa fa-th-list"></i> Product List</a></li>
+                            <li class="{% if route in ['get.category.add'] %} active {% endif %}"><a id="addCategory"
+                                                                                                     href="{{ getURL('get.category.add') }}"><i
+                                            class="fa fa-plus"></i> Add Category</a></li>
+                            <li class="{% if route in ['get.category.list'] %} active {% endif %}"><a id="listTax"
+                                                                                                      href="{{ getURL('get.category.list') }}"><i
+                                            class="fa fa-th-list"></i> Category List</a></li>
+                            <li class="{% if route in ['get.tax.add'] %} active {% endif %}"><a id="addTax"
+                                                                                                href="{{ getURL('get.tax.add') }}"><i
+                                            class="fa fa-plus"></i> Add Tax</a></li>
+                            <li class="{% if route in ['get.tax.list'] %} active {% endif %}"><a id="listTax"
+                                                                                                 href="{{ getURL('get.tax.list') }}"><i
+                                            class="fa fa-th-list"></i> Tax List</a></li>
+                            <li class="{% if route in ['get.control.add.template'] %} active {% endif %}">
+                                <a id="" href="{{ getURL('get.control.add.template') }}"><i
+                                            class="fa fa-plus"></i> Add Template</a></li>
+                            <li class="{% if route in ['get.control.list.template'] %} active {% endif %}"><a id=""
+                                                                                                              href="{{ getURL('get.control.list.template') }}"><i
+                                            class="fa fa-th-list"></i> Template List</a></li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="treeview {% if route in ['get.inventory.add','get.inventory.list'] %} active {% endif %}"
+                        style="cursor: pointer;">
+                        <a href="#">
+                            <i class="fa fa-exchange" aria-hidden="true"></i> <span style="padding: 8px;">Transfer Management</span>
+                            <span class="pull-right-container">
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{% if route in ['get.inventory.add'] %} active {% endif %}"
+                                style="cursor: pointer;"><a href="{{ getURL('get.inventory.add') }}" id="addDamage"><i
+                                            class="fa fa-plus"></i>Add Transfer</a></li>
+                            <li class="{% if route in ['get.inventory.list'] %} active {% endif %}"><a
+                                        id="transferproductlist" href="{{ getURL('get.inventory.list') }}"><i
+                                            class="fa fa-th-list"></i> Transfer List</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="treeview {% if route in ['get.store.list','get.store.edit','get.store.delete'] %} active {% endif %}"
+                        style="cursor: pointer;">
+                        <a href="#">
+                            <i class="fa fa-hdd-o" aria-hidden="true"></i> <span
+                                    style="padding: 8px;">Stores Management</span>
+                            <span class="pull-right-container">
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{% if route in ['get.store.list','get.store.edit','get.store.delete'] %} active {% endif %}">
+                                <a id="storelist" href="{{ getURL('get.store.list') }}"> <i class="fa fa-th-list"></i>
+                                    Store List</a></li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="treeview {% if route in ['get.user.add','get.user.list','get.user.edit'] %} active {% endif %}"
+                        style="cursor: pointer;">
+                        <a href="#">
+                            <i class="fa fa-users" aria-hidden="true"></i> <span
+                                    style="padding: 8px;">User Management</span>
+                            <span class="pull-right-container">
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{% if route in ['get.user.add'] %} active {% endif %}"><a id="adduser"
+                                                                                                 href="{{ getURL('get.user.add') }}"><i
+                                            class="fa fa-plus"></i> Add User</a></li>
+                            <li class="{% if route in ['get.user.list','get.user.edit'] %} active {% endif %}"><a
+                                        id="listuser" href="{{ getURL('get.user.list') }}"><i class="fa fa-th-list"></i>
+                                    User List</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li class="treeview {% if route in ['get.branch.add','get.branch.list','get.branch.edit'] %} active {% endif %}"
+                        style="cursor: pointer;">
+                        <a href="#">
+                            <i class="fa fa-sitemap" aria-hidden="true"></i> <span style="padding: 8px;">Branch Management</span>
+                            <span class="pull-right-container">
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{% if route in ['get.branch.add'] %} active {% endif %}" id="addbranch"
+                                name="addbranch"><a href="{{ getURL('get.branch.add') }}"><i class="fa fa-plus"></i> Add
+                                    Branch</a></li>
+                            <li class="{% if route in ['get.branch.list','get.branch.edit'] %} active {% endif %}"
+                                id="listbranch" name="listbranch"><a href="{{ getURL('get.branch.list') }}"><i
+                                            class="fa fa-th-list"></i> Branch List</a></li>
+                        </ul>
+                    </li>
+
+
+                    <li class="treeview {% if route in ['get.supplier.add','get.supplier.list','get.supplier.edit'] %} active {% endif %}"
+                        style="cursor: pointer;">
+                        <a href="#">
+                            <i class="fa fa-users" aria-hidden="true"></i> <span
+                                    style="padding: 8px;">Supplier Management</span>
+                            <span class="pull-right-container">
+              <i class="fa fa-angle-right" aria-hidden="true"></i>
+            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{% if route in ['get.supplier.add'] %} active {% endif %}"><a id="adduser"
+                                                                                                     href="{{ getURL('get.supplier.add') }}"><i
+                                            class="fa fa-plus"></i> Add Supplier</a></li>
+                            <li class="{% if route in ['get.supplier.list','get.supplier.edit'] %} active {% endif %}">
+                                <a
+                                        id="listuser" href="{{ getURL('get.supplier.list') }}"><i
+                                            class="fa fa-th-list"></i>
+                                    Supplier List</a></li>
+
+                        </ul>
+                    </li>
+
+
+                    <li class="{% if route in ['get.customer.list','get.customer.list'] %} active {% endif %}">
+                        <a id="orderGeneration" href="{{ getURL('get.customer.list') }}" style="cursor: pointer;">
+                            <i class="fa fa-male" aria-hidden="true"></i><span
+                                    style="padding: 8px;">Customer List</span>
+                        </a>
+                    </li>
+
+
+                    <li class="treeview {% if route in ['get.store.order_requests','get.store.store_in','get.store.store_transfer_reject'] %} active {% endif %}">
+                        <a href="#">
+                            <i class="fa fa-bell"></i> <span style="padding: 8px;">Store Alerts</span>
+                            <span class="pull-right-container">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{% if route in ['get.store.order','get.store.order_requests'] %} active {% endif %}">
+                                <a id="orderRequests" href="{{ getURL('get.store.order_requests') }}"
+                                   style="cursor: pointer;">
+                                    <i class="fa fa-inbox" aria-hidden="true"></i><span
+                                            style="padding: 8px;">Order Requests</span>
+                                </a>
+                            </li>
+
+                            <li class="{% if route in ['get.store.order','get.store.store_in'] %} active {% endif %}">
+                                <a id="storeIns" href="{{ getURL('get.store.store_in') }}"
+                                   style="cursor: pointer;">
+                                    <i class="fa fa-reply" aria-hidden="true"></i><span
+                                            style="padding: 8px;">Store In</span>
+                                </a>
+                            </li>
+
+                            <li class="{% if route in ['get.store.order','get.store.store_transfer_reject'] %} active {% endif %}">
+                                <a id="transferRejects" href="{{ getURL('get.store.store_transfer_reject') }}"
+                                   style="cursor: pointer;">
+                                    <i class="fa fa-reply-all" aria-hidden="true"></i><span
+                                            style="padding: 8px;">Reject In</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+                    
+                    <li class="{% if route in ['get.pos.bill_controller'] %} active {% endif %}">
+                        <a id="orderGeneration" href="{{ getURL('get.pos.bill_controller') }}" style="cursor: pointer;">
+                            <i class="fa fa-credit-card" aria-hidden="true"></i><span
+                                    style="padding: 8px;">POS Controller</span>
+                        </a>
+                    </li>
+
+                    <li class="treeview {% if route in ['get.sales_analysis.home','get.revenue_analysis.revenue'] %} active {% endif %}">
+                        <a href="#">
+                            <i class="glyphicon glyphicon-folder-open"></i> <span style="padding: 8px;">Reports</span>
+                            <span class="pull-right-container">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{% if route in ['get.sales_analysis.home'] %} active {% endif %}">
+                                <a  href="{{ getURL('get.sales_analysis.home') }}" style="cursor: pointer;">
+                                    <i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><span
+                                            style="padding: 8px;">Sales Analysis</span>
+                                </a>
+                            </li>
+
+                            <li class="{% if route in ['get.revenue_analysis.revenue'] %} active {% endif %}">
+                                <a  href="{{ getURL('get.revenue_analysis.revenue') }}" style="cursor: pointer;">
+                                    <i class="glyphicon glyphicon-gbp" aria-hidden="true"></i><span
+                                            style="padding: 8px;">Revenue Analysis</span>
+                                </a>
+
+                            <li class="{% if route in ['get.sales.reports'] %} active {% endif %}">
+                                <a  href="{{ getURL('get.sales.reports') }}" style="cursor: pointer;">
+                                    <i class="glyphicon glyphicon-inbox" aria-hidden="true"></i><span
+                                            style="padding: 8px;">Session Analysis</span>
+                                </a>
+                            </li>
+                            <li class="{% if route in ['get.store.reports'] %} active {% endif %}">
+                                <a  href="{{ getURL('get.store.reports') }}" style="cursor: pointer;">
+                                    <i class="fa fa-th-list" aria-hidden="true"></i><span
+                                            style="padding: 8px;">Store Analysis</span>
+                                </a>
+                            </li>
+                              <li class="{% if route in ['get.store.storein_report_admin'] %} active {% endif %}">
+                                <a  href="{{ getURL('get.store.storein_report_admin') }}" style="cursor: pointer;">
+                                    <i class="glyphicon glyphicon-list-alt" aria-hidden="true"></i><span
+                                            style="padding: 8px;">Manager StoreIn</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </li>
+
+                    {#<li class="treeview" style="cursor: pointer;">#}
+                 
+
+
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="padding :10px ">
+
+
+            {% block content %}
+
+            {% endblock %}
+            <div style="height: 50px"></div>
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+
+        </aside>
+
+
+        {#<footer class="main-footer">#}
+        
+
+        <div class="control-sidebar-bg"></div>
+    </div>
+</div>
+<!-- ./wrapper -->
+
+
+<script src="/accests/jquery/dist/jquery.min.js"></script>
+<!-- Bootstrap 3.3.7 -->
+<script src="/accests/bootstrap/dist/js/bootstrap.min.js"></script>
+<!-- PACE -->
+<script src="/accests/PACE/pace.min.js"></script>
+<!-- SlimScroll -->
+<script src="/accests/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<!-- FastClick -->
+<script src="/accests/fastclick/lib/fastclick.js"></script>
+<script src="/admin-lte/bower_components/moment/min/moment.min.js"></script>
+<script src="/admin-lte/bower_components/bootstrap-daterangepicker/daterangepicker.js"></script>
+<!-- datepicker -->
+<script src="/admin-lte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+<!-- AdminLTE App -->
+<script src="/accests/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="/accests/js/demo.js"></script>
+<script>
+    var routes = {{ routes|json_encode }}
+</script>
+<!-- page script -->
+<script type="text/javascript">
+
+
+    
+</script>
+
+{% block onloadJS %}{% endblock %}
+</body>
+</html>

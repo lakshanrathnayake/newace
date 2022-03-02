@@ -1,0 +1,218 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+
+
+    <div>
+        <form id="main_form" method="post" name="data" action="{{ getURL('post.inventory.post') }}">
+
+            <div>
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Order Info</h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
+                                        class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+
+
+                        <div class="row">
+
+                            <div class="form-group col-sm-4">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Order Ref.No</label>
+                                <div class="col-sm-9">
+                                    <input type="text"  name="grnNo" id="grnNo" value={{ results.grnNo }} class="form-control" readonly>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-4">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Source</label>
+                                <div class="col-sm-9">
+                                    {#<input type="text" id="from" name="sourceShowCaseValue" list="suggestion" class="form-control" disabled="true" autocomplete="off" required>#}
+                                    <select class="form-control" id="source" name="source" readonly>
+                                        {% for branch in branches %}
+                                            <option value="{{ branch.id }}">{{ branch.branchName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <input type="hidden" name="typeId" id="typeId" value={{ 4 }}>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-4">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Destination</label>
+                                <div class="col-sm-9">
+                                    {#<input type="text" id="to" list="suggestion1" name="destinationShowCaseValue" class="form-control" autocomplete="off" required>#}
+                                    <select class="form-control" id="destination" name="destination">
+                                        {% for branch in branches %}
+                                            <option value="{{ branch.id }}">{{ branch.branchName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+
+
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Product Info</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+
+                <div class="box-body">
+                    <div class="box-body" style="padding: 0;">
+
+
+                        <div class="row">
+                            <div class="form-group col-sm-3" style="margin: 0">
+                                <div class="col-sm-12">
+                                    <input type="text" id="barcode" name="barcode" list="suggestion1"
+                                           class="form-control" autocomplete="off" placeholder="Search..">
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-3" style="margin: 0">
+                                <div class="col-sm-12">
+                                    <input id="barcode1" class="form-control"  placeholder="Barcode" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-3" style="margin: 0">
+                                <div class="col-sm-12">
+                                    <input type="number" id="unitPrice" class="form-control" placeholder="Unit Cost" readonly>
+                                </div>
+                            </div>
+
+                            <div class="form-group col-sm-3" style="margin: 0">
+                                <div class="col-sm-12">
+                                    <input type="number" class="form-control" id="qty" placeholder="Quantity" >
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div style="height: 10px">
+
+                        </div>
+
+
+                        <div class="form-group col-sm-11">
+
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <button type="button" id="add" name="add" class="btn btn-info pull-right"
+                                    style=" margin-right: 0px;">Add
+                            </button>
+                        </div>
+
+                        <div style="height: 40px"></div>
+
+
+                        <table id="table" name="table" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th style="display:none;">Product ID</th>
+                                <th>Barcode</th>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Unit Cost</th>
+                                <th>Line Total</th>
+                                <th>Action</th>
+
+                            </tr>
+                            </thead>
+                            <tbody name="body">
+
+                            </tbody>
+
+                        </table>
+
+
+                        {#<button class="btn btn-danger editbtn" id="rowDeleteButton" >
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </button>#}
+
+                        <label for="inputEmail3" id="dd" class="control-label col-sm-12">Total</label>
+                        <label for="inputEmail3" id="total" class="control-label col-sm-12"></label>
+                        <div style="height: 20px"></div>
+                        <div class="form-group col-sm-11">
+                        </div>
+                        <div class="form-group col-sm-1">
+                            <button type="sumbmit" id="confirm" class="btn btn-info pull-right"
+                                    style=" margin-right: 0px;">Confirm
+                            </button>
+                        </div>
+                        <!-- end table   -->
+                        <!-- /.box-body -->
+
+                        <!-- /.box -->
+                    </div>
+
+                </div>
+                {#</form>#}
+
+            </div>
+
+        </form>
+    </div>
+
+
+{% endblock %}
+    {% block onloadJS %}
+        {#<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>#}
+
+
+        <script>
+            var url3 = '{{ getURL('get.store.search_by_barcode_product_name_one') }}';
+            var url1 = '{{ getURL('get.common.row') }}';
+            var url = '{{ getURL('post.inventory.post') }}';
+        </script>
+             <script>
+            $(document).ready(function () {
+                var user = {{ user|json_encode }};
+                if (user.role != 'ADMIN' && user.role != 'SUPER_ADMIN') {
+                    $('#typeId option:contains(Store In)').remove();
+                }
+
+
+                $("#barcode").prop('disabled', true);
+                $('#transfer').on('change', function () {
+
+
+                    $("input").prop('disabled', false);
+
+                });
+
+
+
+            });
+        </script>
+
+
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+        <script type="text/javascript" src="../controller/backend/inventory/add_inventory_controller.js"></script>
+    {% endblock %}

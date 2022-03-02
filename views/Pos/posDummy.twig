@@ -1,0 +1,1042 @@
+
+<div style="display: none">
+    <li id="tab-con" class="nav-tab"><a data-toggle="tab" href="#ext">{{ date|date("H:m:s") }}
+            <button class="btn btn-danger btn-xs tab_remove"><span class="glyphicon glyphicon-remove"></span></button>
+        </a></li>
+</div>
+
+{#new tab content dummy#}
+<div id="tab-bod" style="display: none;">
+    <div id="ext" class="bucket tab-pane fade in selected" style="height: 100%">
+
+        {#invoice page#}
+        <div class="container pos_pay_invoice " style="display:none;height: 96%">
+            <div class="row" style="height: 100%">
+                <div class="col-sm-offset-1 col-sm-9" style="border: dotted 1px; border-top: none;height: 95%">
+                    <div>
+                        <div class="vertical-center" style="border-bottom: dotted 1px;">
+                            <div class="col-sm-3" style="text-align: left;padding-left: 0px">
+                                {#<button class="btn btn-primary back_pay fa fa-angle-double-left" style="">#}
+                                {#<span> Payment</span>#}
+                                {#</button>#}
+                            </div>
+                            <div class="col-sm-6" style="text-align: center">
+                                <h3>Invoice</h3>
+                            </div>
+                            <div class="col-sm-3" style="text-align: right;padding-right: 0px">
+                                <button class="btn btn-primary  bill_print" style=" text-align: left">
+                                    <span class="glyphicon glyphicon-print" style="text-align: left"> </span> Print Bill
+                                </button>
+                            </div>
+                            <div class="col-sm-2" style="text-align: right;padding-right: 0px">
+                                <button class="btn btn-primary  bill_close" style="">
+                                    <span class="glyphicon glyphicon-remove"> </span> Close
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="height: 88%;margin-top: 10px;overflow-y: scroll">
+                        <div class="col-sm-12 email_invoice">
+                            <div class="invoice_print"
+                                 style="background: white; border: solid 1px;border-radius: 5px;padding: 5px;width: 72mm;display:inline-block">
+                                <div style="padding: 2px;">
+                                    <div style="border-bottom: solid 1px;">
+                                        <h5 style="margin: 0px">POS INVOICE <span style="float: right" class="bill_no_1">2577686148</span>
+                                        </h5>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <div style="text-align: center;">
+                                                <h3 style="margin: 0px;display: inline-block"><b>INVOICE</b></h3>
+                                            </div>
+                                            <div style="text-align: center;">
+                                                <img src={{ images.invoiceLogo }}
+                                                     style="text-align: center;width: 10%;" alt="Pos Image">
+                                            </div>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <h5 style="margin: 0px">{{ address.address }}</h5>
+                                            <h5 style="margin: 0px">www.juniorgeorge.com</h5>
+                                            <h5 style="margin: 0px">info@juniorgeorge.com</h5>
+                                            <h5 style="margin: 0px">{{ address.contact }}</h5>
+                                        </div>
+                                        <div style="margin: 0% 5% 0% 5%;width: 90%;padding: 0px 5px 0px 5px;">
+                                            <div style="border-bottom: solid 1px">
+                                            <hr style="background-color: white;line-height: 1px">
+                                            <hr style="margin: 1%; visibility: hidden;">
+                                            <h5 style="margin: 0%">
+                                                <span class="bill_date" style="float: left;"></span>
+                                                <span class="bill_time" style="float:right;"></span>
+                                            </h5>
+                                            <h5 style="margin: 10% 0% 0% 0%;"></h5>
+                                            </div>
+                                        </div>
+                                        <div style="margin: 0% 5% 0% 5%;width: 90%;padding: 0px 5px 0px 5px;">
+                                            <div style="margin-bottom: 5px">
+                                                <h5 style="margin: 5px 0mm 0px 0mm">Customer Name <span
+                                                            style="float:right;" class="cus_name"></span>
+                                                </h5>
+                                                <h5 style="margin: 5px 0mm 0px 0mm">Loyalty Number <span
+                                                            style="float:right;"
+                                                            class="loy_ref"></span></h5>
+                                                <h5 style="margin: 5px 0mm 0px 0mm">Earned Loyalty Points <span
+                                                            style="float:right;"
+                                                            class="bill_points"></span></h5>
+                                            </div>
+                                            <div style="border-top: solid 1px;">
+                                                <h5 style="margin: 5px 0mm 0px 0mm">Branch <span
+                                                            style="float:right;">{{ branch_name }}</span>
+                                                </h5>
+                                                <h5 style="margin: 5px 0mm 0px 0mm;display: none">Ret Invoice No <span
+                                                            style="float:right;" class="ret_bill"></span>
+                                                </h5>
+                                                <h5 style="margin: 5px 0mm 0px 0mm">Invoice No <span
+                                                            style="float:right;" class="bill_no_2"></span>
+                                                </h5>
+{#                                                <h5 style="margin: 5px 0mm 0px 0mm">Invoice Date <span#}
+{#                                                            style="float:right;" class="bill_date"></span>#}
+{#                                                </h5>#}
+                                                <h5 style="margin: 5px 0mm 0px 0mm">Exchange before <span
+                                                            style="float:right;" class="bill_exp"></span>
+                                                </h5>
+                                                <h5 style="margin: 5px 0mm 0px 0mm">Cashier Ref <span
+                                                            style="float:right;">{{ branch }}
+                                                            /{{ branch_name }}/{{ user.id }}</span></h5>
+                                                <h5 style="margin: 5px 0mm 0px 0mm">No of Products <span
+                                                            style="float:right;" class="bill_nop"></span>
+                                                </h5>
+                                                <h5 style="margin: 5px 0mm 0px 0mm">Currency <span
+                                                            style="float:right;" class="">Sri  Lankan Rupee (RS)</span>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div style="margin-top: 3%;padding-left: 7%"><h5 title="Title" style="margin: 1% 0% 1% 0%"  class="text-bold"><ins>Items</ins></h5></div>
+                                        <div style="margin: 0% 5% 0% 5%;width: 90%;padding: 0px 5px 0px 5px;" class="">
+                                            <table class="invoice_table" style="">
+                                                {#<thead>#}
+                                                {#<tr>#}
+                                                {#<th style="width: 45%">Product and Description</th>#}
+                                                {#<th style="width: 15%">Qty</th>#}
+                                                {#<th>Price</th>#}
+                                                {#</tr>#}
+                                                {#</thead>#}
+                                                <tbody style="font-size: 13px;">
+                                                </tbody>
+                                            </table>
+                                            <div style="margin-top: 3%;margin-bottom: 3%;"><h5 title="Title" style="margin: 1% 0% 1% 0%"  class="text-bold"><ins>Tax & Discounts</ins></h5></div>
+                                            <h5 style="margin: 5px 0mm 0px 0mm;">Discount : <span class="invoice_discount_type1" style="padding-left: 5%"></span>
+                                                <span class="invoice_discount" style="float: right;"></span>
+                                            </h5>
+                                            <h5 style="margin: 5px 0mm 0px 0mm;">Tax : <span class="invoice_tax_type1" style="padding-left: 5%"></span>
+                                                <span class="invoice_tax"
+                                                      style="float: right;"></span>
+                                            </h5>
+                                            <h5 style="margin: 5px 0mm 0px 0mm;display:none;">Returned :
+                                                <span class="invoice_return"
+                                                      style="float: right;"></span>
+                                            </h5>
+                                            <div style="border-bottom: double;border-top: dot-dash">
+                                                <hr style="background-color: white;line-height: 1px">
+                                                <h5 style="margin: 2% 0% 2% 0%"><b>Total </b> <span
+                                                            style="float: right;"><b><span
+                                                                    class="bill_sales">0</span></b></span></h5>
+                                                <h5 style="margin: 2% 0% 2% 0%"><b>Grand Total </b> <span
+                                                            style="float: right;"><b><span
+                                                                    class="bill_total">0</span></b></span></h5>
+                                            </div>
+
+                                            {#                                                    ;;;;#}
+                                            <div style="margin: 3% 0% 3% 0%;"><h5 title="Title" style="margin: 1% 0% 1% 0%"  class="text-bold"><ins>Mode of Payment</ins></h5></div>
+                                            <div>
+                                                <h5 style="margin: 1px">Cash Payment <span
+                                                            style="float: right;"><span
+                                                                class="bill_paid_cash">0</span></span></h5>
+                                            </div>
+                                            <div>
+                                                <h5 style="margin: 1px">Card Payment <span
+                                                            style="float: right;"><span
+                                                                class="bill_paid_credit">0</span></span></h5>
+                                            </div>
+                                            <div>
+                                                <h5 style="margin: 1px">Return Cash  Payment <span
+                                                            style="float: right;"><span
+                                                                class="bill_paid_cash_repayment">0</span></span></h5>
+                                            </div>
+                                            <div>
+                                                <h5 style="margin: 1px">Gift Voucher <span
+                                                            style="float: right;"><span
+                                                                class="bill_paid_gift">0</span></span></h5>
+                                            </div>
+                                            <div>
+                                                <h5 style="margin: 1px">Loyalty <span
+                                                            style="float: right;"><span
+                                                                class="bill_paid_loyalty">0</span></span></h5>
+                                            </div>
+
+                                            <div>
+                                                <h5 style="margin: 1px">Balance <span
+                                                            style="float: right;"><span
+                                                                class="bill_balance">0</span></span></h5>
+                                            </div>
+                                            <div style="text-align: justify;margin: 1px">
+                                                <p style="margin-top: 10px;font-size: 12px;text-align: justify">** ** Exchange is possible within 7 days of purchase along with the original bill and tag.
+                                                    NO EXCHANGE FOR EVENING WEAR AND DISCOUNTED ITEMS. NO REFUNDS.
+                                                <div id="power_link" class="power_link" style="margin-top: -9%" hidden><p style="text-align: left;font-size: 12px;margin: 0%;">
+                                                        <br>A solution powered by susitk.com.</p></div>
+                                                </p>
+                                            </div>
+                                        <div style="text-align: center">
+                                            <h5 style="margin: 5px 0mm 0px 0mm">Thank you</h5>
+                                            <h5 style="margin: 5px 0mm 0px 0mm">***********</h5>
+                                            {#<h5 style="margin: 5px 0mm 0px 5mm">Powered By : susitk.com</h5>#}
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {#payment page#}
+        <div class="pos_pay_slide " style="display:none;height: 100%">
+            <div class="row" style="height: 100%;overflow-y: scroll">
+                <div class="col-sm-offset-1 col-sm-10" style="border: dotted 1px; border-top: none;">
+                    <div>
+                        <div class="vertical-center" style="border-bottom: dotted 1px;">
+                            <div class="col-sm-2" style="text-align: left;padding-left: 0px">
+                                <button class="btn btn-primary back_pos" style="width:100%;">
+                                    <span class="fa fa-angle-double-left"> Back</span>
+                                </button>
+                            </div>
+                            <div class="col-sm-8" style="text-align: center">
+                                <h3>Payment</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="height: 100%;margin-top: 10px">
+                        <div class="col-sm-4 col-xs-12" style="text-align: center;overflow-y: auto;overflow-x: hidden; height: 100%;">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <h4>Payment Methods</h4>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px" ;>
+                                        <button type="button" id="cash" class="lef-alg btn btn-primary col-sm-6 col-xs-6  cash"
+                                                style="height: 40px;"><span
+                                                    class="fa fa-money"></span>
+                                            Cash (Rs)
+                                        </button>
+                                        <button type="button" class="btn btn-primary cash_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px">
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6  credit"
+                                                style="height: 40px;"><span
+                                                    class="fa fa-credit-card"></span> Card (Rs)
+                                        </button>
+                                        <button type="button" class="btn btn-primary credit_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px;">
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6  gift"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-gift"></span> Gift Voucher(Rs)
+                                        </button>
+                                        <button type="button" class="btn btn-primary gift_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px;">
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6  loyalty"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-heart"></span> Loyalty Voucher (%)
+                                        </button>
+                                        <button type="button" class="btn btn-primary loyalty_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px;">
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6  loyalty_pt"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-heart"></span> Loyalty Points (Rs)
+                                        </button>
+                                        <button type="button" class="btn btn-primary loyalty_pt_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+
+
+                                </div>
+                                <br/>
+                                <h4>Tax & Discounts</h4>
+                                <div class="col-sm-12">
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px">
+
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6 tax"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-scissors"></span> Tax (%)
+                                        </button>
+                                        <button type="button" class="btn btn-primary tax_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px">
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6 discount"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-gift"></span> Discount <span
+                                                    class="dis_type">(Rs)</span>
+                                        </button>
+                                        <button type="button" class="btn btn-primary discount_amount col-sm-6 col-xs-6"
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <h4>Return Payments</h4>
+                                <div class="col-sm-12">
+                                    <div class="btn-group" role="group" style="width: 100%;margin-bottom: 10px">
+
+                                        <button type="button" class="lef-alg btn btn-primary col-sm-6 col-xs-6 return_cash_payment"
+                                                style="height: 40px;"><span
+                                                    class="glyphicon glyphicon-scissors"></span> Return Cash
+                                        </button>
+                                        <button type="button" class="btn btn-primary return_cash_amount col-sm-6 col-xs-6 "
+                                                style="background: #4892bb; height: 40px; font-weight: bolder; font-size: 20px; color: white;">
+                                            0
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-8 col-xs-12" style="text-align: center;height: 100%;border-left: dotted 1px">
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <h1 style="color: green;">Rs. <span class="total"> 0</span></h1>
+                                    <h5 style="color: green">Total Bill Amount</h5>
+                                </div>
+                                <div class="col-sm-4" style="text-align: left">
+                                    <h4>No. of products<span style="float: right" class="tot_nop">0</span></h4>
+                                    <h4>Bill<span style="float: right" class="tot_bill">0</span></h4>
+                                    <h4>Tax <span style="float: right" class="tot_tax">0%</span></h4>
+                                    <h4>Discount <span style="float: right" class="tot_discount"></span></h4>
+                                    <h4>Return Cash<span style="float: right" class="tot_return_cash">0</span></h4>
+                                </div>
+                            </div>
+
+                            <br/>
+                            <div class="check" style="border-top: dotted 1px">
+                                <div class="cash_pay"
+                                     style="padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Cash Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-11">
+                                            <label class="col-sm-5 control-label"
+                                                   style="text-align: right; font-weight: 400; font-size: 30px;">Cash
+                                                Amount</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%; height: 45px; font-size: 25px;"
+                                                       type="text"
+                                                       class="form-control cash_gave pay_input"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tax_pay"
+                                     style="display:none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Tax Percentage</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-11">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Tax
+                                                Amount</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control tax_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="discount_pay"
+                                     style="display:none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Discount</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-12">
+                                            <label class="col-sm-3 control-label" style="text-align: right;">Discount</label>
+                                            <div class="col-sm-5">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control discount_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                            <div class="btn-group col-sm-4" role="group"
+                                                 style="margin-bottom: 10px">
+                                                <button value="0" title="percentage" type="button"
+                                                        class="btn btn-primary discount_perce">
+                                                    %
+                                                </button>
+                                                <button value="0" type="button"
+                                                        class="btn btn-primary discount_cash">
+                                                    <span title="cash amount" class="fa fa-money"></span>
+                                                </button>
+                                            </div>
+                                            <input style="display: none" val="" class="discount_per"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="return_cash_pay"
+                                     style="display: none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Return Cash Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-11">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Return Cash
+                                                Amount</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control return_cash_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="credit_pay"
+                                     style="display: none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Credit Card Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Ref
+                                                No</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control credit_ref" placeholder="0"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label"
+                                                   style="text-align: right;">Amount</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control credit_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="gift_pay"
+                                     style="display: none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Gift Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Ref
+                                                No</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control gift_ref" placeholder="0"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label"
+                                                   style="text-align: right;">Amount</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text"
+                                                       class="form-control gift_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="loyalty_pay"
+                                     style="display: none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Loyalty Voucher Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Voucher code</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text" readonly
+                                                       class="form-control loyalty_ref" placeholder="0"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label"
+                                                   style="text-align: right;">Amount (%)</label>
+                                            <div class="col-sm-7">
+                                                <input disabled style="width: 100%" type="text"
+                                                       class="form-control loyalty_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="loyalty_pt_pay"
+                                     style="display: none;padding-bottom: 20px;border-bottom: dotted 1px;">
+                                    <h5>Loyalty Points Payment</h5>
+                                    <div class="row" style="text-align: center">
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label" style="text-align: right;">Ref No</label>
+                                            <div class="col-sm-7">
+                                                <input style="width: 100%" type="text" readonly
+                                                       class="form-control loyalty_pt_ref" placeholder="0"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-9">
+                                            <label class="col-sm-5 control-label"
+                                                   style="text-align: right;">Amount (Rs)</label>
+                                            <div class="col-sm-7">
+                                                <input disabled style="width: 100%" type="text"
+                                                       class="form-control loyalty_pt_gave"
+                                                       placeholder="0"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br/>
+                            <div class="bill_summery">
+                                <div class="bill_summery_sum">
+                                    <div class="row" style="text-align: center; padding-bottom: 10px">
+                                        <div class="form-group col-sm-6">
+                                            <label class="col-sm-4 control-label bb"
+                                                   style="text-align: right; font-weight: 400; ">Paid</label>
+                                            <div class="col-sm-8" style="padding-right: 0px;">
+                                                <input style="width: 100%;background: white; height: 45px; font-size: 25px;"
+                                                       type="text" disabled
+                                                       value="0"
+                                                       class="form-control paid_total"/>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-sm-6">
+                                            <label class="col-sm-4 control-label bb"
+                                                   style="text-align: right; font-weight: 400;">Balance</label>
+                                            <div class="col-sm-8" style="padding-right: 0px;">
+                                                <input style="width: 100%;background: white; height: 45px; font-size: 25px;"
+                                                       type="text" disabled
+                                                       value="0"
+                                                       class="form-control need_paid"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <table class="pos_payment_controller" style="width:100%; ">
+                                        <tr style="padding: 0px;">
+                                            <th> 1</th>
+                                            <th> 2</th>
+                                            <th> 3</th>
+                                        </tr>
+                                        <tr style="padding: 0px;">
+                                            <th> 4</th>
+                                            <th> 5</th>
+                                            <th> 6</th>
+                                        </tr>
+                                        <tr style="padding: 0px;">
+                                            <th> 7</th>
+                                            <th> 8</th>
+                                            <th> 9</th>
+                                        </tr>
+                                        <tr style="padding: 0px;">
+                                            <th> 0</th>
+                                            <th> .</th>
+                                            <th title="delete last input"><i
+                                                        class="fa fa-angle-double-left"></i>
+                                            </th>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-sm-4" style="text-align: center">
+                                    <div class="well" style="text-align: center;cursor: pointer">
+                                        <h4>Customer</h4>
+                                        <h5><span class="pay_customer pos_cus1"></span></h5>
+                                    </div>
+                                    <button class="btn btn-success invoice_btn"
+                                            style="width: 100%;margin-bottom: 8px"
+                                            disabled>Invoice
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Get Loyalty -->
+            <div class="modal fade loyalty_pay_model" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #4892bb;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Loyalty Promo Validity Check</h4>
+                        </div>
+                        <div class="modal-body" style="padding: 10px">
+                            <div class="row" style="">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Customer Name</label>
+                                        <div class="col-sm-7">
+                                            <input readonly type="text" class="form-control loyalty_pay_customer" name="customer_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Loyalty Ref</label>
+                                        <div class="col-sm-7">
+                                            <input readonly type="text" class="form-control loyalty_pay_loyalty" name="loyalty_loyalty">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Promo Code</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control loyalty_pay_promo_code" name="loyalty_promo"
+                                                   placeholder="Enter the promo code" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="well promo_pay_info" style="display: none;text-align: center;">
+                                <div class="row promo_pay_suc">
+                                    <div class="col-sm-8">
+                                        <h3 class="" style="color: green;margin-top: 5px;">Promo Code Validated !!</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-primary use_pay_code" value="">Use Code</button>
+                                    </div>
+                                </div>
+
+                                <h3 class="promo_pay_unsuc" style="color: red;display: none">Promo Code Not Valid !!</h3>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default validate_pay_code">Validate Code</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        {#pos page#}
+        <div class="row zel" style="height: 100% ;">
+
+            {#left plane#}
+            <div class="col-sm-4  col-xs-12 bill" style="border-right-style: solid; border-right-color: #005266; overflow-y: auto;  overflow-x: hidden">
+                <div class="price" style="height: 50%;" >
+                    <div style="overflow-y :auto ; height: 100%;">
+                        <table class="table" >
+                            <tbody class="product_add_table">
+
+                            </tbody>
+                        </table>
+
+                        <table class="table">
+                            <tbody class="product_return_table" style="border: solid;border-color: #0a0a0a;border-width: 1px">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="hello">
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3" style="text-align: center;margin-top: 6%;padding-left: 5%">
+                            <button  class="btn btn-danger btn-xs remove_all" style="margin-left: 2%">Remove All
+                            </button>
+                        </div>
+                        <div class="col-sm-9">
+                            <div class="row">
+                                <div class="col-sm-6 lead" style="margin-bottom: 0px;">
+                                    <h4 style="margin-bottom: 0px;font-size: 80%"><b>Total No of Products</b></h4>
+                                </div>
+                                <div class="col-sm-6 lead" style="margin-bottom: 0px;padding-right: 10%;text-align: right">
+                                    <h4 style="margin-bottom: 0px;font-size: 80%"><span class="total_product_count">0</span></h4>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 lead" style="word-spacing: 15px;font-size: 90%;margin-bottom: 0px;">
+                                    <h4><b>Total (Rs.)</b></h4>
+                                </div>
+                                <div class="col-sm-6 lead" style="font-size: 90%;margin-bottom: 0px;padding-right: 10%;text-align: right">
+                                    <h4><span class="total_product_amount">0</span></h4>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="pos_input_tab" style="height: 10%;margin-left: 0px; width: 100%;">
+                        <input value="" class="form-control pos_input "/>
+                    </div>
+                </div>
+
+
+                <div class="row cal" style="">
+                    <div class="row col-sm-12">
+
+                        <div class="col-sm-6 col-xs-6 text-left">
+                            <div title="select or add customer" class="row"
+                                 style="height: 40px;cursor: pointer;margin: 0px">
+                                {#<div class="col-sm-2"><i class="fa fa-user"></i></div>#}
+                                <a class="btn btn-md btn-primary pos_cus pos_customer"
+                                   style="align-content: center;cursor: pointer"><span class="fa fa-user"></span> Add Customer</a>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-sm-6 col-xs-6 text-right">
+                            <div class="row " style="height: 40px;cursor: pointer;margin: 0px">
+                                <div ><a class="btn btn-md pos_payment btn-primary "
+                                         style="align-content: center;cursor: pointer;margin-left: 35px "><span class="fa fa-chevron-circle-right"></span> Payment</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div style="height: 55px"></div>
+                    <div style="padding: 0px">
+                        <table class="pos_controller" style="width:95%; margin-left: 15px ">
+                            <tr style="padding: 0px;">
+                                <th> 1</th>
+                                <th> 2</th>
+                                <th> 3</th>
+                                <th title="Enter product quantity" class="qty">Qty</th>
+                            </tr>
+                            <tr style="padding: 0px;">
+                                <th> 4</th>
+                                <th> 5</th>
+                                <th> 6</th>
+                                <th class="discount"><div class="btn-group">
+                                        <button style="background-color: #e8e8e8;" type="button" class="discount btn btn-default small_Modal" >
+                                            <b>Dis</b>
+                                        </button>
+                                        <ul class="dropdown-menu" style="padding: 10px;">
+                                        <li><a style="color: white;background: #4892bb;" class="btn btn-primary loyalty_dis" href="#">Loyalty Discount</a></li>
+                                        <li><a style="color: white;background: #4892bb;" class="btn btn-primary normal_dis" href="#">Normal Discount</a></li>
+                                        </ul>
+                                    </div></th>
+                            </tr>
+                            <tr style="padding: 0px;">
+                                <th> 7</th>
+                                <th> 8</th>
+                                <th> 9</th>
+                                <th class="enter" title="Enter input to apply"><i
+                                            class="fa  fa-mail-forward"></i>
+                                </th>
+                            </tr>
+                            <tr style="padding: 0px;">
+                                <th class="tax" title="enter tax values">Tax</th>
+                                <th> 0</th>
+                                <th> .</th>
+                                <th class="del" title="delete last input"><i
+                                            class="fa fa-angle-double-left"></i>
+                                </th>
+                            </tr>
+                        </table>
+                        <div class="col-sm-3 calldiv">
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            {# end left plane #}
+
+
+            {# right plane#}
+            <div class="col-sm-8  col-xs-12 mze" style="height:100%; background-color:#d9d9d9 ; padding: 0px; overflow-y: scroll;overflow-x: hidden">
+                <div class="row" style="background: #dadada;margin: 0px">
+                        <div class="col-sm-4" style="padding: 0px">
+                            <select id="type|home" class=" form-control product_type">
+                                <option selected disabled value="">choose product type</option>
+                                <option value="0">All</option>
+                                {% for cat in categories %}
+                                    <option value="{{ cat.id }}">{{ cat.categoryName }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-sm-offset-1 col-sm-2">
+                            <button class=" btn btn-primary return_product">Return Product</button>
+                        </div>
+                      <div class="col-sm-offset-1 col-sm-4">
+                            {#<input class=" form-control product_search" type="text"#}
+                                   {#placeholder="product search"/>#}
+                            <input class=" form-control product_search" id="scannerInput" placeholder="product search"  type="text"/>
+                        </div>
+                         <div class="col-sm-offset-0-5 col-sm-2">
+                            {#<input class=" form-control product_search1" type="text"#}
+                                   {#placeholder="product1"/>#}
+                            <input class=" form-control product_search1" id="scannerInput1" placeholder="barcode"  type="hidden" readonly="false"/>
+                        </div>
+                </div>
+                <div id="view|home" class="row product_view product_middle"
+                     style="overflow-y: scroll;background-color: #f2f2f2 ; height: 90%;  margin: 0px;cursor: pointer">
+                    {#{{ products|length }}#}
+                     {% for product in products %}
+                        {% if product.qty > 0 %}
+                            <div class="product_add " id="p_select-{{ product.product.id }}"
+                                 style="padding: 5px;min-height: 170px;overflow: hidden;display: inline-block;text-align: center;border: solid 1px #4892bb;border-radius: 10px;height: 160px; margin: 10px; background-color: #ffffff">
+                                <lable style="border-radius: 2px;background: #274454;padding: 1px 5px;color: #fcfaff; text-align: center; height: 20px;margin-top: 5px">
+                                    Rs {{ product.product.sellingPrice }}</lable>
+                                <br/>
+                                {% if product.product.imageUrl and product.product.imageUrl != 'null' %}
+                                    <img src="/uploads/products/{{ product.product.imageUrl }}"
+                                         style="padding: 10px;height: 100px ;">
+                                {% else %}
+                                    <img src={{images.logo}} style="padding:10px;height: 100px">
+                                {% endif %}
+                                <br/>
+                                <lable style=" text-align: center; height: 20px; padding: 3px">{{ product.product.productName }}</lable>
+                            </div>
+                        {% endif %}
+                    {% endfor %} 
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 tt" style="margin-bottom: 15px;margin-left: 10px">
+                        <div class="btn-group btn-group-sm" style="margin-left: 10px">
+                            <button disabled type="button" value="0" class="btn btn-primary product_page product_prev">Prev</button>
+                            <button type="button" value="1" class="btn btn-primary product_page product_next">Next</button>
+                        </div>
+
+                        <div class="btn-group btn-group-sm" style="margin-left: 20px">
+                            <button type="button" value="0" class="btn btn-primary product_page product_sync">Sync Products</button>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <!--Discount Modal -->
+            <div class="modal fade discount_Modal" tabindex="-1" role="dialog" id="dumy_modal" >
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #4892bb;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Select Discount type</h4>
+                        </div>
+                        <div class="modal-body">
+                            <a data-dismiss="modal" style="color: white;background: #4892bb; margin: 10px" class="btn btn-primary loyalty_dis" href="#">Loyalty Discount</a>
+                            <a data-dismiss="modal" style="color: white;background: #4892bb; margin: 10px" class="btn btn-primary normal_dis" href="#">Normal Discount</a>
+                        </div>
+
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!--Customer Modal -->
+            <div class="modal fade bs-example-modal-lg cus_list" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #4892bb;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Select Customer</h4>
+                        </div>
+                        <div class="modal-body" style="overflow-y: scroll;padding: 10px">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-6 " style="padding: 5px">
+                                        <div class="row">
+                                            <div class="form-group col-sm-9">
+                                                <input type="text" class="form-control search_customer"
+                                                       placeholder="Search Customer">
+                                            </div>
+                                            <div class="form-group col-sm-1"
+                                                 style="margin-left: -10%;padding-left: 0%">
+                                                <div class="input-group-btn">
+                                                    <button class="btn btn-default" type="button"><i
+                                                                class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-sm-1">
+                                                <button class="btn btn-primary add-customer"
+                                                        title="Add new customer"><span
+                                                            class="glyphicon glyphicon-plus"></span></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="cus_table" class="table table-bordered table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Telephone</th>
+                                            <th>Loyalty Reference</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="cus_list_tbody">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--Add New Customer Modal -->
+            <div class="modal fade new_customer" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #4892bb;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Add New Customer</h4>
+                        </div>
+                        <div class="modal-body" style="overflow-y: scroll;padding: 10px">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Customer Name</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control customer" name="customer_name"
+                                                   placeholder="Enter Customer Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Email</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control email" name="customer_email"
+                                                   placeholder="Enter Customer Email Address" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Phone No</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control phone" name="customer_phone"
+                                                   placeholder="Enter Customer Phone Name" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Address</label>
+                                        <div class="col-sm-7">
+                                                <textarea type="text" class="form-control address" name="customer_address"
+                                                          rows="3" placeholder="Enter Customer Address" required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Loyalty Ref</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control customer_loyalty" name="customer_loyalty"
+                                                   placeholder="If already registered loyalty customer" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default add_customer">Add Customer</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--Get Loyalty -->
+            <div class="modal fade loyalty_customer_model" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header" style="background: #4892bb;">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Loyalty Promo Validity Check</h4>
+                        </div>
+                        <div class="modal-body" style="padding: 10px">
+                            <div class="row" style="">
+                                <div class="col-sm-12">
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Customer Name</label>
+                                        <div class="col-sm-7">
+                                            <input readonly type="text" class="form-control loyalty_customer" name="customer_name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Loyalty Ref</label>
+                                        <div class="col-sm-7">
+                                            <input readonly type="text" class="form-control loyalty_loyalty" name="loyalty_loyalty">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label class="col-sm-5 control-label">Promo Code</label>
+                                        <div class="col-sm-7">
+                                            <input type="text" class="form-control loyalty_promo_code" name="loyalty_promo"
+                                                   placeholder="Enter the promo code" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="well promo_info" style="display: none;text-align: center;">
+                                <div class="row promo_suc">
+                                    <div class="col-sm-8">
+                                        <h3 class="" style="color: green;margin-top: 5px;">Promo Code Validated !!</h3>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <button class="btn btn-primary use_code" value="">Use Code</button>
+                                    </div>
+                                </div>
+
+                                <h3 class="promo_unsuc" style="color: red;display: none">Promo Code Not Valid !!</h3>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default validate_code">Validate Code</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+

@@ -1,0 +1,26 @@
+var mysqlDb = require('../../models/mysql');
+
+/**
+ * Generate option boxes in a form based on relations.
+ * @param modelName
+ * @param property
+ * @returns {string}
+ */
+function formOptionBox(modelName, property) {
+    var optionsHTML = '', results;
+    var i = 0;
+    var model = mysqlDb.getModel(modelName);
+    mysqlDb.getQuery(modelName).getAll(model, function (output) {
+        results = output;
+
+        results.forEach(function (result) {
+            optionsHTML += '<option id="' + result.get('id') + '">' + result.get(property) + '</option>'
+        });
+    });
+
+
+    return optionsHTML;
+}
+
+
+module.exports = formOptionBox;

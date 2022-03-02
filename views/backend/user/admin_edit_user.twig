@@ -1,0 +1,130 @@
+{% extends 'super_admin.twig' %}
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Edit User</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <div class="row">
+            <div class="col-sm-8">
+                <form class="form-horizontal" id="form" method="post" name="form"
+                      autocomplete="false">
+                    {% for result in results %}
+                        <div class="box-body col-sm-12">
+                            <div class="form-group">
+                                <div class="col-sm-9">
+                                    <input type="hidden"  name="id" value={{ result.id }} />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Full Name</label>
+
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="fullName" name="fullName" placeholder="Name" value={{ result.fullName }}  required>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail3" class="col-sm-3 control-label">Username</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" value={{ result.username }} required>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="is_update_password" class="col-sm-3 control-label">Change Password</label>
+                                <div class="col-sm-9">
+                                    <input type="checkbox" id="is_update_password" >
+                                </div>
+                            </div>
+                            <div class="form-group" id="password_container" style="display: none;">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Password</label>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control" id="new_password" name="new_password" placeholder="Password" autocomplete="new-password">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Branch</label>
+                                <div class="col-sm-9">
+                                    <select id="branchId" name="branchId" list="branchList" class="form-control select2 select2-hidden-accessible" required>
+                                        {% for branch in branches%}
+                                            <option value="{{ branch.id }}"
+                                                    {% if branch.id == result.branch.id %}selected{% endif %}
+                                            >{{ branch.branchName }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Role</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="roleId" name="roleId" required>
+                                        {% for role in user_role%}
+                                            <option value="{{ role.id }}"
+                                                    {% if role.id == result.user_role.id %}selected{% endif %}
+                                            >{{ role.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="inputPassword3" class="col-sm-3 control-label">Status</label>
+
+                                <div class="col-sm-9">
+                                    <select class="form-control" id="statusId" name="statusId" required>
+                                        {% for status in user_status %}
+                                            <option value="{{  status.id}}"
+                                                    {% if status.id == result.user_status.id %}selected{% endif %}
+                                            >{{ status.name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-10 col-sm-2">
+                                    <button style="width: 100%" type="submit" id="update" class="btn btn-info pull-right">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.box-body -->
+                        {#<div class="box-footer">#}
+
+                        {##}
+                        {#</div>#}
+                        <!-- /.box-footer -->
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="col-sm-4">
+                <img src={{ images.profile }} class="img img-responsive" style="opacity: 0.6"/>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+    {% block onloadJS %}
+
+        <script type="text/javascript">
+
+            let url = '{{ getURL('post.user.update') }}';
+            let redirectUri = "{{ getURL('get.user.list') }}";
+        </script>
+
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+        <script type="text/javascript" src="../controller/backend/user/edit_user_controller.js"></script>
+
+    {% endblock %}

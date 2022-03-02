@@ -1,0 +1,69 @@
+
+hr {
+    background: black;
+    height: 1px;
+    margin: 0px;
+}
+
+.vertical-center {
+    min-height: auto;
+    min-height: auto;
+
+    display: flex;
+    align-items: center;
+}
+
+.vertical-center h5 {
+    margin: 0px;
+}
+
+.trSelect {
+    background: #4892bb8c;
+}
+
+.pos_controller th {
+    cursor: pointer;
+}
+
+.pos_controller th:hover {
+    background-color: #8fbdce;
+}
+
+.pos_payment_controller th:hover {
+    background-color: #8fbdce;
+    cursor: pointer;
+}
+
+.customer:hover {
+    background-color: #8fbdce;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    #customer .modal-content {
+        min-width: 140%;
+        left: -20%;
+    }
+}
+
+.vertical-center {
+    min-height: auto;
+    min-height: auto;
+
+    display: flex;
+    align-items: center;
+}
+
+.btn-primary {
+    color: black;
+    background-color: #e0e0e0;
+}
+
+.invoice_table > thead > tr > th {
+    border: none;
+    text-align: left;
+}
+
+.lef-alg{
+    text-align:left
+}

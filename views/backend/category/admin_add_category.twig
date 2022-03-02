@@ -1,0 +1,106 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% else %}
+    {% extends 'admin.twig' %}
+{% endif %}
+
+{#{% extends '../layout.twig' %}#}
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <div style="height:50px;"></div>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <div class="box box-info">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Add Category</h3>
+                </div>
+                <!-- /.box-header -->
+                <!-- form start -->
+                <form id="data" name="data" class="form-horizontal">
+
+                    <div class="box-body col-sm-12">
+
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-3 control-label">Name</label>
+
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" required>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <!-- /.box-body -->
+                    <div class="box-footer">
+
+                        <button type="button" id="add-submit" class="btn btn-info pull-right">Add</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+{% endblock %}
+    {% block onloadJS %}
+ 
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+        <script type="text/javascript">
+           
+
+
+
+            $('#add-submit').click(function(){
+
+                let isValid = validateForm();
+
+                if(isValid) {
+               
+                    bootbox.confirm("Are you sure that you want to add the category?", function(confirm) {
+                        if(confirm) {
+                            let data = $('#data').serialize();
+                  
+
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ getURL('post.category.add') }}",
+                                data: data,
+                                success: function (result) {
+                                  
+
+                                    if(result.status === 500) {
+                                        bootbox.alert("Category Already Exist", function () {
+                                            window.location.reload();
+                                        });
+                                    }else {
+                                        bootbox.alert("Category added successfully", function () {
+                                            let redirectUri = "{{ getURL('get.category.list') }}";
+                                            window.location.replace(redirectUri);
+                                        });
+                                    }
+
+                                }
+                            });
+                        }
+                    });
+                }
+
+            });
+            
+            function validateForm() {
+                if($('#name').val().length > 0) {
+                    return true;
+                }
+
+                bootbox.alert('Please Enter Category name');
+
+                return false;
+            }
+
+
+        </script>
+    {% endblock %}

@@ -1,0 +1,31 @@
+[{
+    "partnumber": "spp-55-555",
+    "barcode": "4585-5585-2255",
+     "name": "Addidas shoe",
+    "description": "damage delevary",
+    "category": "category1",
+    "cost": "400",
+    "sellingprice": "800",
+    "minquantity": "80",
+    "reorderlevel": "10"
+},{
+    "partnumber": "spp-55-555",
+    "barcode": "4585-5585-2255",
+     "name": "Addidas shoe",
+    "description": "damage delevary",
+    "category": "category1",
+    "cost": "400",
+    "sellingprice": "800",
+    "minquantity": "80",
+    "reorderlevel": "10"
+},{
+    "partnumber": "spp-55-555",
+    "barcode": "4585-5585-2255",
+     "name": "Addidas shoe",
+    "description": "damage delevary",
+    "category": "category1",
+    "cost": "400",
+    "sellingprice": "800",
+    "minquantity": "80",
+    "reorderlevel": "10"
+}]

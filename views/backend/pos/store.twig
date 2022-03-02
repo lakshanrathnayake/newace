@@ -1,0 +1,187 @@
+{% extends 'super_admin.twig' %}
+    {% block styles %}
+        <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
+        <style>
+            table {
+                border-collapse: collapse;
+                border: 2px black solid;
+                font: 12px sans-serif;
+            }
+
+            td {
+                border: 1px black solid;
+                padding: 5px;
+            }
+        </style>
+    {% endblock %}
+
+
+{% block content %}
+    <div class="box" style="border-top: 3px solid #4892bb;">
+        <div class="box-header with-border" style="margin-bottom: 1%">
+            <h3 class="box-title">Store List Audit Report</h3>
+        </div>
+        <div class="box-body">
+            <div class="row " style="margin: 1px;margin-bottom: 10px ">
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+
+                        <div class="col-sm-9">
+                            <input type="text" id="product_name" name="Product_Name" list="suggestion1"
+                                   class="form-control" autocomplete="off" placeholder="Product Name">
+                        </div>
+                        <div class="col-sm-3">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+
+                        <div class="col-sm-9">
+                                <select id="branch" class="form-control" >
+                                <option selected readonly value="">All
+                                <option value="WareHouse">WareHouse
+                                <option value="Negombo">Negombo
+                                <option value="Kotte">Kotte
+                                <option value="Bambalabitiya">Bambalabitiya
+                            </select>
+                        </div>
+                        <div class="col-sm-3">
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="input-group" style="text-align: center">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input name="from" type="text"
+                               value="{{ "now"|date("m/d/Y") }}"
+                               class="form-control date" id="date_pick"/>
+                    </div>
+                </div>
+            </div>
+
+
+            <table class="table table-bordered table-striped" id="sessionTable" class="display" style="width:100%">
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>User Name</th>
+                    <th>User Id</th>
+                    <th>Role</th>
+                    <th>Barcode</th>
+                    <th>Product Name</th>
+                    <th>Previous Quantity</th>
+                    <th>New Quantity</th>
+                    <th>Branch</th>
+                </tr>
+                </thead>
+
+            </table>
+
+
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
+
+ {% block onloadJS %}
+
+     <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+
+     <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+     <script type="text/javascript" charset="utf-8">
+
+         $(document).ready(function () {
+
+
+             console.log("fddddddd")
+
+             var get_data = "{{ result }}".split(/\r?\n|\r/);
+             var split_data = get_data[0].split(',');
+             var table_rows = [];
+
+
+             while (split_data.length) {
+                 table_rows.push(split_data.splice(0, 9));
+             }
+
+             console.log(table_rows);
+             console.log(table_rows.length);
+
+             if (table_rows[0] == "") {
+                 table_rows.length = 0;
+
+                 var table = $('#sessionTable').DataTable({
+                     "data": [],
+                     "bProcessing": true,
+                     "searching": true,
+                     "sDom": "ltipr",
+                     "columnDefs": [{
+                         "defaultContent": "",
+                         "targets": "_all"
+                     }],
+                     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                 });
+             }
+             else {
+
+                 var table = $('#sessionTable').DataTable({
+                     "data": table_rows,
+                     "bProcessing": true,
+                     "searching": true,
+                     "sDom": "ltipr",
+                     'info': true,
+                     "order": [[1, "desc"]],
+                     "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]]
+                 });
+                 // #column3_search is a <input type="text"> element
+                 $('#product_name').on('keyup', function () {
+                     table
+                         .columns(5)
+                         .search(this.value)
+                         .draw();
+                 });
+
+
+                 $('#branch').on('change', function () {
+                     table
+                         .columns(8)
+                         .search(this.value)
+                         .draw();
+                 });
+
+
+                 $('#date_pick').on('change', function () {
+
+                     var v = $(this).val().split(" ");  // getting search input value
+
+                     table.columns(0).search(v[0]).draw();
+                 });
+
+
+             }
+
+
+             $('.date').datepicker({
+                 daysOfWeekHighlighted: "0,6",
+                 autoclose: true,
+                 todayHighlight: true,
+                 endDate: '+1d' //Disable future dates
+             });
+         } );
+
+
+     </script>
+
+
+ {% endblock %}

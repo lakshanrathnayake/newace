@@ -1,0 +1,112 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% else %}
+    {% extends 'admin.twig' %}
+{% endif %}
+
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+{% endblock %}
+{% block content %}
+   
+    <div class="box" style="border-top: 3px solid #4892bb;">
+        <div class="box-header">
+            <h3 class="box-title">List of Taxes</h3>
+        </div>
+
+       {# <form class="form-horizontal" id="data" method="get" name="data" action="{{ getURL('get.tax.list') }}">
+            <!-- search details -->
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-3 control-label">Name</label>
+
+                    <div class="col-sm-9">
+                        <input type="text" id="name" list="suggestion" placeholder="enter name" class="form-control"
+                               autocomplete="off">
+                        <datalist class="form-control" id="suggestion" style="display: none">
+                            {{ formOptionBox('tax','name','','id') }}
+                        </datalist>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-1">
+                  <button type="submit" id="add" class="btn btn-info pull-right">
+                      <span class="glyphicon glyphicon-search"></span>
+                  </button>
+            </div>
+
+        </form>#}
+
+        <!-- search details -->
+
+
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="display:none;">ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                    {# <th style="text-align: center">Action</th>#}
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                {% for result in results %}
+                    <tr>
+                        <td style="display:none;">{{ result.id }}</td>
+                        <td>{{ result.taxName }}</td>
+                        <div>
+                            <td style="text-align: center">
+
+                                <a class="btn btn-success fa fa-edit"
+                                   href="{{ getURL('get.tax.edit')~'?id='~result.id }}"></a>
+                            </td>
+                        </div>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+          {#  <div class="box-footer">
+                 <a href="{{ getURL('get.tax.list')~'?page='~results.pageNext[0] }}">
+                     <button type="submit" class="btn btn-info pull-right">Next</button>
+                 </a>
+
+                 <a href="{{ getURL('get.tax.list')~'?page='~results.pagePrev[0] }}">
+                     <button style="margin-right: 1%" type="submit" class="btn btn-info pull-right">Previous</button>
+                 </a>
+            </div>#}
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endblock %}
+    {% block onloadJS %}
+       {# <script>
+            function deleteFunction(id) {
+                if (confirm("Are you sure that you want to delete this tax?")) {
+                    window.location.href = "{{ getURL('get.tax.delete')~'?id=' }}" + id;
+                } else {
+
+                }
+            }
+        </script>#}
+
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                $('#table').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    "order":[[1,"desc"]],
+                    'autoWidth': false
+                });
+            })
+        </script>
+    {% endblock %}

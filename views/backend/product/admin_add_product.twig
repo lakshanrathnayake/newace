@@ -1,0 +1,664 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% else %}
+    {% extends 'admin.twig' %}
+{% endif %}
+{#{% extends '../layout.twig' %}#}
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <link href="/select2/dist/css/select2.min.css" rel="stylesheet"/>
+    <style>
+        .form-inline .form-control {
+            width: 100% !important;
+        }
+
+        .select2-container {
+            width: 100% !important;
+        }
+
+        .select2-selection__choice {
+            color: black !important;
+        }
+
+        th.hide_me, td.hide_me {
+            display: none;
+        }
+
+        .img-responsive, .thumbnail a>img, .thumbnail>img {
+            display: block;
+            max-width: 100%;
+            height: 50%;
+            width: 50%;
+        }
+
+        .table{
+            table-layout: auto;
+        }
+    </style>
+
+
+{% endblock %}
+{% block content %}
+
+
+    <div>
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title">Add Multiple Products</h3>
+
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                </div>
+                <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <form class="form-horizontal" id="main_form">
+                <div class="box-body">
+
+                    {#<div class="form-group col-sm-6">#}
+                    {#<label for="inputEmail3" class="col-sm-3 control-label">MFP No</label>#}
+                    {#<div class="col-sm-9">#}
+                    {#<input type="text" class="form-control" id="mfpno" name="mfpno"#}
+                    {#placeholder="Manufacturer Part Number" required>#}
+                    {#</div>#}
+                    {#</div>#}
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Design No</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="dsgno" name="dsgno"
+                                   placeholder="Design Number" maxlength="5" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="description" name="description"
+                                   placeholder="Description" maxlength="250"  required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Category</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="category" name="category" required>
+                                {% for cat in results.categories %}
+                                    <option value="{{ cat.id }}?{{ cat.categoryName }}">{{ cat.categoryName }}</option>
+                                {% endfor %}
+                                {#{{ formOptionBox('category','categoryName') }}#}
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputPassword3" class="col-sm-3 control-label">Manufacturer Price</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="mf_price" name="mf_price" placeholder="Manufacturer Price"
+                                   pattern="^[0-9]" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputPassword3" class="col-sm-3 control-label">Minimum Order Quantity</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="min_quantity" name="min_quantity"
+                                   pattern="^[0-9]" min="0" placeholder="Min Order Quantity"
+                                   required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Selling Price</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="selling_price" name="selling_price"
+                                   pattern="^[0-9]" min="0" placeholder="Selling Price"
+                                   required>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Reorder Level</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="reorder_level" name="reorder_level"
+                                   pattern="^[0-9]" min="0" placeholder="Reorder Level"
+                                   required>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group col-sm-6" id="tax">
+
+                        <label for="inputEmail3" class="col-sm-3 control-label">Taxes </label>
+                        <div class="col-sm-9 repeat-panel">
+                            <div class="repeat-content">
+                                <div class="row repeat-row">
+                                    <div class="col-sm-4">
+                                        <select class="form-control" name="tax_type[]" required>
+                                            {% for tax in results.taxs %}
+                                                <option value="{{ tax.id }}">{{ tax.taxName }}</option>
+                                            {% endfor %}
+                                            {#{{ formOptionBox('tax_type','taxName') }}#}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <input type="number" class="form-control" name="tax_amount[]"
+                                               pattern="^[0-9]" min="0" value="0" placeholder="amount">
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="button"
+                                                class="btn btn-default btn-sm addtax pull-right close-repeat"><i
+                                                    class="fa fa-close"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-11">
+                                    <button type="button"
+                                            class="btn btn-default btn-sm addtax pull-right repeat-action"
+                                            id="addtax"><i class="fa fa-plus-square"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div>
+                        <div class="row">
+                            <div class="col-sm-1">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-sm-6">
+                        <label for="inputEmail3" class="col-sm-3 control-label">Product Image</label>
+                        <div class="col-sm-9">
+                            <input type='file' name="sampleFile" class="form-control " id="product_image" />
+                            <img id="img_preview" class="img img-responsive"
+                                 style="" src={{ images.defaultProductImage }}
+                                 alt="upload product image"/>
+                            <textarea id="base" style="" hidden></textarea>
+                            <textarea id="image_k" hidden></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-sm-12" id="parameter">
+                        <div style="height: 20px"></div>
+                        <label for="inputEmail3" class="col-sm-2 control-label" style="width: 12%;">Parameters </label>
+                        <div class="col-sm-10 repeat-panel">
+                            <div class="repeat-content">
+                                <div class="dummy" style="display: none">
+                                    <div class="row repeat-row" style="margin-top: 10px">
+                                        <div class="col-sm-3" style="margin-top: 3px">
+                                            {#<select class="form-control template" name="parameter[]" required>#}
+                                            {##}
+                                            {#</select>#}
+                                            <input class="form-control template" placeholder="name"
+                                                   name="parameter[]" list="suggestions">
+                                            <datalist id="suggestions">
+                                                {% for temp in results.templates %}
+                                                <option id="{{ temp.type }}" value="{{ temp.type }}"
+                                                        data-id='{{ temp.variation|raw }}'>
+                                                    {% endfor %}
+                                            </datalist>
+                                        </div>
+                                        <div class="col-sm-8" style="margin-top: 3px;">
+                                            <div class="re-col">
+                                                <select class="js-example-basic-multiple val_select" name="states[]"
+                                                        multiple="multiple">
+                                                </select>
+                                            </div>
+                                            <div class="col-sm-1" style="margin-top: 3px;display: none">
+                                                <input class="form-control" placeholder="name"
+                                                       name="states[]" value="DIV"/>
+                                            </div>
+                                            {#<div class="re-col2" style="display: none">#}
+                                            {#<div class="col-sm-2 " style="margin-top: 3px">#}
+                                            {#<input class="form-control" placeholder="value" name="value[]">#}
+                                            {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="col-sm-1" style="margin-top: 3px;display: none">#}
+                                            {#<input class="form-control" placeholder="name"#}
+                                            {#name="value[]" value="DIV"/>#}
+                                            {#</div>#}
+                                            {#<div class="col-sm-2" style="margin-top: 3px">#}
+                                            {#<button type="button"#}
+                                            {#class="btn btn-default btn-sm addtax pull-right repeat-action3"#}
+                                            {#id="addtax"><i class="fa fa-plus-square"></i></button>#}
+                                            {#<button type="button" style="margin-right: 5px"#}
+                                            {#class="btn btn-default btn-sm addtax pull-right close-repeat3">#}
+                                            {#<i#}
+                                            {#class="fa fa-close"></i></button>#}
+                                            {#</div>#}
+                                        </div>
+                                        <div class="col-sm-1" style="margin-top: 3px">
+                                            <button type="button" style="margin-right: 5px"
+                                                    class="btn btn-default btn-sm addtax pull-right close-repeat3"><i
+                                                        class="fa fa-close"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row repeat-row" style="margin-top: 10px">
+                                    <div class="col-sm-3" style="margin-top: 3px">
+                                        <input class="form-control template" placeholder="name"
+                                               name="parameter[]" list="suggestions">
+                                        <datalist id="suggestions">
+                                            {% for temp in results.templates %}
+                                            <option id="{{ temp.type }}" value="{{ temp.type }}"
+                                                    data-id='{{ temp.variation|raw }}'>
+                                                {% endfor %}
+                                        </datalist>
+                                    </div>
+                                    <div class="col-sm-8" style="margin-top: 3px;">
+                                        <div class="re-col">
+                                            <select class="js-example-basic-multiple val_select" name="states[]"
+                                                    multiple="multiple">
+                                            </select>
+                                        </div>
+                                        <div class="col-sm-1" style="margin-top: 3px;display: none">
+                                            <input class="form-control" placeholder="name"
+                                                   name="states[]" value="DIV"/>
+                                        </div>
+                                        {#<div class="re-col2" style="display: none">#}
+                                        {#<div class="col-sm-2 " style="margin-top: 3px">#}
+                                        {#<input class="form-control" placeholder="value" name="value[]">#}
+                                        {#</div>#}
+                                        {#</div>#}
+                                        {#<div class="col-sm-1" style="margin-top: 3px;display: none">#}
+                                        {#<input class="form-control" placeholder="name"#}
+                                        {#name="value[]" value="DIV"/>#}
+                                        {#</div>#}
+                                        {#<div class="col-sm-2" style="margin-top: 3px">#}
+                                        {#<button type="button"#}
+                                        {#class="btn btn-default btn-sm addtax pull-right repeat-action3"#}
+                                        {#id="addtax"><i class="fa fa-plus-square"></i></button>#}
+                                        {#<button type="button" style="margin-right: 5px"#}
+                                        {#class="btn btn-default btn-sm addtax pull-right close-repeat3"><i#}
+                                        {#class="fa fa-close"></i></button>#}
+
+                                        {#</div>#}
+                                    </div>
+
+                                    {#<div class="col-sm-1" style="margin-top: 3px">#}
+                                    {#<button type="button" style="margin-right: 5px"#}
+                                    {#class="btn btn-default btn-sm addtax pull-right close-repeat3"><i#}
+                                    {#class="fa fa-close"></i></button>#}
+                                    {#</div>#}
+                                </div>
+
+                            </div>
+
+                            <div class="row" style="margin-top: 10px">
+                                <div class="col-sm-2">
+                                    <button type="button"
+                                            class="btn btn-default btn-sm addtax pull-left repeat-action2"
+                                            id="addtax"><i class="fa fa-plus-square"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="form-group col-sm-12">
+                            <div class="form-group col-sm-11">
+                                <button type="submit" id="add" name="add" class="btn btn-info pull-right save"
+                                        style=" margin-right: -60px;">Add
+                                </button>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </form>
+
+
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+
+
+
+
+    <div class="box box-info">
+        <div class="box-header with-border">
+            <h3 class="box-title">Product List</h3>
+        </div>
+        <!-- /.box-header -->
+        <!-- form start -->
+        <form id="product-add-list" class="form-horizontal" method="post">
+            <div class="box-body">
+
+
+                <div style="height: 40px"></div>
+
+                <input id="taxUP" type="text" style="display: none;" name="taxs"/>
+                <table id="productTable" class="table table-bordered table-hover" >
+                    <thead>
+                    <tr>
+                        <th>Design Number</th>
+                        <th>Barcode</th>
+                        <th style="width:15.5%;">Name</th>
+                        <th style="width: 11.5%">Description</th>
+                        <th class="hide_me">CategoryId</th>
+                        <th>Category</th>
+                        <th>Manufacturer Price</th>
+                        <th>Cost</th>
+                        <th>Selling Price</th>
+                        <th>Minimum Order Quantity</th>
+                        <th>Re-Order Level</th>
+                        <th style="text-align: center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+
+                <div style="height: 20px"></div>
+                <div class="form-group col-sm-11">
+                </div>
+
+                <div class="form-group col-sm-1">
+                    <button id="add-submit" type="button" id="confirm" class="btn btn-info pull-right edit"
+                            style=" margin-right: -30px;">Confirm
+                    </button>
+                </div>
+                <!-- end table   -->
+                <!-- /.box-body -->
+
+                <!-- /.box -->
+            </div>
+
+
+        </form>
+
+    </div>
+    <script type="text/javascript">
+        //        function checkForm() {
+        //            event.preventDefault();
+        //
+        //        }
+    </script>
+
+{% endblock %}
+    {% block onloadJS %}
+        <script src="/select2/dist/js/select2.min.js"></script>
+        <script type="text/javascript" src="../controller/backend/product/add_product.js"></script>
+        {#<script type="text/javascript" src="../support/barcodeGenerator.js"></script>#}
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        {#<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+        <script type="text/javascript" src="../js/bootbox.min.js"></script>
+
+        <script type="text/javascript">
+
+
+            $(function () {
+
+
+                $('.js-example-basic-multiple').select2();
+                $('.val_select').select2({closeOnSelect: false});
+                {#var options = {{ templates|json_encode }};#}
+                {#console.log(options);#}
+                $('#productTable').DataTable({
+                    'paging': false,
+                    'lengthChange': false,
+                    'searching': false,
+                    'ordering': true,
+                    'info': true,
+                    "order": [[1, "desc"]],
+                    'autoWidth': false,
+                    "aoColumnDefs": [{"sClass": "hide_me", "aTargets": [4]}]
+                });
+
+                $('.repeat-content').on('change', '.template', function () {
+                    var value = $(this).val();
+                    var option = $($(this).parent().find('#' + value).first());
+                    var opt = option.data("id");
+                    var options = opt.toString().split(',');
+//                    console.log(opt);
+//                    console.log(options);
+
+                    var select = $($(this).parents('.repeat-row').find('.re-col').find('.val_select').first());
+                    console.log(select);
+                    $('.val_select').select2({closeOnSelect: false});
+                    if (opt && select && select.length > 0) {
+                        var sel = $(select[0]).clone();
+                        $($(this).parents('.repeat-row').find('.re-col').find(".val_select option")).remove();
+                        sel.val(null).trigger('change');
+                        for (var i in opt) {
+                            var data = {
+                                id: opt[i][Object.keys(opt[i])[0]] + '?' + Object.keys(opt[i])[0],
+                                text: Object.keys(opt[i])[0],
+                                val: opt[i][Object.keys(opt[i])[0]]
+                            };
+
+                            var newOption = new Option(data.text, data.id, false, false);
+                            $($(this).parents('.repeat-row').find('.re-col').find('.val_select').first()).append(newOption).trigger('change');
+                        }
+                    }
+                });
+//                $("#save_image").click(function () {
+//                    var data = $('form_image').serializeArray();
+//                    $('form_image').submit();
+//                    console.log(data);
+//                });
+
+                function getFormData($form){
+                    var unindexed_array = $('#product-add-list').serializeArray();
+                    var indexed_array = {};
+
+                    $.map(unindexed_array, function(n, i){
+                        indexed_array[n['name']] = n['value'];
+                    });
+
+                    return indexed_array;
+                }
+
+                $('#add-submit').click(function (e) {
+
+                    bootbox.confirm('Are you sure that you want to add the products?', function (confirm) {
+                        if (confirm) {
+                            var formData = $('#product-add-list').serializeArray();
+                            var imageName = $('#image_k').val();
+                            var imageBase = $('#base').val();
+
+//                            console.log('xxxxbjwgdwjhjwdhj');
+//                            console.log(imageBase);
+////
+                            console.log();
+                            formData= JSON.stringify(getFormData(1));
+
+                          allData = {
+
+                                formData:formData,
+                                imageName:imageName,
+                                imageBase:imageBase
+
+
+                            }
+
+
+
+//                            var x = Object.keys(alldata).map(function(key) {
+//                                return [alldata[key]];
+//                            });
+
+                            $.ajax({
+                                type: 'POST',
+                                url: "{{ getURL('post.product.add') }}",
+                                data:allData,
+
+                                success: function (data) {
+                                    //  var tableDataForCSV  =  tableToJsonForCSV(data);
+                                    /*      var title = "New Products";
+                                     var text = "Products added successfully !!";*/
+
+                                    if (data.status === 500) {
+                                        bootbox.alert('Product Design Number Duplicated. Please Check');
+                                        //location.reload();
+                                    } else {
+                                        var categoryBox = document.getElementById("category");
+                                        var category = categoryBox.options[categoryBox.selectedIndex].value.split('?')[1]
+                                        var tableDataForCSV = tableToJsonForCSV(data, category);
+                                        bootbox.alert('Products added successfully. Product_Update.csv file will be downloaded in seconds.', function () {
+
+                                            var saveAs = saveAs || function (e) {
+                                                    "use strict";
+                                                    if ("undefined" == typeof navigator || !/MSIE [1-9]\./.test(navigator.userAgent)) {
+                                                        var t = e.document, n = function () {
+                                                            return e.URL || e.webkitURL || e
+                                                        }, o = t.createElementNS("http://www.w3.org/1999/xhtml", "a"), r = "download" in o, i = function (e) {
+                                                            var t = new MouseEvent("click");
+                                                            e.dispatchEvent(t)
+                                                        }, a = /Version\/[\d\.]+.*Safari/.test(navigator.userAgent), c = e.webkitRequestFileSystem, d = e.requestFileSystem || c || e.mozRequestFileSystem, u = function (t) {
+                                                            (e.setImmediate || e.setTimeout)(function () {
+                                                                throw t
+                                                            }, 0)
+                                                        }, s = "application/octet-stream", f = 0, l = 4e4, v = function (e) {
+                                                            var t = function () {
+                                                                "string" == typeof e ? n().revokeObjectURL(e) : e.remove()
+                                                            };
+                                                            setTimeout(t, l)
+                                                        }, p = function (e, t, n) {
+                                                            t = [].concat(t);
+                                                            for (var o = t.length; o--;) {
+                                                                var r = e["on" + t[o]];
+                                                                if ("function" == typeof r)try {
+                                                                    r.call(e, n || e)
+                                                                } catch (i) {
+                                                                    u(i)
+                                                                }
+                                                            }
+                                                        }, w = function (e) {
+                                                            return /^\s*(?:text\/\S*|application\/xml|\S*\/\S*\+xml)\s*;.*charset\s*=\s*utf-8/i.test(e.type) ? new Blob(["\uFEFF", e], {type: e.type}) : e
+                                                        }, y = function (t, u, l) {
+                                                            l || (t = w(t));
+                                                            var y, m, S, h = this, R = t.type, O = !1, g = function () {
+                                                                p(h, "writestart progress write writeend".split(" "))
+                                                            }, b = function () {
+                                                                if (m && a && "undefined" != typeof FileReader) {
+                                                                    var o = new FileReader;
+                                                                    return o.onloadend = function () {
+                                                                        var e = o.result;
+                                                                        m.location.href = "data:attachment/file" + e.slice(e.search(/[,;]/)), h.readyState = h.DONE, g()
+                                                                    }, o.readAsDataURL(t), void(h.readyState = h.INIT)
+                                                                }
+                                                                if ((O || !y) && (y = n().createObjectURL(t)), m) m.location.href = y; else {
+                                                                    var r = e.open(y, "_blank");
+                                                                    void 0 === r && a && (e.location.href = y)
+                                                                }
+                                                                h.readyState = h.DONE, g(), v(y)
+                                                            }, E = function (e) {
+                                                                return function () {
+                                                                    return h.readyState !== h.DONE ? e.apply(this, arguments) : void 0
+                                                                }
+                                                            }, N = {create: !0, exclusive: !1};
+                                                            return h.readyState = h.INIT, u || (u = "download"), r ? (y = n().createObjectURL(t), void setTimeout(function () {
+                                                                    o.href = y, o.download = u, i(o), g(), v(y), h.readyState = h.DONE
+                                                                })) : (e.chrome && R && R !== s && (S = t.slice || t.webkitSlice, t = S.call(t, 0, t.size, s), O = !0), c && "download" !== u && (u += ".download"), (R === s || c) && (m = e), d ? (f += t.size, void d(e.TEMPORARY, f, E(function (e) {
+                                                                        e.root.getDirectory("saved", N, E(function (e) {
+                                                                            var n = function () {
+                                                                                e.getFile(u, N, E(function (e) {
+                                                                                    e.createWriter(E(function (n) {
+                                                                                        n.onwriteend = function (t) {
+                                                                                            m.location.href = e.toURL(), h.readyState = h.DONE, p(h, "writeend", t), v(e)
+                                                                                        }, n.onerror = function () {
+                                                                                            var e = n.error;
+                                                                                            e.code !== e.ABORT_ERR && b()
+                                                                                        }, "writestart progress write abort".split(" ").forEach(function (e) {
+                                                                                            n["on" + e] = h["on" + e]
+                                                                                        }), n.write(t), h.abort = function () {
+                                                                                            n.abort(), h.readyState = h.DONE
+                                                                                        }, h.readyState = h.WRITING
+                                                                                    }), b)
+                                                                                }), b)
+                                                                            };
+                                                                            e.getFile(u, {create: !1}, E(function (e) {
+                                                                                e.remove(), n()
+                                                                            }), E(function (e) {
+                                                                                e.code === e.NOT_FOUND_ERR ? n() : b()
+                                                                            }))
+                                                                        }), b)
+                                                                    }), b)) : void b())
+                                                        }, m = y.prototype, S = function (e, t, n) {
+                                                            return new y(e, t, n)
+                                                        };
+                                                        return "undefined" != typeof navigator && navigator.msSaveOrOpenBlob ? function (e, t, n) {
+                                                                return n || (e = w(e)), navigator.msSaveOrOpenBlob(e, t || "download")
+                                                            } : (m.abort = function () {
+                                                                var e = this;
+                                                                e.readyState = e.DONE, p(e, "abort")
+                                                            }, m.readyState = m.INIT = 0, m.WRITING = 1, m.DONE = 2, m.error = m.onwritestart = m.onprogress = m.onwrite = m.onabort = m.onerror = m.onwriteend = null, S)
+                                                    }
+                                                }("undefined" != typeof self && self || "undefined" != typeof window && window || this.content);
+                                            "undefined" != typeof module && module.exports ? module.exports.saveAs = saveAs : "undefined" != typeof define && null !== define && null !== define.amd && define([], function () {
+                                                    return saveAs
+                                                });
+                                            const items = tableDataForCSV;
+                                            const replacer = (key, value) => value === null ? '' : value // specify how you want to handle null values here
+                                            const header = Object.keys(items[0])
+                                            let csv = items.map(row => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+                                            csv.unshift(header.join(','))
+                                            csv = csv.join('\r\n')
+
+                                            var file = new Blob([csv], {type: "text/plain;charset=utf-8"});
+                                            var fileName = 'Product_Update_' + new Date().toISOString() + '.csv';
+                                            saveAs(file, fileName);
+
+                                            location.reload();
+
+                                        })
+                                    }
+
+
+                                    /*  bootbox.alert({
+                                     title: title,
+                                     message: text,
+                                     callback: function () {
+                                     window.location.reload();
+                                     }
+                                     });*/
+                                }
+                            });
+//                            $('#product-add-list').submit();
+                        }
+                    });
+
+
+                });
+                function tableToJsonForCSV(data, category) {
+                    var data1 = [];
+
+                    for (var i = 0; i < data.length; i++) {
+                        var rowData = {};
+                        rowData['Seq'] = data[i].id;
+                        rowData['Internal Category'] = category;
+                        rowData['Internal Reference'] = data[i].barcode;
+                        rowData['Description'] = data[i].productName;
+                        rowData['Name'] = data[i].productName;
+                        var x = data[i].barcode + '';
+                        rowData['Print Size'] = x.substring(x.length, x.length - 2);
+                        rowData['Cost Price'] = data[i].cost;
+                        rowData['Sale Price'] = data[i].sellingPrice;
+                        data1.push(rowData);
+                    }
+                    return data1;
+
+                }
+
+            })
+        </script>
+
+
+    {% endblock %}

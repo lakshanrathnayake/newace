@@ -1,0 +1,91 @@
+{% if user.role == 'SUPER_ADMIN' %}
+    {% extends 'super_admin.twig' %}
+{% elseif user.role == 'ADMIN' %}
+    {% extends 'admin.twig' %}
+{% else %}
+    {% extends 'manager.twig' %}
+{% endif %}
+{% block styles %}
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <style>
+        .content-wrapper{
+            background: white;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <div style="height:10px; "></div>
+    <div class="bo">
+        <div class="box-header with-border">
+            <h3 class="box-title">List of Rejected Store Transfers</h3>
+        </div>
+        <div style="height:20px;"></div>
+        <form class="form-horizontal" id="data" method="get" name="data" >
+            <!-- search details -->
+            <div class="row">
+                <div class="col-sm-4">
+                </div>
+            </div>
+        </form>
+
+
+        <!-- search details -->
+
+
+        <!-- /.box-header -->
+        <div class="box-body">
+            <table id="table" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th style="display:none;">Transfer ID</th>
+                    <th>Transfer Reference</th>
+                    <th>Source Branch</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+
+                {% for result in results %}
+                    <tr id="">
+                        <td style="display:none;">{{ result.id }}</td>
+                        <td>{{ result.grn_no }}</td>
+                        <td>{{ result.destination_name }}</td>
+                        <td>{{ result.date_formatted|date('Y-m-d H:i:s') }}</td>
+                        <div>
+                            <td style="text-align: center">
+
+                                <a class="btn btn-success editbtn fa fa-eye" href="{{ getURL('get.store.store_transfer_reject_list')~'?id='~result.id }}">
+                                </a>
+
+                            </td>
+                        </div>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+                {{ app.request.uri }}
+            </table>
+
+        </div>
+        <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+{% endblock %}
+    {% block onloadJS %}
+        <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+        <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <script>
+            $(function () {
+                $('#table').DataTable({
+                    'paging': true,
+                    'lengthChange': false,
+                    'searching': true,
+                    'ordering': true,
+                    'info': true,
+                    "order":[[2,"desc"]],
+                    'autoWidth': false
+                });
+            })
+        </script>
+    {% endblock %}

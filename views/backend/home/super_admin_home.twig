@@ -1,0 +1,120 @@
+{% extends 'super_admin.twig' %}
+
+{% block styles %}
+
+{% endblock %}
+{% block content %}
+    <!-- Content Header (Page header) -->
+    <div class="row">
+
+
+        <div style="height: 50px"></div>
+
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+
+
+            <!-- /.col -->
+            <div id="listproduct" class="col-md-4 col-sm-6 col-xs-12">
+
+                <div style="cursor: pointer;" onclick="location.href='{{ getURL('get.product.list') }}'"
+                     class="info-box">
+                    <span id="listproduct" class="info-box-icon bg-blue"><i class="fa fa-shopping-cart"></i></span>
+
+                    <div class="info-box-content">
+                        <span id="listproduct" class="info-box-text">Product List</span>
+                        
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+
+
+            <!-- fix for small devices only -->
+            <div class="clearfix visible-sm-block"></div>
+
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div style="cursor: pointer;" class="info-box" onclick="location.href='{{ getURL('get.store.list') }}'">
+                    <span class="info-box-icon bg-lime-active"><i class="fa fa-building"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Store List</span>
+
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <div class="clearfix visible-sm-block"></div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div style="cursor: pointer;" class="info-box"
+                     onclick="location.href='{{ getURL('get.inventory.add') }}'">
+                    <span class="info-box-icon bg-orange-active"><i class="fa fa-exchange"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Add Transfer</span>
+
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <div class="clearfix visible-sm-block"></div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div style="cursor: pointer;" class="info-box"
+                     onclick="location.href='{{ getURL('get.store.order_requests') }}'">
+                    <span class="info-box-icon bg-red-active"><i class="fa fa-inbox"></i></span>
+
+                    <div class="info-box-content">
+                        <p class="info-box-text">Order Requests<span style="margin-left: 4%;background-color:#d33724 !important" class="label label-primary"> {{ results.orderRequestCount[0].count }}</span></p>
+
+
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div style="cursor: pointer;" class="info-box"
+                     onclick="location.href='{{ getURL('get.store.store_transfer_reject') }}'">
+                    <span class="info-box-icon bg-purple-active"><i class="fa fa-reply"></i></span>
+
+                    <div class="info-box-content">
+                        <p class="info-box-text">Transfer Rejects<span style="margin-left: 4%;background-color:#555299 !important; " class="label label-primary">{{ results.transferRejectCount[0].count }}</span></p>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div style="cursor: pointer;" class="info-box"
+                     onclick="location.href='{{ getURL('get.store.store_in') }}'">
+                    <span class="info-box-icon bg-blue-active"><i class="fa fa-cart-plus"></i></span>
+
+                    <div class="info-box-content">
+                        {#<span >Store-ins</span>#}
+                        <p class="info-box-text">Store ins<span style="margin-left: 4%;background-color:#005384; " class="label label-primary">{{ results.storeInCount[0].count }}</span></p>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-md-1"></div>
+
+    </div>
+
+{% endblock %}
+    {% block onloadJS %}
+        <script type="text/javascript" src="../controller/adminHomeController.js"></script>
+    {% endblock %}

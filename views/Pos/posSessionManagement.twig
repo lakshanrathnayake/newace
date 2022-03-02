@@ -1,0 +1,149 @@
+{% extends './base.twig' %}
+{% block styles %}
+    <style>
+        .wrapper {
+            background: #f0eeee !important;
+        }
+        /*@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : landscape) and (-webkit-device-pixel-ratio: 2){*/
+            /*!* Styles *!*/
+            /*[class*="col-"] {*/
+                /*width: 100%;*/
+                /*overflow: scroll;*/
+            /*}*/
+
+        /*}*/
+
+        /*@media only screen and (min-device-width: 320px) and (max-device-height: 568px) and (orientation : portrait) and (-webkit-device-pixel-ratio: 2){*/
+            /*!* Styles *!*/
+            /*[class*="col-"] {*/
+                /*width: 100%;*/
+                /*overflow: scroll;*/
+            /*}*/
+        /*}*/
+
+        @media only screen and (max-device-width: 480px) {
+
+            [class*="session_table"] {
+            width: 100%;
+            overflow: scroll;
+            }
+        }
+
+
+    </style>
+    <link rel="stylesheet" href="/admin-lte/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+{% endblock %}
+{% block content %}
+    <div style="height: 100%;background-color: #f0eeee" id="div_ses">
+
+        <div style="height:20px; ">
+
+        </div>
+
+        <div class="row vertical-center" style="">
+            <div class="form-group col-sm-offset-1 col-sm-6">
+                <h3 class="box-title" style="text-align: left;margin-left: 20px;">POS Session Management</h3>
+            </div>
+
+            <div class="form-group col-sm-offset-2 col-sm-2" style="text-align: right">
+                <a href="{{ getURL('get.pos.cashBox') }}/0" id="btnNext" type="button" class="btn btn-success next" style="width: 120px">
+                    New Session
+                </a>
+            </div>
+
+        </div>
+
+
+        <div class="box-body" style="background: #f0eeee;overflow-x: hidden;overflow-y: auto">
+            <div class="row">
+                <div class="form-group col-sm-1"></div>
+                <div class="form-group col-sm-10 session_table">
+                    <table id="table" class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th style="text-align: center">Session ID</th>
+                            <th style="text-align: center">Opening Time</th>
+                            <th style="text-align: center">Closing Time</th>
+                            <th style="text-align: center">Status</th>
+                            <th style="text-align: center">Action</th>
+
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+
+                        {% for session in sessions %}
+                            <tr>
+                                <td style="text-align: center">{{ session.id }}</td>
+                                <td style="text-align: center">{{ session.startTime | date('Y-m-d H:m:s') }}</td>
+                                <td style="text-align: center">{{ session.endTime | date('Y-m-d H:m:s') }}</td>
+                                <td style="text-align: center">
+                                    {% if session.session_status.id == 1 %}
+                                        <span class="label label-success">{{ session.session_status.code }}</span>
+                                        {#<button class="btn btn-success btn-xs"></button>#}
+                                    {% elseif session.session_status.id == 2 %}
+                                        <span class="label label-danger">{{ session.session_status.code }}</span>
+                                        {#<button class="btn btn-danger btn-xs">{{ session.session_status.code }}</button>#}
+                                    {% elseif session.session_status.id == 3 %}
+                                        <span class="label label-warning">{{ session.session_status.code }}</span>
+                                        {#<button class="btn btn-warning btn-xs">{{ session.session_status.code }}</button>#}
+                                    {% endif %}
+                                </td>
+                                <td style="text-align: center">
+                                    {% if session.session_status.id == 1 %}
+                                        <button value="{{ session.id }}" class="btn btn-success btn-xs continue">Continue</button>
+                                    {% elseif session.session_status.id == 2 %}
+                                        <button class="btn btn-danger btn-xs" disabled>Expired</button>
+                                    {% elseif session.session_status.id == 3 %}
+                                        <button value="{{ session.id }}"  class="btn btn-success btn-xs continue">Continue</button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-group col-sm-1"></div>
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}
+{% block onloadJS %}
+    <script src="/admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/admin-lte/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script>
+        $(function () {
+            $('#table').DataTable({
+                'paging': true,
+                'lengthChange': false,
+                'searching': true,
+                'ordering': true,
+                'info': true,
+                "order": [[1, "desc"]],
+                'autoWidth': false
+            });
+        })
+    </script>
+    <script type="text/javascript" src="/controller/pos/posSessionManagementController.js"></script>
+    <script>
+        $(function () {
+            $(document).on('click','.continue',function(){
+                window.location = '{{ getURL('get.pos.pos') }}/' + $(this).val();
+            });
+
+            var sessions = {{ sessions|json_encode }};
+            var activeSession = sessions.filter(function (x) {
+                return x.session_status.id === 1
+            });
+            if(activeSession.length > 0){
+                console.log(activeSession);
+                console.log(sessions);
+                $('#btnNext').attr('disabled',true);
+                $('#btnNext').click(false);
+            };
+        })
+    </script>
+{% endblock %}
